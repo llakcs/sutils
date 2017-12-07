@@ -1,0 +1,135 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.dchip.door.smartdoorsdk">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络通信 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 获取设备信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取MAC地址 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 写sdcard，storage等等 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 允许程序录制音频 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> <!-- 挂载sdcard，storage等等 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 读sdcard，storage等等 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.CAMERA" />//相机
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- 可选 -->
+    <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 获取logcat日志 -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+
+        <!--
+                离线功能即离线命令词及唤醒词功能开启需要正式授权，正式授权完全由SDK自动管理：
+                1. 在百度语音开放平台注册应用，http://yuyin.baidu.com/app
+                2. 给在百度语音开放平台注册应用绑定包名。本demo的包名是com.baidu.speech.recognizerdemo，在build.gradle文件中查看。
+                3. 在当前应用的AndroidManifest.xml中填写相应的APP_ID API_KEY SECRET_KEY
+                4. 首次使用联网。正式授权目前有效期三年，三年之后的最后一个月尝试更新正式授权。
+                另外需要注意的是优先在线识别，即离线命令词识别功能在在线（包括2G网络）的情况下自动不启用。。
+            -->
+        <!-- 请填写真实的APP_ID API_KEY SECRET_KEY-->
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="10466629" />
+        <!-- 再次重复！！填写APP_ID 时请检查在官网的该应用内是否设置了包名。否则会导致唤醒词及离线功能无法使用。
+         本demo的包名是com.baidu.speech.recognizerdemo，在build.gradle文件中查看。 -->
+        <!-- 正式发布时，请替换成您自己的appId 本demo的appId会不定时下线 -->
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="arVqbMooBLKp7Y5MQvm9lB9U" />
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="ELawj88Vpq6ig8vG63wpjtOZlRl2x8nz" />
+        <service
+            android:name="com.baidu.speech.VoiceRecognitionService"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="TTfUb4wDktBDNXWG6jjLB8Rh0II3DGhS" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
+
+        <!-- 设置deviceService-->
+        <service android:name=".service.DeviceService"/>
+        <service android:name=".service.ACWebSocketService">
+            <intent-filter>
+                <action android:name="com.dchip.action.AC_WEBSOCKET" />
+            </intent-filter>
+        </service>
+        <receiver android:name=".receiver.ACBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.dchip.device.info" />
+                <action android:name="com.dchip.device.updateFail" />
+            </intent-filter>
+        </receiver>
+        <!-- 设置环信应用的AppKey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="1108170928178457#smartcommunity" />
+        <!-- 声明SDK所需的service SDK核心功能 -->
+        <service
+            android:name="com.hyphenate.chat.EMChatService"
+            android:exported="true"
+            android:process=":CALL" />
+        <service
+            android:name="com.hyphenate.chat.EMJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":CALL" />
+        <!-- 声明SDK所需的receiver -->
+        <receiver
+            android:name="com.hyphenate.chat.EMMonitorReceiver"
+            android:process=":CALL">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+            <!-- 可选filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+    </application>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front.autofocus"
+        android:required="false" />
+</manifest>
