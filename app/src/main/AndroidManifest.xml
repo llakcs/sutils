@@ -36,7 +36,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/myTheme" >
+        android:theme="@style/AppTheme" >
 
         <!--
                 离线功能即离线命令词及唤醒词功能开启需要正式授权，正式授权完全由SDK自动管理：

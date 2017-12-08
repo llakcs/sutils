@@ -6,9 +6,10 @@
       <module fileurl="file://D:\development\code\sutils\SmartDoorSDK.iml" filepath="D:\development\code\sutils\SmartDoorSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/Updatelibrary/Updatelibrary.iml" filepath="$PROJECT_DIR$/Updatelibrary/Updatelibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\development\github\sutils\app\app.iml" filepath="D:\development\github\sutils\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/openCVLibrary330/openCVLibrary330.iml" filepath="$PROJECT_DIR$/openCVLibrary330/openCVLibrary330.iml" />
       <module fileurl="file://$PROJECT_DIR$/sutils.iml" filepath="$PROJECT_DIR$/sutils.iml" />
-      <module fileurl="file://D:\development\code\sutils\sutils.iml" filepath="D:\development\code\sutils\sutils.iml" />
+      <module fileurl="file://D:\development\github\sutils\sutils.iml" filepath="D:\development\github\sutils\sutils.iml" />
     </modules>
   </component>
 </project>
