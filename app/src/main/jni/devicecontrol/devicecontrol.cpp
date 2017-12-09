@@ -107,7 +107,7 @@ int CardPowerOn() {
 
 JNIEXPORT jint
 JNICALL
-Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Card_Pn512_1OpenAndPowerOn(JNIEnv *env, jobject instance) {
+Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_Pn512_1OpenAndPowerOn(JNIEnv *env, jobject instance) {
 
     // TODO
     long retval;
@@ -124,7 +124,7 @@ Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Card_Pn512_1OpenAn
 
 JNIEXPORT jint
 JNICALL
-Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Card_Pn512_1PowerOffAndClose(JNIEnv *env, jobject instance) {
+Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_Pn512_1PowerOffAndClose(JNIEnv *env, jobject instance) {
 
     // TODO
     long retval;
@@ -141,7 +141,7 @@ Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Card_Pn512_1PowerO
 }
 JNIEXPORT jboolean
 JNICALL
-Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Card_CardDetect(JNIEnv *env, jobject instance) {
+Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_CardDetect(JNIEnv *env, jobject instance) {
 
     // TODO
     fd_set rfds;
@@ -168,7 +168,7 @@ Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Card_CardDetect(JN
 }
 JNIEXPORT jstring
 JNICALL
-Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Card_Pn512_1CardCmdOperation(JNIEnv *env, jobject instance,
+Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_Pn512_1CardCmdOperation(JNIEnv *env, jobject instance,
                                                            jstring cmdstr) {
     int retval;
     int i = 0, j = 0, k = 0, len = 0;
@@ -229,7 +229,7 @@ int fd_l = 0;
  * Signature: ()Z
  */
 JNIEXPORT jboolean
-JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Lock_open
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Lock_open
         (JNIEnv *env, jobject obj) {
     fd_l = open("/dev/door_gpio", O_RDWR);
     if (fd_l < 0) {
@@ -247,7 +247,7 @@ JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Lock_open
  * Signature: ()V
  */
 JNIEXPORT void JNICALL
-Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Lock_close
+Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Lock_close
 (JNIEnv * env , jobject obj ) {
 if ( fd_l > 0 ) {
 close(fd_l);
@@ -264,7 +264,7 @@ __android_log_print(ANDROID_LOG_VERBOSE, "Pn512" , "led_gpio device close" ) ;
  * Signature: (II)I
  */
 JNIEXPORT jint
-JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Lock_ioctl
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Lock_ioctl
         (JNIEnv * env, jobject obj,jint cmd, jint arg){
     __android_log_print(ANDROID_LOG_VERBOSE,"Pn512","in ioctl fd_l=%d cmd=%d arg=%d",fd_l,cmd,arg);
     int ret;
@@ -284,7 +284,7 @@ JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_Pn512Lock_ioctl
 int fd_hc = 0;
 
 JNIEXPORT jboolean
-JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_HumanCheck_open
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_HumanCheck_open
         (JNIEnv * env, jobject obj){
     fd_hc = open("/dev/safe_sw", O_RDWR);
     if (fd_hc < 0) {
@@ -297,7 +297,7 @@ JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_HumanCheck_open
 }
 
 JNIEXPORT jint
-JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_HumanCheck_check
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_HumanCheck_check
         (JNIEnv * env, jobject obj){
     if (fd_hc < 0) {
         __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/safe_sw device not open Error.. ");
@@ -309,7 +309,7 @@ JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_HumanCheck_chec
 }
 
 JNIEXPORT void
-JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativelev_HumanCheck_close
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_HumanCheck_close
         (JNIEnv * env, jobject obj){
     close(fd_hc);
 }
