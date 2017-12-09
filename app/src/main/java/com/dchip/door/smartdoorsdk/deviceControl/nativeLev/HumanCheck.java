@@ -7,7 +7,7 @@ package com.dchip.door.smartdoorsdk.deviceControl.nativeLev;
 public class HumanCheck {
     private static final String TAG = "HumanCheck";
     static {
-        System.loadLibrary("native-lib");
+        System.loadLibrary("devicecontrol");
     }//加载so文件，这里加载的为Pn512的JNI文件。
 
     public boolean openDvice(){

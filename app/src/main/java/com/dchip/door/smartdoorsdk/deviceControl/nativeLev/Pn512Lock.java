@@ -9,7 +9,7 @@ import android.util.Log;
 public class Pn512Lock {
     // Used to load the 'native-lib' library on application startup.
     static {
-        System.loadLibrary("native-lib");
+        System.loadLibrary("devicecontrol");
     }//加载so文件，这里加载的为Pn512的JNI文件。
 
     public static final String TAG = "Pn512Lock";
