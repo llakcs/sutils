@@ -20,12 +20,7 @@ public class DeviceService extends Service {
         //初始化读卡模块
         CardHandler.getInstance();
         //初始化人体检测设备
-        HumanCheckHandler.getInstance(new HumanCheckHandler.HumanListner() {
-            @Override
-            public void human() {
-
-            }
-        });
+        HumanCheckHandler.getInstance();
     }
 
 
