@@ -2,7 +2,10 @@ package com.dchip.door.smartdoorsdk.deviceControl;
 
 
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.HumanCheck;
+import com.dchip.door.smartdoorsdk.event.HumanEvent;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by jelly on 2017/11/23.
@@ -13,6 +16,7 @@ public class HumanCheckHandler {
     public static HumanCheckHandler instance;
     private static HumanCheck hc;
     private boolean stop = false;
+
 
     public static HumanCheckHandler getInstance() {
         if (instance == null) {
@@ -35,17 +39,26 @@ public class HumanCheckHandler {
         @Override
         public void run() {
             if(hc.openDvice()) {
+                int statuslod = 0;
                 while (!stop) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                   LogUtil.d(TAG,"###人体检测:" + hc.checkHuman());
+                    int statusnew = hc.checkHuman();
+                    if (statuslod != statusnew){
+                        if (statusnew == 1)
+                            EventBus.getDefault().post(new HumanEvent("human"));
+                    }
+//                    Log.e(TAG,"人体检测:" + statusnew);
+                    statuslod = statusnew;
                 }
             }
-            LogUtil.d(TAG,"人体检测设备关闭");
+
             hc.closeDvice();
         }
     };
+
+
 }

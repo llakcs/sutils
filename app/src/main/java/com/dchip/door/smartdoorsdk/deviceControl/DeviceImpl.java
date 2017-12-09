@@ -14,6 +14,7 @@ import com.dchip.door.smartdoorsdk.deviceControl.Listener.onTickListener;
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
 import com.dchip.door.smartdoorsdk.event.BroadcastEvent;
 import com.dchip.door.smartdoorsdk.event.FaultEvent;
+import com.dchip.door.smartdoorsdk.event.HumanEvent;
 import com.dchip.door.smartdoorsdk.event.ReadCardEven;
 import com.dchip.door.smartdoorsdk.event.ServiceEvent;
 import com.dchip.door.smartdoorsdk.http.ApiCallBack;
@@ -82,7 +83,7 @@ public class DeviceImpl implements DeviceManager {
     private boolean cardsProgressing = false;
     //接受离线事件若干次后设置设备不在线。
     private int offlineCount = 0;
-
+    private HumanCheckListner mHumanChcekListner;
     private DeviceImpl() {
 
     }
@@ -237,6 +238,11 @@ public class DeviceImpl implements DeviceManager {
                     break;
             }
         }
+    }
+
+    @Override
+    public void setHumanCheckListner(HumanCheckListner humanCheckListner) {
+        this.mHumanChcekListner = humanCheckListner;
     }
 
     @Override
@@ -425,6 +431,13 @@ public class DeviceImpl implements DeviceManager {
         }
     };
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onHumanEvent(HumanEvent event){
+        if(event.eventName.equals("human")){
+            if(mHumanChcekListner != null)
+            mHumanChcekListner.humanCheck();
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadCardEvent(ReadCardEven event) {

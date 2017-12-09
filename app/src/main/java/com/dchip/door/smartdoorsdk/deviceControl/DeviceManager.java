@@ -16,6 +16,7 @@ public interface DeviceManager {
     void upLoadMac();
     void uploadAppVer(String ver);
     void checkVer();
+    void setHumanCheckListner(HumanCheckListner humanCheckListner);
     void uploadLock();
     void checkCrashLogAndUpload();
     void init(Activity activity);
