@@ -45,6 +45,7 @@ public class SdkInit {
         LogUtil.e(TAG,"##init.locationservice");
         //初始化DPDB
         DPDB.InitDPDbRW(app);
+        LogUtil.e(TAG,"##init.video");
         //初始化百度语音合成
         TTSHandler.getInstance(app);
         //初始化http模块
