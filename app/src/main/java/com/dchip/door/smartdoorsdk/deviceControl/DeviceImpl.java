@@ -111,7 +111,7 @@ public class DeviceImpl implements DeviceManager {
     public void init(Activity activity) {
         controlhandler = new Handler();
         this.mAcitvity = activity;
-        EventBus.getDefault().register(activity);
+        EventBus.getDefault().register(this);
         //获取mac
         if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             ShellUtil.CommandResult cr = ShellUtil.execCommand("cat /proc/cpuinfo", false);
