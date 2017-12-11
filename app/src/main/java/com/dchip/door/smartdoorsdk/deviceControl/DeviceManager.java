@@ -2,6 +2,7 @@ package com.dchip.door.smartdoorsdk.deviceControl;
 
 import android.app.Activity;
 
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.HumanCheckListner;
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
 
 /**
