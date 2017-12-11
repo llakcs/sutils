@@ -127,6 +127,7 @@ public class DeviceImpl implements DeviceManager {
         uid = mac + "lockId";
         DPDB.setmac(mac);
         DPDB.setUid(uid);
+        LogUtil.e(TAG,"###mac ="+mac);
         //deviceService
         activity.startService(new Intent(activity, DeviceService.class));
         //启动长链接服务
