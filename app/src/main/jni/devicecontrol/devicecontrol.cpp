@@ -286,7 +286,7 @@ int fd_hc = 0;
 JNIEXPORT jboolean
 JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_HumanCheck_open
         (JNIEnv * env, jobject obj){
-    fd_hc = open("/dev/safe_sw", O_RDWR);
+    fd_hc = open("/dev/human_det", O_RDWR);
     if (fd_hc < 0) {
         __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/safe_sw Error..");
         return false;
