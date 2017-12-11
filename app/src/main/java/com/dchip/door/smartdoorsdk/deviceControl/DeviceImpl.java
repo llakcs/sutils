@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 
@@ -660,7 +661,12 @@ public class DeviceImpl implements DeviceManager {
 //                            showMsg("check md5 ok");
                             if (updateType == 1) {
 //                                showMsg("即时更新");
-                                new File(Constant.DOWNLOAD_PATH + "temp.apk").renameTo(new File(Constant.DOWNLOAD_PATH + "aa.apk"));
+//                                new File(Constant.DOWNLOAD_PATH + "temp.apk").renameTo(new File(Constant.DOWNLOAD_PATH + "aa.apk"));
+                                //安装app
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                             } else {
                                 //凌晨安装
 //                                showMsg("凌晨2时20分更新");
@@ -677,7 +683,11 @@ public class DeviceImpl implements DeviceManager {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        new File(Constant.DOWNLOAD_PATH + "temp.apk").renameTo(new File(Constant.DOWNLOAD_PATH + "aa.apk"));
+//                                        new File(Constant.DOWNLOAD_PATH + "temp.apk").renameTo(new File(Constant.DOWNLOAD_PATH + "aa.apk"));
+                                        //安装app
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     }
                                 }, delay);
 //                                showMsg("update after " + delay + "ms");
