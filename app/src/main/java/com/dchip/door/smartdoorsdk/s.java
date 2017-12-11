@@ -47,7 +47,7 @@ public class s {
         }
     }
 
-    public static OpencvManager openv(){
+    public static OpencvManager opencv(){
         if(Ext.opencvManager == null){
             OpencvImpl.registerInstance();
         }
