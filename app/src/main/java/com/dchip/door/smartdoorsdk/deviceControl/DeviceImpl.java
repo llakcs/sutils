@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Handler;
 
 import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
+import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
 import com.dchip.door.smartdoorsdk.Bean.AppUpdateModel;
 import com.dchip.door.smartdoorsdk.Bean.CardsModel;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.HumanCheckListner;
@@ -132,6 +133,8 @@ public class DeviceImpl implements DeviceManager {
         activity.startService(new Intent(activity, DeviceService.class));
         //启动长链接服务
         activity.startService(new Intent(activity, ACWebSocketService.class));
+        //初始化锁配置
+        setLock(FileHelper.readFileToString(Constant.LOCK_CONFIG_FILE_PATH));
         FileDownloadMonitor.setGlobalMonitor(GlobalMonitor.getImpl());
         cardList = FileHelper.readByBufferedReader(Constant.CARDS_FILE_PATH);
         dTimer = new DeviceTimer(new onTickListener() {
@@ -398,7 +401,7 @@ public class DeviceImpl implements DeviceManager {
             deviceApi.checkVersion(1).enqueue(new ApiCallBack<AppUpdateModel>() {
                 @Override
                 public void success(AppUpdateModel o) {
-                    String serverUrl = Constant.serverUrl;
+                    String serverUrl = DPDB.getserverUrl();
                     final String url = serverUrl.substring(0, serverUrl.length() - 5) + o.getAddress();
 //                    showMsg("检查版本号成功 " + o.getVersion() + " url:" + url);
 
@@ -433,6 +436,76 @@ public class DeviceImpl implements DeviceManager {
             });
         }
     };
+
+
+    /**
+     * 获取锁设置。
+     */
+    protected Runnable getDeviceConfigRunnable = new Runnable() {
+        @Override
+        public void run() {
+            deviceApi.getDeviceConfig(mac).enqueue(new ApiCallBack<ApiGetDeviceConfigModel>() {
+                @Override
+                public void success(ApiGetDeviceConfigModel model) {
+
+                    LogUtil.e(TAG,"成功获取锁配置：锁:"+model.getLock_access() + " 门:"+ model.getDoor_access() +" 原锁:"+model.getOrignal_lock_access()+
+                            " 单锁:" + (model.getLock_num() == 1)+" 锁类型:"+model.getLock_type());
+
+                    switch(model.getLock_type()){
+                        case 1:
+                            if(s.device().getLock() == null) {
+                                s.device().setLock(new BoltLockHandler());
+                            }else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
+                                s.device().getLock().finish();
+                                s.device().setLock(new BoltLockHandler());
+                            }
+                            break;
+
+                        case 2:
+                            if(s.device().getLock() == null) {
+                                s.device().setLock(new MagneticLockHandler());
+                            }else if (!s.device().getLock().TAG.equals("MagneticLockHandler")) {
+                                s.device().getLock().finish();
+                                s.device().setLock(new MagneticLockHandler());
+                            }
+                            break;
+
+                        case 3:
+                            if(s.device().getLock() == null) {
+                                s.device().setLock(new MotorLockHandler());
+                            }else if (!s.device().getLock().TAG.equals("MotorLockHandler")) {
+                                s.device().getLock().finish();
+                                s.device().setLock(new MotorLockHandler());
+                            }
+                            break;
+
+                        default:
+                            if(s.device().getLock() == null) {
+                                s.device().setLock(new BoltLockHandler());
+                            }else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
+                                s.device().getLock().finish();
+                                s.device().setLock(new BoltLockHandler());
+                            }
+                            break;
+
+                    }
+                    s.device().getLock().setDefaultStatus(model.getLock_access(),model.getDoor_access()
+                            ,model.getOrignal_lock_access(),model.getLock_num() == 1);
+
+                    FileHelper.writeByFileOutputStream(Constant.LOCK_CONFIG_FILE_PATH,model.getLock_access()
+                            +"/"+model.getDoor_access()+"/"+model.getOrignal_lock_access()+"/"+(model.getLock_num() == 1)+"/"+model.getLock_type());
+                }
+
+                @Override
+                public void fail(int i, String s) {
+                    LogUtil.e(TAG,"getDeviceConfigRunnable 失败 " + s);
+                }
+            });
+        }
+
+    };
+
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onHumanEvent(HumanEvent event){
@@ -551,8 +624,10 @@ public class DeviceImpl implements DeviceManager {
                 case ServiceEvent.CONNECTED: {
                     controlhandler.post(uploadMacRunnable);
                     controlhandler.post(uploadAppVersionRunnable);
+                    controlhandler.post(getDeviceConfigRunnable);
                     checkCrashLogAndUpload();
                     uploadLock();
+
 //                    ACLockHandler.instance.disableLongOpen(lockIdAddress, 0xFF);
                     break;
                 }

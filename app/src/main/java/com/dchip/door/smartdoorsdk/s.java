@@ -112,13 +112,15 @@ public class s {
 
         /**
          * 初始化
-         * @param app
+         * @param app APPLICATION
+         * @param wsUrl websocket地址
+         * @param serverUrl  http服务器地址
          */
-        public static void init(Application app){
+        public static void init(Application app,String wsUrl,String serverUrl){
             if (Ext.app == null) {
                 Ext.app = app;
             }
-            SdkInit.onCreate(Ext.app);
+            SdkInit.onCreate(Ext.app,wsUrl,serverUrl);
         }
 
         public static void setOpencvManager(OpencvManager opencvManager){
