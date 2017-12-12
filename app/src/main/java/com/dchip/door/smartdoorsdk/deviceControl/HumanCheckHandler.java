@@ -51,7 +51,7 @@ public class HumanCheckHandler {
                         if (statusnew == 1)
                             EventBus.getDefault().post(new HumanEvent("human"));
                     }
-//                    Log.e(TAG,"人体检测:" + statusnew);
+                    LogUtil.e(TAG,"人体检测:" + statusnew);
                     statuslod = statusnew;
                 }
             }
