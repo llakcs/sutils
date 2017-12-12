@@ -31,19 +31,16 @@ public interface IMPlayer {
 
     void setUp(List<String> Urls, SurfaceView view);
     void setUp(String Url, SurfaceView view);
-
     /**
      * 播放视频
      * @throws MPlayerException
      */
     void play() throws MPlayerException;
-
     /**
      * 暂停视频
      */
     void pause();
-
-
+    void setPlayListener(IMPlayListener listener);
     void onPause();
     void onResume();
     void onDestroy();

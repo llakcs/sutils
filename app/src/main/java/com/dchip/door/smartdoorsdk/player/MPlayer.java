@@ -107,7 +107,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         }
         return true;
     }
-
+    @Override
     public void setPlayListener(IMPlayListener listener){
         this.mPlayListener=listener;
     }
