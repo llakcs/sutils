@@ -196,9 +196,39 @@ public class DPDB {
 	}
 
 
+	/** 保存wsurl */
+	public static boolean setwsUrl(String wsUrl) {
+		if (!isWrite()) {
+			return false;
+		}
+		writer.putString("wsUrl", wsUrl);
+		return writer.commit();
+	}
 
+	/** 获取wsUrl */
+	public static String getwsUrl() {
+		if (!isRead()) {
+			return null;
+		}
+		return reader.getString("wsUrl", null);
+	}
 
+	/** 保存serverUrl */
+	public static boolean setserverUrl(String serverUrl) {
+		if (!isWrite()) {
+			return false;
+		}
+		writer.putString("serverUrl", serverUrl);
+		return writer.commit();
+	}
 
+	/** 获取serverUrl */
+	public static String getserverUrl() {
+		if (!isRead()) {
+			return null;
+		}
+		return reader.getString("serverUrl", null);
+	}
 
 
 }

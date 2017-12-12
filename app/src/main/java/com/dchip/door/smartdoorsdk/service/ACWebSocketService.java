@@ -115,7 +115,7 @@ public class ACWebSocketService extends Service {
             mac = android.os.Build.SERIAL;
         }
         wsStatus = WS_STATUS_CONNECTING;
-        String wsUri = String.format(Constant.WS_URI, Constant.wsUrl + mac );//+ "000000"
+        String wsUri = String.format(Constant.WS_URI, DPDB.getwsUrl() + mac );//+ "000000"
         // LogUtil.e(TAG, "Status: Connecting to " + wsUri);
         mConnection = new WebSocketConnection();
         try {

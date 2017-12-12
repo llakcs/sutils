@@ -398,7 +398,7 @@ public class DeviceImpl implements DeviceManager {
             deviceApi.checkVersion(1).enqueue(new ApiCallBack<AppUpdateModel>() {
                 @Override
                 public void success(AppUpdateModel o) {
-                    String serverUrl = Constant.serverUrl;
+                    String serverUrl = DPDB.getserverUrl();
                     final String url = serverUrl.substring(0, serverUrl.length() - 5) + o.getAddress();
 //                    showMsg("检查版本号成功 " + o.getVersion() + " url:" + url);
 

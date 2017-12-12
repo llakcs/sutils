@@ -40,7 +40,7 @@ public class SdkInit {
     private static String TAG = "SdkInit";
     public static DeviceApi deviceApi;
 
-    public static void onCreate(final Application app) {
+    public static void onCreate(final Application app,final String wsUrl,final String serverUrl) {
 
         new Thread(new Runnable() {
             @Override
@@ -57,6 +57,8 @@ public class SdkInit {
                 LogUtil.e(TAG, "##init.video");
                 //初始化百度语音合成
                 TTSHandler.getInstance(app);
+                DPDB.setwsUrl(wsUrl);
+                DPDB.setserverUrl(serverUrl);
                 //初始化http模块
                 HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                     @Override
@@ -71,7 +73,7 @@ public class SdkInit {
                         .addInterceptor(new RequestHeaderInterceptor())//注入header
                         .build();
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(Constant.serverUrl)
+                        .baseUrl(DPDB.getserverUrl())
                         .client(client)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
