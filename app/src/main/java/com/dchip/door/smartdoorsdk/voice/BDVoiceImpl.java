@@ -106,8 +106,10 @@ public class BDVoiceImpl implements BDVoiceManager {
 
     @Override
     public void onDestroy() {
-        myRecognizer.release();
-        myWakeup.release();
+        if(myRecognizer != null && myWakeup != null) {
+            myRecognizer.release();
+            myWakeup.release();
+        }
     }
 
 
