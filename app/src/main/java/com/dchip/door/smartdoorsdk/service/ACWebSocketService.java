@@ -10,6 +10,7 @@ import com.dchip.door.smartdoorsdk.Bean.CardsModel;
 import com.dchip.door.smartdoorsdk.Bean.DoorOperationModel;
 import com.dchip.door.smartdoorsdk.Bean.HeartBeatModel;
 import com.dchip.door.smartdoorsdk.Bean.OperationModel;
+import com.dchip.door.smartdoorsdk.event.OpenLockRecallEvent;
 import com.dchip.door.smartdoorsdk.event.OpenLockStatusEvent;
 import com.dchip.door.smartdoorsdk.event.ServiceEvent;
 import com.dchip.door.smartdoorsdk.s;
@@ -173,6 +174,7 @@ public class ACWebSocketService extends Service {
                         LogUtil.e(TAG,"###ACWEBSOKCET.ret ="+ret+" // MainActivity.uid ="+DPDB.getUid());
                         if(ret == 1){
                             EventBus.getDefault().post(new OpenLockStatusEvent(DPDB.getUid(),true));
+                            EventBus.getDefault().post(new OpenLockRecallEvent());
                         }else{
                             LogUtil.d(TAG,"开锁出错 err:" + ret);
                         }
