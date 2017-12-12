@@ -3,6 +3,7 @@ package com.dchip.door.smartdoorsdk.deviceControl;
 
 
 import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
+import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
 import com.dchip.door.smartdoorsdk.Bean.AppUpdateModel;
 import com.dchip.door.smartdoorsdk.Bean.JsonResult;
 
@@ -124,6 +125,14 @@ public interface DeviceApi {
     @POST("access/getCardListByMac")
     Call<JsonResult<ApiGetCardListModel>> getCardListByMac(@Field("mac") String mac);
 
+
+    /**
+     * 获取锁的设置
+     *
+     */
+    @FormUrlEncoded
+    @POST("maincontrol/findMainInfo")
+    Call<JsonResult<ApiGetDeviceConfigModel>> getDeviceConfig(@Field("mac") String mac);
 
 //    /**
 //     * 开锁成功返回

@@ -19,18 +19,7 @@ public class Constant {
     public static final String CRASH_LOG_PATH = BASE_PATh + "crashLog" + File.separator;
     public static final String CRASH_LOG_UPLOAD_FAIL_PATH = BASE_PATh + "crashLog" + File.separator + "uploadFail" + File.separator;
     public static final String CARDS_FILE_PATH = BASE_PATh + "cards.txt";
+
     public static final String WS_URI = "ws://%s";
-
-
-    //阿里云服务器
-//    public static final String wsUrl = "119.23.149.160/door/websocket/";
-//    public static final String serverUrl = "http://119.23.149.160/door/api/";
-    //阿里云测试服务器
-//     public static final String wsUrl="119.23.149.160/doortest/websocket/";
-//     public static final String serverUrl="http://119.23.149.160/doortest/api/";
-
-     //上传mac
-//     public static final String API_UPLOADMAC=DPDB.getserverUrl()+"maincontrol/upload";
-
-
+    public static final String LOCK_CONFIG_FILE_PATH = BASE_PATh + "lockConfig.txt";
 }
