@@ -279,6 +279,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
     public void onDestroy() {
         if(player!=null){
             player.release();
+            player = null;
         }
     }
 
