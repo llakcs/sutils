@@ -234,32 +234,6 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         setUp(urls,view);
     }
 
-//    @Override
-//    public void setSource(String url) throws MPlayerException {
-//        this.source=url;
-//        createPlayerIfNeed();
-//        isMediaPrepared=false;
-//        isVideoSizeMeasured=false;
-//        currentVideoWidth=0;
-//        currentVideoHeight=0;
-//        player.reset();
-//        try {
-//            player.setDataSource(url);
-//            player.prepareAsync();
-////            log("异步准备视频");
-//        } catch (IOException e) {
-//            throw new MPlayerException("set source error",e);
-//        }
-//    }
-
-//    @Override
-//    public void setDisplay(IMDisplay display) {
-//        if(this.display!=null&&this.display.getHolder()!=null){
-//            this.display.getHolder().removeCallback(this);
-//        }
-//        this.display=display;
-//        this.display.getHolder().addCallback(this);
-//    }
 
     private void playNext(int index){
         try{
