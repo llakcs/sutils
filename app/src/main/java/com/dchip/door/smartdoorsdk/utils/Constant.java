@@ -10,7 +10,8 @@ import java.io.File;
 
 public class Constant {
     //sdcardpath
-    public static final String SDCARD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
+//    public static final String SDCARD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static final String SDCARD_PATH = "/sdcard";
     public static final String BASE_PATh = SDCARD_PATH + File.separator + "smdsdk" + File.separator;
     //opencv
     public static final String VISTPATH = BASE_PATh + File.separator + "vistdata";
