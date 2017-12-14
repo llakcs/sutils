@@ -701,7 +701,7 @@ public class DeviceImpl implements DeviceManager {
                 }
                 case ServiceEvent.CONNECTED: {
                     if(mServerstatusListner != null){
-                        mServerstatusListner.CONNECTED();
+                        mServerstatusListner.connected();
                     }
                     controlhandler.post(uploadMacRunnable);
                     controlhandler.post(uploadAppVersionRunnable);
@@ -714,7 +714,7 @@ public class DeviceImpl implements DeviceManager {
                 }
                 case ServiceEvent.UPDATE_APK: {
                     if(mServerstatusListner != null){
-                        mServerstatusListner.UPDATE_APK();
+                        mServerstatusListner.updateAPK();
                     }
                     controlhandler.post(checkVersionRunnable);
                     updateType = event.getUpdateType();
@@ -722,7 +722,7 @@ public class DeviceImpl implements DeviceManager {
                 }
                 case ServiceEvent.UPDATE_CARD_LIST: {
                     if(mServerstatusListner != null){
-                        mServerstatusListner.UPDATE_CARD_LIST();
+                        mServerstatusListner.updatecardlist();
                     }
                     cardList = (ArrayList<String>) event.getList().clone();
                     int status = 0;
@@ -756,7 +756,7 @@ public class DeviceImpl implements DeviceManager {
         } else {
             if (event.getType() == ServiceEvent.DISCONNECTED)
                 if(mServerstatusListner != null){
-                    mServerstatusListner.DISCONNECTED();
+                    mServerstatusListner.disconn();
                 }
                 if (offlineCount > 3) {
                     deviceOnline = false;
