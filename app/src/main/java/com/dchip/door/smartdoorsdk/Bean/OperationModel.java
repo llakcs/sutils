@@ -14,6 +14,15 @@ public class OperationModel {
     private boolean offline;
     private int updateType;
     private boolean unTerminal;
+    private boolean ownerInfoUnTerminal;
+
+    public boolean isOwnerInfoUnTerminal() {
+        return ownerInfoUnTerminal;
+    }
+
+    public void setOwnerInfoUnTerminal(boolean ownerInfoUnTerminal) {
+        this.ownerInfoUnTerminal = ownerInfoUnTerminal;
+    }
 
     private List<CardsModel> userCardList;
 

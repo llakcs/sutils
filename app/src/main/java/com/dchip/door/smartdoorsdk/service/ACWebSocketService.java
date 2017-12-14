@@ -184,7 +184,7 @@ public class ACWebSocketService extends Service {
                         //99为心跳返回信息
                         networkChekTime = System.currentTimeMillis();
 //                        EventBus.getDefault().post(new InfoEvent("收到服务器的心跳回复：" + operationModel.getTime()));
-                        EventBus.getDefault().post(new ServiceEvent(HEART_BEAT,operationModel.isUnTerminal()));
+                        EventBus.getDefault().post(new ServiceEvent(HEART_BEAT,operationModel.isUnTerminal(),operationModel.isOwnerInfoUnTerminal()));
                         if (operationModel.isOffline()) {
                             disconnectAC();
                         }
