@@ -7,6 +7,8 @@ import com.dchip.door.smartdoorsdk.s;
 import com.dchip.door.smartdoorsdk.service.DeviceService;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 
 /**
  * Created by jelly on 2017/11/11.
@@ -37,19 +39,17 @@ public class CardHandler {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            mcard.open();
+            Log.i(TAG, "mcard.open()=" + mcard.open());
             while (!stop) {
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                boolean b = mcard.cardDetect();
-                Log.i(TAG, "CardDetect=" + b);
-                if (b) {
-                    mcard.cardChecked();
-                    //// TODO: 2017/11/11 验证卡
-                    if (mcard.operation("FF82000006DCDCDCDCDCDC").replace(" ","").equals("9000") && mcard.operation("FF8800076000").replace(" ","").equals("9000")) {
+
+                if (mcard.cardDetect()) {
+                    // 验证卡
+                    if (mcard.cardChecked()) {
                         String id = mcard.operation("FFCA000000");
                         LogUtil.d(TAG,"读卡成功：" + id);
                         s.device().getLock().openLock();

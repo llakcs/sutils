@@ -139,6 +139,44 @@ Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_Pn512_1PowerO
     }
 
 }
+
+
+JNIEXPORT jboolean
+JNICALL
+Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_CardChecked(JNIEnv *env, jobject instance) {
+    unsigned char chkPwd[11] = {0xFF,0x82,0x00,0x00,0x06,0xDC,0xDC,0xDC,0xDC,0xDC,0xDC};
+    unsigned char chk[6] = {0xFF,0x88,0x00,0x07,0x60,0x00};
+    int i = 0;
+    CardPowerOn();
+    __android_log_print(ANDROID_LOG_WARN, "Pn512", "CardChecked");
+    UsrParam.p_oBuf = RecBuf;
+    UsrParam.p_iBuf = chkPwd;
+    UsrParam.iDataLen = 11;
+    UsrParam.oDataLen = 271;
+    int retval = 0;
+    if ((retval = ioctl(fd, 0x30, &UsrParam) ) >= 0) {
+        __android_log_print(ANDROID_LOG_WARN, "Pn512", "chkPwd ioctl >= 0");
+       if( RecBuf[0] == 0x90 && RecBuf[1] == 0x0 ){
+        __android_log_print(ANDROID_LOG_WARN, "Pn512", "RecBuf RecBuf = 9000");
+            memset(RecBuf,0,sizeof(RecBuf));
+            CardPowerOn();
+            UsrParam.p_oBuf = RecBuf;
+            UsrParam.p_iBuf = chk;
+            UsrParam.iDataLen = 6;
+            UsrParam.oDataLen = 271;
+            int retval = 0;
+            if ((retval = ioctl(fd, 0x30, &UsrParam)) >= 0) {
+             __android_log_print(ANDROID_LOG_WARN, "Pn512", "chk ioctl > 0");
+                if(RecBuf[0] == 0x90 && RecBuf[1] == 0x0){
+                    return  true;
+                }
+            }
+        }
+    }
+    return  false;
+}
+
+
 JNIEXPORT jboolean
 JNICALL
 Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_CardDetect(JNIEnv *env, jobject instance) {
