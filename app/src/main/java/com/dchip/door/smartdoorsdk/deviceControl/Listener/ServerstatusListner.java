@@ -5,8 +5,8 @@ package com.dchip.door.smartdoorsdk.deviceControl.Listener;
  */
 
 public interface ServerstatusListner {
-    void DISCONNECTED();
-    void CONNECTED();
-    void UPDATE_APK();
-    void UPDATE_CARD_LIST();
+    void disconn();
+    void connected();
+    void updateAPK();
+    void updatecardlist();
 }
