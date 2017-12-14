@@ -176,34 +176,22 @@ Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_CardChecked(J
     return  false;
 }
 
-
 JNIEXPORT jboolean
 JNICALL
 Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_CardDetect(JNIEnv *env, jobject instance) {
 
     // TODO
-    fd_set rfds;
-    fd_set wfds;
-    int card_val;
-    int ret = 0;
-    FD_ZERO(&rfds);
-    FD_SET(fd, &rfds);
-    __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "Insert Mifare Please!");
-    select(fd + 1, &rfds, NULL, NULL, NULL);
-    __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "FT select");
-    if (FD_ISSET(fd, &rfds)) {
-        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "FD_ISSET");
+        int card_val;
+        int ret = 0;
         ret = read(fd, &card_val, 1);
-        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "Mifare Insert OK! ");
-        printf("Mifare Insert OK! \n");
         if (ret < 0) {
             __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "Read Error!\n");
             return false;
         }
         return true;
-    }
-    __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "CardDetect END");
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "CardDetect END");
 }
+
 JNIEXPORT jstring
 JNICALL
 Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_Pn512_1CardCmdOperation(JNIEnv *env, jobject instance,
