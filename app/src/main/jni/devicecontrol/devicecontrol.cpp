@@ -288,10 +288,10 @@ JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_HumanCheck_open
         (JNIEnv * env, jobject obj){
     fd_hc = open("/dev/human_det", O_RDWR);
     if (fd_hc < 0) {
-        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/safe_sw Error..");
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/human_det Error..");
         return false;
     } else {
-        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/safe_sw  fd = %d", fd_hc);
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/human_det  fd = %d", fd_hc);
         return true;
     }
 }
@@ -300,7 +300,7 @@ JNIEXPORT jint
 JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_HumanCheck_check
         (JNIEnv * env, jobject obj){
     if (fd_hc < 0) {
-        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/safe_sw device not open Error.. ");
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/human_det device not open Error.. ");
         return -99;
     }
     int ret = ioctl(fd_hc, 3, 0);

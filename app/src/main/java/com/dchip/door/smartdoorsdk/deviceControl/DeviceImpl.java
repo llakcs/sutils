@@ -251,6 +251,12 @@ public class DeviceImpl implements DeviceManager {
         this.mHumanChcekListner = humanCheckListner;
     }
 
+
+    @Override
+    public void unRegHumanCheckListner() {
+        this.mHumanChcekListner = null;
+    }
+
     @Override
     public LockHandler getLock() {
         return mLockHandker;

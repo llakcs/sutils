@@ -18,6 +18,7 @@ public interface DeviceManager {
     void uploadAppVer(String ver);
     void checkVer();
     void setHumanCheckListner(HumanCheckListner humanCheckListner);
+    void unRegHumanCheckListner();
     void uploadLock();
     void checkCrashLogAndUpload();
     void init(Activity activity);
