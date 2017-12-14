@@ -13,11 +13,15 @@ import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
 import com.dchip.door.smartdoorsdk.Bean.AppUpdateModel;
 import com.dchip.door.smartdoorsdk.Bean.CardsModel;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.HumanCheckListner;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServerstatusListner;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServiceOpenLockListner;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.UpdateOwenerListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.onTickListener;
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
 import com.dchip.door.smartdoorsdk.event.BroadcastEvent;
 import com.dchip.door.smartdoorsdk.event.FaultEvent;
 import com.dchip.door.smartdoorsdk.event.HumanEvent;
+import com.dchip.door.smartdoorsdk.event.OpenLockRecallEvent;
 import com.dchip.door.smartdoorsdk.event.ReadCardEven;
 import com.dchip.door.smartdoorsdk.event.ServiceEvent;
 import com.dchip.door.smartdoorsdk.http.ApiCallBack;
@@ -87,6 +91,9 @@ public class DeviceImpl implements DeviceManager {
     //接受离线事件若干次后设置设备不在线。
     private int offlineCount = 0;
     private HumanCheckListner mHumanChcekListner;
+    private UpdateOwenerListner mUpdateOwner;
+    private ServiceOpenLockListner serviceOpenLockListner;
+    private ServerstatusListner mServerstatusListner;
     private DeviceImpl() {
 
     }
@@ -128,7 +135,7 @@ public class DeviceImpl implements DeviceManager {
         uid = mac + "lockId";
         DPDB.setmac(mac);
         DPDB.setUid(uid);
-        LogUtil.e(TAG,"###mac ="+mac);
+        LogUtil.e(TAG, "###mac =" + mac);
         //deviceService
         activity.startService(new Intent(activity, DeviceService.class));
         //启动长链接服务
@@ -207,7 +214,7 @@ public class DeviceImpl implements DeviceManager {
             }
         });
 
-        if(!s.Ext.debug){
+        if (!s.Ext.debug) {
             //检查版本号
             checkVer();
         }
@@ -220,6 +227,18 @@ public class DeviceImpl implements DeviceManager {
             controlhandler = null;
         }
         EventBus.getDefault().unregister(this);
+        if(mServerstatusListner != null){
+            mServerstatusListner = null;
+        }
+        if(serviceOpenLockListner != null){
+            serviceOpenLockListner= null;
+        }
+        if(mUpdateOwner != null){
+            mUpdateOwner = null;
+        }
+        if(mHumanChcekListner != null){
+            mHumanChcekListner = null;
+        }
     }
 
     @Override
@@ -254,7 +273,50 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public void unRegHumanCheckListner() {
-        this.mHumanChcekListner = null;
+        if(mHumanChcekListner != null) {
+            this.mHumanChcekListner = null;
+        }
+    }
+
+
+    @Override
+    public void setUpdateOwenerListner(UpdateOwenerListner updateOwenerListner) {
+        this.mUpdateOwner = updateOwenerListner;
+    }
+
+    @Override
+    public void unRegUpdateOwnerListner() {
+        if(mUpdateOwner != null) {
+            this.mUpdateOwner = null;
+        }
+    }
+
+
+    @Override
+    public void setServiceOpenLockListner(ServiceOpenLockListner serviceOpenLockListner) {
+        this.serviceOpenLockListner = serviceOpenLockListner;
+    }
+
+    @Override
+    public void unRegServiceOpenLockListner() {
+        if(serviceOpenLockListner != null) {
+            this.serviceOpenLockListner = null;
+        }
+    }
+
+
+    @Override
+    public void setServerstatusListner(ServerstatusListner serverstatusListner) {
+        if(mServerstatusListner != null) {
+            this.mServerstatusListner = serverstatusListner;
+        }
+    }
+
+    @Override
+    public void unRegServerstatusListner() {
+        if(mServerstatusListner != null){
+            this.mServerstatusListner = null;
+        }
     }
 
     @Override
@@ -454,70 +516,75 @@ public class DeviceImpl implements DeviceManager {
                 @Override
                 public void success(ApiGetDeviceConfigModel model) {
 
-                    LogUtil.e(TAG,"成功获取锁配置：锁:"+model.getLock_access() + " 门:"+ model.getDoor_access() +" 原锁:"+model.getOrignal_lock_access()+
-                            " 单锁:" + (model.getLock_num() == 1)+" 锁类型:"+model.getLock_type());
+                    LogUtil.e(TAG, "成功获取锁配置：锁:" + model.getLock_access() + " 门:" + model.getDoor_access() + " 原锁:" + model.getOrignal_lock_access() +
+                            " 单锁:" + (model.getLock_num() == 1) + " 锁类型:" + model.getLock_type());
 
-                    switch(model.getLock_type()){
+                    switch (model.getLock_type()) {
                         case 1:
-                            if(s.device().getLock() == null) {
+                            if (s.device().getLock() == null) {
                                 s.device().setLock(new BoltLockHandler());
-                            }else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
+                            } else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
                                 s.device().getLock().finish();
                                 s.device().setLock(new BoltLockHandler());
                             }
                             break;
 
                         case 2:
-                            if(s.device().getLock() == null) {
+                            if (s.device().getLock() == null) {
                                 s.device().setLock(new MagneticLockHandler());
-                            }else if (!s.device().getLock().TAG.equals("MagneticLockHandler")) {
+                            } else if (!s.device().getLock().TAG.equals("MagneticLockHandler")) {
                                 s.device().getLock().finish();
                                 s.device().setLock(new MagneticLockHandler());
                             }
                             break;
 
                         case 3:
-                            if(s.device().getLock() == null) {
+                            if (s.device().getLock() == null) {
                                 s.device().setLock(new MotorLockHandler());
-                            }else if (!s.device().getLock().TAG.equals("MotorLockHandler")) {
+                            } else if (!s.device().getLock().TAG.equals("MotorLockHandler")) {
                                 s.device().getLock().finish();
                                 s.device().setLock(new MotorLockHandler());
                             }
                             break;
 
                         default:
-                            if(s.device().getLock() == null) {
+                            if (s.device().getLock() == null) {
                                 s.device().setLock(new BoltLockHandler());
-                            }else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
+                            } else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
                                 s.device().getLock().finish();
                                 s.device().setLock(new BoltLockHandler());
                             }
                             break;
 
                     }
-                    s.device().getLock().setDefaultStatus(model.getLock_access(),model.getDoor_access()
-                            ,model.getOrignal_lock_access(),model.getLock_num() == 1);
+                    s.device().getLock().setDefaultStatus(model.getLock_access(), model.getDoor_access()
+                            , model.getOrignal_lock_access(), model.getLock_num() == 1);
 
-                    FileHelper.writeByFileOutputStream(Constant.LOCK_CONFIG_FILE_PATH,model.getLock_access()
-                            +"/"+model.getDoor_access()+"/"+model.getOrignal_lock_access()+"/"+(model.getLock_num() == 1)+"/"+model.getLock_type());
+                    FileHelper.writeByFileOutputStream(Constant.LOCK_CONFIG_FILE_PATH, model.getLock_access()
+                            + "/" + model.getDoor_access() + "/" + model.getOrignal_lock_access() + "/" + (model.getLock_num() == 1) + "/" + model.getLock_type());
                 }
 
                 @Override
                 public void fail(int i, String s) {
-                    LogUtil.e(TAG,"getDeviceConfigRunnable 失败 " + s);
+                    LogUtil.e(TAG, "getDeviceConfigRunnable 失败 " + s);
                 }
             });
         }
 
     };
 
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onOpenLockRecallEvent(OpenLockRecallEvent openLockRecallEvent){
+         if(serviceOpenLockListner != null){
+             serviceOpenLockListner.lockopen();
+         }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onHumanEvent(HumanEvent event){
-        if(event.eventName.equals("human")){
-            if(mHumanChcekListner != null)
-            mHumanChcekListner.humanCheck();
+    public void onHumanEvent(HumanEvent event) {
+        if (event.eventName.equals("human")) {
+            if (mHumanChcekListner != null)
+                mHumanChcekListner.humanCheck();
         }
     }
 
@@ -528,18 +595,18 @@ public class DeviceImpl implements DeviceManager {
         for (String info : cardList) {
             String[] infos = info.split("/");
             if (infos[0].equals(event.getCardId())) {
-                  s.device().getLock().openLock();
-               LogUtil.d(TAG,event.getCardId() + " 与本地卡库匹配成功");
+                s.device().getLock().openLock();
+                LogUtil.d(TAG, event.getCardId() + " 与本地卡库匹配成功");
                 checkedId = event.getCardId();
                 deviceApi.uploadCardId(uid, event.getCardId(), infos[1]).enqueue(new ApiCallBack<Object>() {
                     @Override
                     public void success(Object o) {
-                         LogUtil.d(TAG,"上传卡信息成功");
+                        LogUtil.d(TAG, "上传卡信息成功");
                     }
 
                     @Override
                     public void fail(int i, String s) {
-                        LogUtil.d(TAG,"上传卡信息失败:" + s);
+                        LogUtil.d(TAG, "上传卡信息失败:" + s);
 
                     }
                 });
@@ -558,13 +625,13 @@ public class DeviceImpl implements DeviceManager {
         deviceApi.reportFault(event.getUid(), event.getType()).enqueue(new ApiCallBack<Object>() {
             @Override
             public void success(Object o) {
-                LogUtil.d(TAG,"测试打印 " + new Date() + " 锁控板故障上报成功----！");
+                LogUtil.d(TAG, "测试打印 " + new Date() + " 锁控板故障上报成功----！");
             }
 
             @Override
             public void fail(int i, String s) {
                 if (s != null) {
-                    LogUtil.d(TAG,"reportFault:"+s);
+                    LogUtil.d(TAG, "reportFault:" + s);
                 }
             }
         });
@@ -578,12 +645,12 @@ public class DeviceImpl implements DeviceManager {
                 @Override
                 public void success(Object o) {
 
-                    LogUtil.d(TAG,"上传更新失败信息成功");
+                    LogUtil.d(TAG, "上传更新失败信息成功");
                 }
 
                 @Override
                 public void fail(int i, String s) {
-                    LogUtil.d(TAG,"上传更新失败信息失败 " + s);
+                    LogUtil.d(TAG, "上传更新失败信息失败 " + s);
                 }
             });
         }
@@ -596,6 +663,11 @@ public class DeviceImpl implements DeviceManager {
         if (event.isConnected()) {
             switch (event.getType()) {
                 case ServiceEvent.HEART_BEAT: {
+                    if (event.isUpdateOwener()) {
+                        if(mUpdateOwner != null){
+                            this.mUpdateOwner.update();
+                        }
+                    }
                     if (event.isUpdateCards() && !cardsProgressing) {
                         cardsProgressing = true;
                         deviceApi.getCardListByMac(mac).enqueue(new ApiCallBack<ApiGetCardListModel>() {
@@ -628,6 +700,9 @@ public class DeviceImpl implements DeviceManager {
                     break;
                 }
                 case ServiceEvent.CONNECTED: {
+                    if(mServerstatusListner != null){
+                        mServerstatusListner.CONNECTED();
+                    }
                     controlhandler.post(uploadMacRunnable);
                     controlhandler.post(uploadAppVersionRunnable);
                     controlhandler.post(getDeviceConfigRunnable);
@@ -638,11 +713,17 @@ public class DeviceImpl implements DeviceManager {
                     break;
                 }
                 case ServiceEvent.UPDATE_APK: {
+                    if(mServerstatusListner != null){
+                        mServerstatusListner.UPDATE_APK();
+                    }
                     controlhandler.post(checkVersionRunnable);
                     updateType = event.getUpdateType();
                     break;
                 }
                 case ServiceEvent.UPDATE_CARD_LIST: {
+                    if(mServerstatusListner != null){
+                        mServerstatusListner.UPDATE_CARD_LIST();
+                    }
                     cardList = (ArrayList<String>) event.getList().clone();
                     int status = 0;
                     if (event.isWriteCardSuccess()) status = 1;
@@ -674,6 +755,9 @@ public class DeviceImpl implements DeviceManager {
             offlineCount = 0;
         } else {
             if (event.getType() == ServiceEvent.DISCONNECTED)
+                if(mServerstatusListner != null){
+                    mServerstatusListner.DISCONNECTED();
+                }
                 if (offlineCount > 3) {
                     deviceOnline = false;
                 } else {

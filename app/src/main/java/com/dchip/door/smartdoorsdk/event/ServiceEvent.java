@@ -16,6 +16,7 @@ public class ServiceEvent {
     public static final int TIMEOUT = 2;
     public static final int UPDATE_APK = 3;
     public static final int UPDATE_CARD_LIST = 4;
+    private boolean updateOwener = false;//是否需要更新本地业主列表
 
     private boolean connected;
     private boolean writeCardSuccess;
@@ -35,10 +36,19 @@ public class ServiceEvent {
         this.updateType = updateType;
     }
 
-    public ServiceEvent(int type, boolean updateCards) {
+    public ServiceEvent(int type,boolean updateCards,boolean updateOwener) {
         this.connected = true;
         this.type = type;
         this.updateCards = updateCards;
+        this.updateOwener = updateOwener;
+    }
+
+    public boolean isUpdateOwener() {
+        return updateOwener;
+    }
+
+    public void setUpdateOwener(boolean updateOwener) {
+        this.updateOwener = updateOwener;
     }
 
     public ArrayList<String> getList() {
