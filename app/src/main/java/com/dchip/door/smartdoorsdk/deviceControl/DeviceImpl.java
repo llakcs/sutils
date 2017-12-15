@@ -226,6 +226,7 @@ public class DeviceImpl implements DeviceManager {
     @Override
     public void release() {
         if (controlhandler != null) {
+            controlhandler.removeCallbacksAndMessages(null);
             controlhandler = null;
         }
         EventBus.getDefault().unregister(this);

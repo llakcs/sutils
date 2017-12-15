@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 
 /**
  * Created by llakcs on 2017/11/30.
@@ -68,7 +69,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     public void onResume() {
         if (!OpenCVLoader.initDebug()) {
             LogUtil.e(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext.getApplicationContext(), mLoaderCallback);
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext, mLoaderCallback);
         } else {
             LogUtil.e(TAG, "OpenCV library found inside package. Using it!");
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
@@ -89,10 +90,14 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         }
     }
 
+    private WeakReference<Context> wr = null;
+
+
     @Override
     public void InitOpencv(Context context,JavaCameraView OpenCvCameraView) {
         this.mOpenCvCameraView = OpenCvCameraView;
         this.mContext = context;
+        wr = new WeakReference<Context>(mContext);
         mOpenCvCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
 
@@ -192,7 +197,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     }
 
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(mContext.getApplicationContext()) {
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(mContext) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
@@ -204,8 +209,8 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
 
                     try {
                         // load cascade file from application resources
-                        InputStream is = mContext.getApplicationContext().getResources().openRawResource(R.raw.lbpcascade_frontalface);
-                        File cascadeDir = mContext.getApplicationContext().getDir("cascade", Context.MODE_PRIVATE);
+                        InputStream is = mContext.getResources().openRawResource(R.raw.lbpcascade_frontalface);
+                        File cascadeDir = mContext.getDir("cascade", Context.MODE_PRIVATE);
                         mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
                         FileOutputStream os = new FileOutputStream(mCascadeFile);
 
