@@ -721,7 +721,9 @@ public class DeviceImpl implements DeviceManager {
                     break;
                 }
                 case ServiceEvent.CONNECTED: {
+                    LogUtil.e(TAG,"###ServiceEvent.CONNECTED");
                     if (mServerstatusListner != null) {
+                        LogUtil.e(TAG,"### mServerstatusListner.connected()");
                         mServerstatusListner.connected();
                     }
                     controlhandler.post(uploadMacRunnable);
@@ -734,7 +736,9 @@ public class DeviceImpl implements DeviceManager {
                     break;
                 }
                 case ServiceEvent.UPDATE_APK: {
+                    LogUtil.e(TAG,"###ServiceEvent.UPDATE_APK");
                     if (mServerstatusListner != null) {
+                        LogUtil.e(TAG,"### mServerstatusListner.updateAPK");
                         mServerstatusListner.updateAPK();
                     }
                     controlhandler.post(checkVersionRunnable);
@@ -742,7 +746,9 @@ public class DeviceImpl implements DeviceManager {
                     break;
                 }
                 case ServiceEvent.UPDATE_CARD_LIST: {
+                    LogUtil.e(TAG,"### ServiceEvent.UPDATE_CARD_LIST");
                     if (mServerstatusListner != null) {
+                        LogUtil.e(TAG,"### mServerstatusListner != null");
                         mServerstatusListner.updatecardlist();
                     }
                     cardList = (ArrayList<String>) event.getList().clone();
@@ -776,7 +782,9 @@ public class DeviceImpl implements DeviceManager {
             offlineCount = 0;
         } else {
             if (event.getType() == ServiceEvent.DISCONNECTED)
+                LogUtil.e(TAG,"### ServiceEvent.DISCONNECTED");
                 if (mServerstatusListner != null) {
+                    LogUtil.e(TAG,"###mServerstatusListner.disconn()");
                     mServerstatusListner.disconn();
                 }
             if (offlineCount > 3) {
