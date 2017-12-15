@@ -281,6 +281,14 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
             player.release();
             player = null;
         }
+        if(mSurfaceView != null){
+            mSurfaceView = null;
+        }
+
+        if(mPlayListener != null){
+            mPlayListener = null;
+        }
+
     }
 
     @Override
