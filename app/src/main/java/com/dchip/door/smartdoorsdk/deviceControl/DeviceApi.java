@@ -134,6 +134,15 @@ public interface DeviceApi {
     @POST("maincontrol/findMainInfo")
     Call<JsonResult<ApiGetDeviceConfigModel>> getDeviceConfig(@Field("mac") String mac);
 
+    /**
+     * 返回用户列表状态
+     *
+     */
+    @FormUrlEncoded
+    @POST("maincontrol/updateOnwerInfoTerminalRecord ")
+    Call<JsonResult<Object>> updateOnwerStatus(@Field("mac") String mac,@Field("status") int status);
+
+
 //    /**
 //     * 开锁成功返回
 //     *

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 
 import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
@@ -94,6 +95,7 @@ public class DeviceImpl implements DeviceManager {
     private UpdateOwenerListner mUpdateOwner;
     private ServiceOpenLockListner serviceOpenLockListner;
     private ServerstatusListner mServerstatusListner;
+
     private DeviceImpl() {
 
     }
@@ -227,16 +229,16 @@ public class DeviceImpl implements DeviceManager {
             controlhandler = null;
         }
         EventBus.getDefault().unregister(this);
-        if(mServerstatusListner != null){
+        if (mServerstatusListner != null) {
             mServerstatusListner = null;
         }
-        if(serviceOpenLockListner != null){
-            serviceOpenLockListner= null;
+        if (serviceOpenLockListner != null) {
+            serviceOpenLockListner = null;
         }
-        if(mUpdateOwner != null){
+        if (mUpdateOwner != null) {
             mUpdateOwner = null;
         }
-        if(mHumanChcekListner != null){
+        if (mHumanChcekListner != null) {
             mHumanChcekListner = null;
         }
     }
@@ -273,7 +275,7 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public void unRegHumanCheckListner() {
-        if(mHumanChcekListner != null) {
+        if (mHumanChcekListner != null) {
             this.mHumanChcekListner = null;
         }
     }
@@ -286,7 +288,7 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public void unRegUpdateOwnerListner() {
-        if(mUpdateOwner != null) {
+        if (mUpdateOwner != null) {
             this.mUpdateOwner = null;
         }
     }
@@ -299,7 +301,7 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public void unRegServiceOpenLockListner() {
-        if(serviceOpenLockListner != null) {
+        if (serviceOpenLockListner != null) {
             this.serviceOpenLockListner = null;
         }
     }
@@ -307,14 +309,14 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public void setServerstatusListner(ServerstatusListner serverstatusListner) {
-        if(mServerstatusListner != null) {
+        if (mServerstatusListner != null) {
             this.mServerstatusListner = serverstatusListner;
         }
     }
 
     @Override
     public void unRegServerstatusListner() {
-        if(mServerstatusListner != null){
+        if (mServerstatusListner != null) {
             this.mServerstatusListner = null;
         }
     }
@@ -505,6 +507,24 @@ public class DeviceImpl implements DeviceManager {
         }
     };
 
+    /**
+     * 上传锁信息
+     */
+    protected void updateOnwerStatus() {
+        deviceApi.updateOnwerStatus(mac, 1).enqueue(new ApiCallBack<Object>() {
+            @Override
+            public void success(Object o) {
+                Log.w(TAG, "updateOnwerStatus success");
+            }
+
+            @Override
+            public void fail(int i, String s) {
+                Log.e(TAG, "updateOnwerStatus fail :" + s);
+            }
+        });
+
+    }
+
 
     /**
      * 获取锁设置。
@@ -574,10 +594,10 @@ public class DeviceImpl implements DeviceManager {
     };
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onOpenLockRecallEvent(OpenLockRecallEvent openLockRecallEvent){
-         if(serviceOpenLockListner != null){
-             serviceOpenLockListner.lockopen();
-         }
+    public void onOpenLockRecallEvent(OpenLockRecallEvent openLockRecallEvent) {
+        if (serviceOpenLockListner != null) {
+            serviceOpenLockListner.lockopen();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -664,7 +684,7 @@ public class DeviceImpl implements DeviceManager {
             switch (event.getType()) {
                 case ServiceEvent.HEART_BEAT: {
                     if (event.isUpdateOwener()) {
-                        if(mUpdateOwner != null){
+                        if (mUpdateOwner != null) {
                             this.mUpdateOwner.update();
                         }
                     }
@@ -700,7 +720,7 @@ public class DeviceImpl implements DeviceManager {
                     break;
                 }
                 case ServiceEvent.CONNECTED: {
-                    if(mServerstatusListner != null){
+                    if (mServerstatusListner != null) {
                         mServerstatusListner.connected();
                     }
                     controlhandler.post(uploadMacRunnable);
@@ -713,7 +733,7 @@ public class DeviceImpl implements DeviceManager {
                     break;
                 }
                 case ServiceEvent.UPDATE_APK: {
-                    if(mServerstatusListner != null){
+                    if (mServerstatusListner != null) {
                         mServerstatusListner.updateAPK();
                     }
                     controlhandler.post(checkVersionRunnable);
@@ -721,7 +741,7 @@ public class DeviceImpl implements DeviceManager {
                     break;
                 }
                 case ServiceEvent.UPDATE_CARD_LIST: {
-                    if(mServerstatusListner != null){
+                    if (mServerstatusListner != null) {
                         mServerstatusListner.updatecardlist();
                     }
                     cardList = (ArrayList<String>) event.getList().clone();
@@ -755,14 +775,14 @@ public class DeviceImpl implements DeviceManager {
             offlineCount = 0;
         } else {
             if (event.getType() == ServiceEvent.DISCONNECTED)
-                if(mServerstatusListner != null){
+                if (mServerstatusListner != null) {
                     mServerstatusListner.disconn();
                 }
-                if (offlineCount > 3) {
-                    deviceOnline = false;
-                } else {
-                    offlineCount++;
-                }
+            if (offlineCount > 3) {
+                deviceOnline = false;
+            } else {
+                offlineCount++;
+            }
 //            if (longOpen) mServiceInfo.setText("离线  长开锁状态");
 //            else mServiceInfo.setText("离线  正常开锁状态");
 
