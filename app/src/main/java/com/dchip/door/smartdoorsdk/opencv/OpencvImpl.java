@@ -97,7 +97,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     public void InitOpencv(Context context,JavaCameraView OpenCvCameraView) {
         this.mOpenCvCameraView = OpenCvCameraView;
         this.mContext = context;
-        wr = new WeakReference<Context>(mContext);
+        wr = new WeakReference<Context>(context);
         mOpenCvCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
 
