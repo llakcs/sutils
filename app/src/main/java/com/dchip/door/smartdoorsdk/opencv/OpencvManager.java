@@ -21,4 +21,6 @@ public interface OpencvManager{
      void setFaceCount(int count);
 
      void setDetectionListner(DetectionListner detectionListner);
+
+     void unRegDetectionListner();
 }

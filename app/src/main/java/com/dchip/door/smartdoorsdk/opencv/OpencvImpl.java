@@ -126,6 +126,13 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     }
 
     @Override
+    public void unRegDetectionListner() {
+        if(mDetection != null){
+            mDetection = null;
+        }
+    }
+
+    @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         mRgba = inputFrame.rgba();
         mGray = inputFrame.gray();
