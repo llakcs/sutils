@@ -508,7 +508,8 @@ public class DeviceImpl implements DeviceManager {
     /**
      * 上传锁信息
      */
-    protected void updateOnwerStatus() {
+    @Override
+    public void updateOnwerStatus() {
         deviceApi.updateOnwerStatus(mac, 1).enqueue(new ApiCallBack<Object>() {
             @Override
             public void success(Object o) {
