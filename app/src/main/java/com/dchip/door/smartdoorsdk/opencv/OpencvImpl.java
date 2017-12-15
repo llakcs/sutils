@@ -19,12 +19,10 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 
 /**
  * Created by llakcs on 2017/11/30.
@@ -63,12 +61,13 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     public static final int NATIVE_DETECTOR = 1;
     private int mDetectorType = JAVA_DETECTOR;
     private int FACECOUNT = 3;
+    private Context mContext;
     private DetectionListner mDetection;
     @Override
     public void onResume() {
         if (!OpenCVLoader.initDebug()) {
             LogUtil.e(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, wr.get(), mLoaderCallback);
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext, mLoaderCallback);
         } else {
             LogUtil.e(TAG, "OpenCV library found inside package. Using it!");
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
@@ -80,6 +79,10 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         if (mOpenCvCameraView != null) {
             mOpenCvCameraView.disableView();
         }
+        if(mContext != null){
+            mContext = null;
+        }
+
     }
 
     @Override
@@ -89,13 +92,10 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         }
     }
 
-    private WeakReference<Context> wr = null;
-
-
     @Override
     public void InitOpencv(Context context,JavaCameraView OpenCvCameraView) {
         this.mOpenCvCameraView = OpenCvCameraView;
-        wr = new WeakReference<Context>(context);
+        this.mContext =context;
         mOpenCvCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
 
@@ -177,7 +177,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         }
         if (faceSerialCount > FACECOUNT) {
             LogUtil.e(TAG, "#####识别中");
-            String facepName = "/vist" + System.currentTimeMillis() + ".jpg";
+            String facepName = "vist" + System.currentTimeMillis() + ".jpg";
             mOpenCvCameraView.takephoto(Constant.VISTPATH + facepName);
             try {
                 Thread.sleep(1000);
@@ -195,7 +195,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     }
 
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(wr.get()) {
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(mContext) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
@@ -207,8 +207,8 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
 
                     try {
                         // load cascade file from application resources
-                        InputStream is = wr.get().getResources().openRawResource(R.raw.lbpcascade_frontalface);
-                        File cascadeDir = wr.get().getDir("cascade", Context.MODE_PRIVATE);
+                        InputStream is = mContext.getResources().openRawResource(R.raw.lbpcascade_frontalface);
+                        File cascadeDir = mContext.getDir("cascade", Context.MODE_PRIVATE);
                         mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
                         FileOutputStream os = new FileOutputStream(mCascadeFile);
 
