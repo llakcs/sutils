@@ -84,6 +84,7 @@ public class locationImpl implements LocationManager {
             locationService.unregisterListener(mListener); //注销掉监听
             locationService.stop(); //停止定位服务
         }
+
     }
 
     @Override

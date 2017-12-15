@@ -35,45 +35,98 @@
       <file leaf-file-name="DeviceImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/DeviceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="758" column="51" lean-forward="false" selection-start-line="758" selection-start-column="51" selection-end-line="758" selection-end-column="51" />
+            <state relative-caret-position="20">
+              <caret line="286" column="13" lean-forward="false" selection-start-line="286" selection-start-column="13" selection-end-line="286" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5652#6566#0" expanded="true" />
-                <element signature="e#6402#6403#0" expanded="false" />
-                <element signature="e#6480#6481#0" expanded="false" />
-                <element signature="e#6565#6566#0" expanded="true" />
-                <element signature="e#6678#7445#0" expanded="true" />
-                <element signature="e#7444#7445#0" expanded="true" />
-                <element signature="e#7559#7740#0" expanded="true" />
-                <element signature="e#7739#7740#0" expanded="true" />
-                <element signature="e#11553#12262#0" expanded="true" />
-                <element signature="e#12261#12262#0" expanded="true" />
-                <element signature="e#13554#14038#0" expanded="true" />
-                <element signature="e#14037#14038#0" expanded="true" />
-                <element signature="e#14643#15255#0" expanded="true" />
-                <element signature="e#15254#15255#0" expanded="true" />
-                <element signature="e#15333#16996#0" expanded="true" />
-                <element signature="e#16533#16534#0" expanded="false" />
-                <element signature="e#16620#16621#0" expanded="false" />
-                <element signature="e#16995#16996#0" expanded="true" />
-                <element signature="e#17079#20237#0" expanded="true" />
-                <element signature="e#20236#20237#0" expanded="true" />
-                <element signature="e#29835#29836#0" expanded="false" />
-                <element signature="e#29922#29923#0" expanded="false" />
-                <element signature="e#32523#33247#0" expanded="true" />
-                <element signature="e#33246#33247#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DeviceManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/DeviceManager.java">
+      <file leaf-file-name="IMPlayer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/IMPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="29" column="36" lean-forward="false" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
+            <state relative-caret-position="680">
+              <caret line="42" column="39" lean-forward="false" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="39" />
+              <folding>
+                <element signature="e#0#905#0" expanded="false" />
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OpencvImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/opencv/OpencvImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1100">
+              <caret line="78" column="25" lean-forward="false" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#3310#3311#0" expanded="false" />
+                <element signature="e#3348#3349#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ACWebSocketService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/service/ACWebSocketService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2760">
+              <caret line="170" column="29" lean-forward="false" selection-start-line="170" selection-start-column="29" selection-end-line="170" selection-end-column="29" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#2373#2374#0" expanded="false" />
+                <element signature="e#2400#2401#0" expanded="false" />
+                <element signature="e#2770#2771#0" expanded="false" />
+                <element signature="e#2805#2806#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MPlayer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/MPlayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="239">
+              <caret line="276" column="0" lean-forward="false" selection-start-line="276" selection-start-column="0" selection-end-line="276" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DetectionListner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/opencv/DetectionListner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OpencvManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/opencv/OpencvManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DeviceService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/service/DeviceService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" column="14" lean-forward="false" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#774#775#0" expanded="false" />
+                <element signature="e#809#810#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -91,9 +144,11 @@
       <file leaf-file-name="LockHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/interfaces/LockHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
+            <state relative-caret-position="660">
               <caret line="45" column="32" lean-forward="false" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="32" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -134,6 +189,8 @@
       <find>getLock</find>
       <find>OpenLockRecallEvent</find>
       <find>rel</find>
+      <find>mContext</find>
+      <find>IMPlayListener</find>
     </findStrings>
     <dirStrings>
       <dir>D:\development\github\sutils\BDVoiceLib\src\main\java\com\dchip\baiduvoice\lib</dir>
@@ -4132,8 +4189,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/service/DeviceService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/Bean/AppUpdateModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/Bean/JsonResult.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/Bean/CardsModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/http/RequestLogInterceptor.java" />
@@ -4174,7 +4229,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/utils/Constant.java" />
         <option value="$PROJECT_DIR$/app/src/main/jni/devicecontrol/devicecontrol.cpp" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/HumanCheckHandler.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/MPlayer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/event/ServiceEvent.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/service/ACWebSocketService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/Bean/OperationModel.java" />
@@ -4183,6 +4237,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/DeviceManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/Listener/ServerstatusListner.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/DeviceImpl.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/opencv/OpencvImpl.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/location/locationImpl.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/MPlayer.java" />
       </list>
     </option>
   </component>
@@ -4506,6 +4563,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="opencv" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sutils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sutils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="smartdoorsdk" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="location" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -4542,105 +4633,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="deviceControl" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sutils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sutils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="smartdoorsdk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="deviceControl" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Listener" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartDoorSDK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartDoorSDK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com.dchip" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="door.smartdoorsdk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartDoorSDK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com.dchip" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SmartDoorSDK" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -4702,6 +4694,67 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SmartDoorSDK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SmartDoorSDK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.dchip" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="door.smartdoorsdk" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SmartDoorSDK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.dchip" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SmartDoorSDK" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -4834,7 +4887,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1513231793700" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1513303485549" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -4882,7 +4935,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1513231793700" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1513303485549" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -4914,27 +4967,6 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <method />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
       <method />
     </configuration>
     <configuration default="true" type="JarApplication" factoryName="JAR Application">
@@ -5065,7 +5097,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1513231793700" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1513303485550" />
       </method>
     </configuration>
     <list size="2">
@@ -5114,7 +5146,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1924" height="1056" extended-state="0" />
+    <frame x="-8" y="-8" width="1924" height="1056" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -5134,12 +5166,11 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24570815" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09317443" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -5147,6 +5178,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09317443" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -5159,66 +5191,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/native/jni/abi-x86/OpenCVConfig.cmake" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/opencv/OpencvManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/opencv/OpencvImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="39" column="23" lean-forward="false" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/voice/BDVoiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="108" column="42" lean-forward="false" selection-start-line="108" selection-start-column="42" selection-end-line="108" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BDVoiceLib/src/main/java/com/dchip/baiduvoice/lib/control/MyRecognizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="53" column="23" lean-forward="false" selection-start-line="53" selection-start-column="11" selection-end-line="53" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/utils/DPDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="224" column="19" lean-forward="false" selection-start-line="224" selection-start-column="19" selection-end-line="224" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/CardHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/BoltLockHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/MagneticLockHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5226,7 +5202,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5339,13 +5314,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/service/DeviceService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="22" column="32" lean-forward="false" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/Bean/ApiGetDeviceConfigModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -5357,9 +5325,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2440">
           <caret line="130" column="6" lean-forward="false" selection-start-line="130" selection-start-column="6" selection-end-line="130" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5400,22 +5365,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/openCVLibrary330/src/main/java/org/opencv/android/CameraGLSurfaceView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="659">
-          <caret line="83" column="14" lean-forward="false" selection-start-line="83" selection-start-column="14" selection-end-line="83" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/HumanCheckHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="940">
           <caret line="53" column="21" lean-forward="false" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#854#855#0" expanded="false" />
-            <element signature="e#881#882#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5423,7 +5376,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6040">
           <caret line="302" column="55" lean-forward="false" selection-start-line="302" selection-start-column="55" selection-end-line="302" selection-end-column="55" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5431,14 +5383,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="e#306#307#0" expanded="false" />
-            <element signature="e#335#336#0" expanded="false" />
-            <element signature="e#365#366#0" expanded="false" />
-            <element signature="e#388#389#0" expanded="false" />
-            <element signature="e#417#418#0" expanded="false" />
-            <element signature="e#447#448#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5446,37 +5390,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="e#313#314#0" expanded="false" />
-            <element signature="e#358#359#0" expanded="false" />
-            <element signature="e#382#383#0" expanded="false" />
-            <element signature="e#429#430#0" expanded="false" />
-            <element signature="e#462#463#0" expanded="false" />
-            <element signature="e#497#498#0" expanded="false" />
-            <element signature="e#526#527#0" expanded="false" />
-            <element signature="e#562#563#0" expanded="false" />
-            <element signature="e#603#604#0" expanded="false" />
-            <element signature="e#653#654#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/MPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5000">
-          <caret line="278" column="29" lean-forward="false" selection-start-line="278" selection-start-column="29" selection-end-line="278" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/IMPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="38" column="7" lean-forward="false" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#905#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5484,15 +5397,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
           <caret line="14" column="43" lean-forward="false" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/location/locationImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270">
-          <caret line="41" column="75" lean-forward="false" selection-start-line="41" selection-start-column="75" selection-end-line="41" selection-end-column="75" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5500,11 +5404,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="490">
           <caret line="45" column="37" lean-forward="false" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
-          <folding>
-            <element signature="e#1298#1299#0" expanded="true" />
-            <element signature="e#1355#1356#0" expanded="true" />
-            <element signature="e#1403#1404#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5512,9 +5411,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="18" column="44" lean-forward="false" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
-          <folding>
-            <element signature="e#462#463#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5522,7 +5418,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5530,7 +5425,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
           <caret line="7" column="22" lean-forward="false" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5538,7 +5432,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
           <caret line="7" column="18" lean-forward="true" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5546,7 +5439,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="12" column="11" lean-forward="false" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5554,7 +5446,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
           <caret line="7" column="20" lean-forward="false" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5562,23 +5453,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="6" column="32" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/service/ACWebSocketService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="170" column="29" lean-forward="true" selection-start-line="170" selection-start-column="29" selection-end-line="170" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/interfaces/LockHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="45" column="32" lean-forward="false" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5590,44 +5464,155 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/../../sdk/platforms/android-25/android.jar!/android/view/SurfaceView.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/CardHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="50" column="26" lean-forward="true" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/service/DeviceService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="14" lean-forward="false" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#774#775#0" expanded="false" />
+            <element signature="e#809#810#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/interfaces/LockHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="45" column="32" lean-forward="false" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/DeviceManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="460">
           <caret line="29" column="36" lean-forward="false" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/openCVLibrary330/src/main/java/org/opencv/android/CameraGLSurfaceView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="57" column="0" lean-forward="true" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/location/locationImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/MinimalDisplay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/MPlayerException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/IMPlayListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/IMPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="42" column="39" lean-forward="false" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#905#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/service/ACWebSocketService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2760">
+          <caret line="170" column="29" lean-forward="false" selection-start-line="170" selection-start-column="29" selection-end-line="170" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2373#2374#0" expanded="false" />
+            <element signature="e#2400#2401#0" expanded="false" />
+            <element signature="e#2770#2771#0" expanded="false" />
+            <element signature="e#2805#2806#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/opencv/OpencvImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1100">
+          <caret line="78" column="25" lean-forward="false" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#3310#3311#0" expanded="false" />
+            <element signature="e#3348#3349#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/player/MPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="276" column="0" lean-forward="false" selection-start-line="276" selection-start-column="0" selection-end-line="276" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/opencv/DetectionListner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/opencv/OpencvManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dchip/door/smartdoorsdk/deviceControl/DeviceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="758" column="51" lean-forward="false" selection-start-line="758" selection-start-column="51" selection-end-line="758" selection-end-column="51" />
+        <state relative-caret-position="20">
+          <caret line="286" column="13" lean-forward="false" selection-start-line="286" selection-start-column="13" selection-end-line="286" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5652#6566#0" expanded="true" />
-            <element signature="e#6402#6403#0" expanded="false" />
-            <element signature="e#6480#6481#0" expanded="false" />
-            <element signature="e#6565#6566#0" expanded="true" />
-            <element signature="e#6678#7445#0" expanded="true" />
-            <element signature="e#7444#7445#0" expanded="true" />
-            <element signature="e#7559#7740#0" expanded="true" />
-            <element signature="e#7739#7740#0" expanded="true" />
-            <element signature="e#11553#12262#0" expanded="true" />
-            <element signature="e#12261#12262#0" expanded="true" />
-            <element signature="e#13554#14038#0" expanded="true" />
-            <element signature="e#14037#14038#0" expanded="true" />
-            <element signature="e#14643#15255#0" expanded="true" />
-            <element signature="e#15254#15255#0" expanded="true" />
-            <element signature="e#15333#16996#0" expanded="true" />
-            <element signature="e#16533#16534#0" expanded="false" />
-            <element signature="e#16620#16621#0" expanded="false" />
-            <element signature="e#16995#16996#0" expanded="true" />
-            <element signature="e#17079#20237#0" expanded="true" />
-            <element signature="e#20236#20237#0" expanded="true" />
-            <element signature="e#29835#29836#0" expanded="false" />
-            <element signature="e#29922#29923#0" expanded="false" />
-            <element signature="e#32523#33247#0" expanded="true" />
-            <element signature="e#33246#33247#0" expanded="true" />
           </folding>
         </state>
       </provider>
