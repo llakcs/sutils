@@ -32,5 +32,6 @@ public interface DeviceManager {
     void checkCrashLogAndUpload();
     void init(Activity activity);
     void release();
+    void updateOnwerStatus();
 
 }
