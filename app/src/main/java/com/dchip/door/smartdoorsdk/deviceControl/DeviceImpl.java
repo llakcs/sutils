@@ -151,6 +151,8 @@ public class DeviceImpl implements DeviceManager {
         setLock(FileHelper.readFileToString(Constant.LOCK_CONFIG_FILE_PATH));
         FileDownloadMonitor.setGlobalMonitor(GlobalMonitor.getImpl());
         cardList = FileHelper.readByBufferedReader(Constant.CARDS_FILE_PATH);
+        //取消更新led
+        s.device().getLed().closeLed(3);
         dTimer = new DeviceTimer(new onTickListener() {
             @Override
             public void onOneWeek() {
@@ -906,7 +908,8 @@ public class DeviceImpl implements DeviceManager {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
+                                s.device().getLed().openLed(3);
+                                mAcitvity.getApplicationContext().startActivity(intent);
                             } else {
                                 //凌晨安装
 //                                showMsg("凌晨2时20分更新");
@@ -928,6 +931,8 @@ public class DeviceImpl implements DeviceManager {
                                         Intent intent = new Intent(Intent.ACTION_VIEW);
                                         intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        s.device().getLed().openLed(3);
+                                        mAcitvity.getApplicationContext().startActivity(intent);
                                     }
                                 }, delay);
 //                                showMsg("update after " + delay + "ms");
