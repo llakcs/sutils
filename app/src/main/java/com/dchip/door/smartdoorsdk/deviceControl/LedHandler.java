@@ -11,7 +11,7 @@ public class LedHandler {
     private static final String TAG = "LedHandler";
     private static LedHandler instance;
     private static Led mLed;
-    private static int defOpen = 1;
+    private static int defOpen = 0;
 
     public static LedHandler getInstance(){
         if (instance == null){
