@@ -26,14 +26,14 @@ public class LedHandler {
     }
 
     //i = 1,2,3
-    int openLed(int i){
+    public int openLed(int i){
         if (i==1 || i == 2 || i == 3) {
             return mLed.ioDevice(defOpen, i - 1);
         } else return 0;
     }
 
     //i = 1,2,3
-    int closeLed(int i){
+    public int closeLed(int i){
         if (i==1 || i == 2 || i == 3) {
             return mLed.ioDevice(inv(defOpen), i - 1);
         }else return 0;

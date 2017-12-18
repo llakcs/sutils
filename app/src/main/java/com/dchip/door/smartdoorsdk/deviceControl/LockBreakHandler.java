@@ -16,6 +16,13 @@ public class LockBreakHandler {
     private boolean stop = false;
     private static int defOpen = 1;
 
+    public static LockBreakHandler getInstance(){
+        if (instance == null){
+            instance = new LockBreakHandler();
+        }
+        return instance;
+    }
+
     LockBreakHandler(){
         mBreak = new LockBreak();
         new Thread(runnable).start();

@@ -17,6 +17,13 @@ public class LockPushHandler {
     private boolean stop = false;
     private static int defOpen = 1;
 
+    public static LockPushHandler getInstance(){
+        if (instance == null){
+            instance = new LockPushHandler();
+        }
+        return instance;
+    }
+
     LockPushHandler(){
         mPush = new LockSwitch();
         new Thread(runnable).start();

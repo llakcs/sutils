@@ -289,6 +289,7 @@ public class DeviceImpl implements DeviceManager {
     @Override
     public void setLockPushListener(LockPushListener lockPushListener) {
         this.mLockPushListener = lockPushListener;
+        LockPushHandler.getInstance();
     }
 
 
@@ -296,12 +297,14 @@ public class DeviceImpl implements DeviceManager {
     public void unRegLockPushListenerListner() {
         if (mLockPushListener != null) {
             this.mLockPushListener = null;
+            LockPushHandler.getInstance().finish();
         }
     }
 
     @Override
     public void setLockBreakListener(LockBreakListener lockBreakListener) {
         this.mLockBreakListener = lockBreakListener;
+        LockBreakHandler.getInstance();
     }
 
 
@@ -309,6 +312,7 @@ public class DeviceImpl implements DeviceManager {
     public void unRegLockBreakListener() {
         if (mLockBreakListener != null) {
             this.mLockBreakListener = null;
+            LockBreakHandler.getInstance().finish();
         }
     }
 
