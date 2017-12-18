@@ -89,6 +89,8 @@ public class DeviceImpl implements DeviceManager {
     private String md5;
     //app更新类型 1.立即更新 2.延时更新
     private int updateType = 2;
+    //app类型 1.立即更新 2.延时更新
+    private int appType = 1;
     //表示是否在长开锁状态
     private boolean longOpen = false;
     private boolean cardsProgressing = false;
@@ -222,11 +224,11 @@ public class DeviceImpl implements DeviceManager {
 //                });
             }
         });
-
-        if (!s.Ext.debug) {
-            //检查版本号
-            checkVer();
-        }
+//
+//        if (!s.Ext.debug) {
+//            //检查版本号
+//            checkVer(1);
+//        }
     }
 
 
@@ -381,7 +383,8 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public void checkVer() {
+    public void checkVer(int type) {
+        appType = type;
         controlhandler.postDelayed(checkVersionRunnable, 3000);
     }
 
@@ -509,7 +512,7 @@ public class DeviceImpl implements DeviceManager {
     private Runnable checkVersionRunnable = new Runnable() {
         @Override
         public void run() {
-            deviceApi.checkVersion(1).enqueue(new ApiCallBack<AppUpdateModel>() {
+            deviceApi.checkVersion(appType).enqueue(new ApiCallBack<AppUpdateModel>() {
                 @Override
                 public void success(AppUpdateModel o) {
                     String serverUrl = DPDB.getserverUrl();

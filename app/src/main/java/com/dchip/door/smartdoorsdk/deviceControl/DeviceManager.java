@@ -22,7 +22,7 @@ public interface DeviceManager {
     LedHandler getLed();
     void upLoadMac();
     void uploadAppVer(String ver);
-    void checkVer();
+    void checkVer(int type);
     void setHumanCheckListner(HumanCheckListner humanCheckListner);
     void unRegHumanCheckListner();
     void setUpdateOwenerListner(UpdateOwenerListner updateOwenerListner);
