@@ -178,7 +178,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         if (faceSerialCount > FACECOUNT) {
             LogUtil.e(TAG, "#####识别中");
             String facepName = "vist" + System.currentTimeMillis() + ".jpg";
-            mOpenCvCameraView.takephoto(Constant.VISTPATH + facepName);
+            mOpenCvCameraView.takephoto(Constant.VISTPATH+File.separator + facepName);
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
