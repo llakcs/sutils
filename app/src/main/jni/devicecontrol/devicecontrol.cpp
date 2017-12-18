@@ -189,7 +189,6 @@ Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Card_CardDetect(JN
             return false;
         }
         return true;
-        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "CardDetect END");
 }
 
 JNIEXPORT jstring
@@ -292,7 +291,7 @@ __android_log_print(ANDROID_LOG_VERBOSE, "Pn512" , "led_gpio device close" ) ;
 JNIEXPORT jint
 JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Pn512Lock_ioctl
         (JNIEnv * env, jobject obj,jint cmd, jint arg){
-    __android_log_print(ANDROID_LOG_VERBOSE,"Pn512","in ioctl fd_l=%d cmd=%d arg=%d",fd_l,cmd,arg);
+    //__android_log_print(ANDROID_LOG_VERBOSE,"Pn512","in ioctl fd_l=%d cmd=%d arg=%d",fd_l,cmd,arg);
     int ret;
 
     ret = ioctl(fd_l, cmd, arg);
@@ -338,6 +337,68 @@ JNIEXPORT void
 JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_HumanCheck_close
         (JNIEnv * env, jobject obj){
     close(fd_hc);
+}
+
+int fd_led = 0;
+
+JNIEXPORT jboolean
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Led_open
+        (JNIEnv * env, jobject obj){
+    fd_led = open("/dev/sys_stat", O_RDWR);
+    if (fd_led < 0) {
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/sys_stat Error..");
+        return false;
+    } else {
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/sys_stat  fd = %d", fd_hc);
+        return true;
+    }
+}
+
+JNIEXPORT jint
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Led_ioCtl
+        (JNIEnv * env, jobject obj,jint cmd, jint arg){
+    if (fd_led < 0) {
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/sys_stat device not open Error.. ");
+        return -99;
+    }
+    int ret = ioctl(fd_led, cmd, arg);
+    return ret;
+
+}
+
+JNIEXPORT void
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Led_close
+        (JNIEnv * env, jobject obj){
+    close(fd_led);
+}
+
+
+JNIEXPORT jint
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_LockSwitch_check
+        (JNIEnv * env, jobject obj){
+        int fd_switch = open("/dev/push_switch", O_RDWR);
+    if (fd_switch < 0) {
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/push_switch device not open Error.. ");
+        return -99;
+    }
+    int ret = ioctl(fd_switch, 3, 0);
+    close(fd_switch);
+    return ret;
+
+}
+
+JNIEXPORT jint
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_LockBreak_check
+        (JNIEnv * env, jobject obj){
+        int fd_push = open("/dev/safe_sw", O_RDWR);
+    if (fd_push < 0) {
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/push_switch device not open Error.. ");
+        return -99;
+    }
+    int ret = ioctl(fd_push, 3, 0);
+    close(fd_push);
+    return ret;
+
 }
 
 }

@@ -3,6 +3,8 @@ package com.dchip.door.smartdoorsdk.deviceControl;
 import android.app.Activity;
 
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.HumanCheckListner;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockBreakListener;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockPushListener;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServerstatusListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServiceOpenLockListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.UpdateOwenerListner;
@@ -17,6 +19,7 @@ public interface DeviceManager {
     void setLock(LockHandler lock);
     void setLock(String config);
     LockHandler getLock();
+    LedHandler getLed();
     void upLoadMac();
     void uploadAppVer(String ver);
     void checkVer();
@@ -28,6 +31,10 @@ public interface DeviceManager {
     void unRegServiceOpenLockListner();
     void setServerstatusListner(ServerstatusListner serverstatusListner);
     void unRegServerstatusListner();
+    void setLockPushListener(LockPushListener lockPushListener);
+    void unRegLockPushListenerListner();
+    void setLockBreakListener(LockBreakListener lockBreakListener);
+    void unRegLockBreakListener();
     void uploadLock();
     void checkCrashLogAndUpload();
     void init(Activity activity);

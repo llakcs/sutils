@@ -14,14 +14,17 @@ import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
 import com.dchip.door.smartdoorsdk.Bean.AppUpdateModel;
 import com.dchip.door.smartdoorsdk.Bean.CardsModel;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.HumanCheckListner;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockBreakListener;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockPushListener;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServerstatusListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServiceOpenLockListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.UpdateOwenerListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.onTickListener;
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.LockBreak;
 import com.dchip.door.smartdoorsdk.event.BroadcastEvent;
 import com.dchip.door.smartdoorsdk.event.FaultEvent;
-import com.dchip.door.smartdoorsdk.event.HumanEvent;
+import com.dchip.door.smartdoorsdk.event.DeviceCheckEvent;
 import com.dchip.door.smartdoorsdk.event.OpenLockRecallEvent;
 import com.dchip.door.smartdoorsdk.event.ReadCardEven;
 import com.dchip.door.smartdoorsdk.event.ServiceEvent;
@@ -67,7 +70,7 @@ import static com.dchip.door.smartdoorsdk.SdkInit.deviceApi;
 
 public class DeviceImpl implements DeviceManager {
     //锁类型：1=电插锁 2=电磁力锁 3=电机锁
-    private LockHandler mLockHandker;
+    private LockHandler mLockHandler;
     private static String TAG = "DeviceImpl";
     private static final Object lock = new Object();
     private Handler controlhandler;
@@ -92,6 +95,8 @@ public class DeviceImpl implements DeviceManager {
     //接受离线事件若干次后设置设备不在线。
     private int offlineCount = 0;
     private HumanCheckListner mHumanChcekListner;
+    private LockBreakListener mLockBreakListener;
+    private LockPushListener mLockPushListener;
     private UpdateOwenerListner mUpdateOwner;
     private ServiceOpenLockListner serviceOpenLockListner;
     private ServerstatusListner mServerstatusListner;
@@ -113,8 +118,8 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public void setLock(LockHandler lock) {
-        this.mLockHandker = lock;
-        mLockHandker.closeLock();
+        this.mLockHandler = lock;
+        mLockHandler.closeLock();
     }
 
     @Override
@@ -281,6 +286,32 @@ public class DeviceImpl implements DeviceManager {
         }
     }
 
+    @Override
+    public void setLockPushListener(LockPushListener lockPushListener) {
+        this.mLockPushListener = lockPushListener;
+    }
+
+
+    @Override
+    public void unRegLockPushListenerListner() {
+        if (mLockPushListener != null) {
+            this.mLockPushListener = null;
+        }
+    }
+
+    @Override
+    public void setLockBreakListener(LockBreakListener lockBreakListener) {
+        this.mLockBreakListener = lockBreakListener;
+    }
+
+
+    @Override
+    public void unRegLockBreakListener() {
+        if (mLockBreakListener != null) {
+            this.mLockBreakListener = null;
+        }
+    }
+
 
     @Override
     public void setUpdateOwenerListner(UpdateOwenerListner updateOwenerListner) {
@@ -322,7 +353,12 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public LockHandler getLock() {
-        return mLockHandker;
+        return mLockHandler;
+    }
+
+    @Override
+    public LedHandler getLed() {
+        return LedHandler.getInstance();
     }
 
     /**
@@ -601,11 +637,25 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onHumanEvent(HumanEvent event) {
-        if (event.eventName.equals("human")) {
-            if (mHumanChcekListner != null)
+    public void onDeviceCheckEvent(DeviceCheckEvent event) {
+        switch(event.eventName){
+            case "human":{
+                if (mHumanChcekListner != null)
                 mHumanChcekListner.humanCheck();
+                break;
+            }
+            case "lockBreak":{
+                if (mLockBreakListener != null)
+                    mLockBreakListener.onLockBreak();
+                break;
+            }
+            case "lockPush":{
+                if (mLockPushListener != null)
+                    mLockPushListener.onPush();
+                break;
+            }
         }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
