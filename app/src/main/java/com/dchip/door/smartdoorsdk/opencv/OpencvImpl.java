@@ -65,13 +65,19 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     private DetectionListner mDetection;
     @Override
     public void onResume() {
-        if (!OpenCVLoader.initDebug()) {
-            LogUtil.e(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext, mLoaderCallback);
-        } else {
-            LogUtil.e(TAG, "OpenCV library found inside package. Using it!");
-            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!OpenCVLoader.initDebug()) {
+                    LogUtil.e(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext, mLoaderCallback);
+                } else {
+                    LogUtil.e(TAG, "OpenCV library found inside package. Using it!");
+                    mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -178,13 +184,13 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         if (faceSerialCount > FACECOUNT) {
             LogUtil.e(TAG, "#####识别中");
             String facepName = "vist" + System.currentTimeMillis() + ".jpg";
-            mOpenCvCameraView.takephoto(Constant.VISTPATH+File.separator + facepName);
+            mOpenCvCameraView.takephoto(Constant.VISTPATH+ facepName);
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            mDetection.complete(Constant.VISTPATH + facepName);
+            mDetection.complete(Constant.VISTPATH+ facepName);
             faceSerialCount = -5000;
         }
 
