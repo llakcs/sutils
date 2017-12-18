@@ -72,6 +72,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
             LogUtil.e(TAG, "OpenCV library found inside package. Using it!");
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
+
     }
 
     @Override
@@ -178,13 +179,13 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         if (faceSerialCount > FACECOUNT) {
             LogUtil.e(TAG, "#####识别中");
             String facepName = "vist" + System.currentTimeMillis() + ".jpg";
-            mOpenCvCameraView.takephoto(Constant.VISTPATH+File.separator + facepName);
+            mOpenCvCameraView.takephoto(Constant.VISTPATH+ facepName);
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            mDetection.complete(Constant.VISTPATH + facepName);
+            mDetection.complete(Constant.VISTPATH+ facepName);
             faceSerialCount = -5000;
         }
 

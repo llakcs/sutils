@@ -14,7 +14,7 @@ public class Constant {
     public static final String SDCARD_PATH = "/sdcard";
     public static final String BASE_PATh = SDCARD_PATH + File.separator + "smdsdk" + File.separator;
     //opencv
-    public static final String VISTPATH = BASE_PATh + "vistdata";
+    public static final String VISTPATH = BASE_PATh + "vistdata"+File.separator;
     public static final String DOWNLOAD_PATH = BASE_PATh + "downloadAPK" + File.separator;
     //crash
     public static final String CRASH_LOG_PATH = BASE_PATh + "crashLog" + File.separator;
