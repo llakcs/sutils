@@ -398,13 +398,10 @@ public class DeviceImpl implements DeviceManager {
                         @Override
                         public void success(Object o) {
 //                            showMsg("上传锁板MAC信息成功");
-
                         }
-
                         @Override
                         public void fail(int i, String s) {
 //                            showMsg("上传锁板信息失败" + s);
-
                             uploadLock();
                         }
                     });
