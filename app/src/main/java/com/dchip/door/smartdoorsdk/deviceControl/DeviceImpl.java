@@ -89,7 +89,7 @@ public class DeviceImpl implements DeviceManager {
     private String md5;
     //app更新类型 1.立即更新 2.延时更新
     private int updateType = 2;
-    //app类型 1.立即更新 2.延时更新
+    //app类型 0-手机 1-android终端&普通版本 2-qt 5-android终端&十寸屏(人脸，视频对讲) 6-android终端&十寸屏(视频对讲) 7-android终端&十五寸屏(16:9) 8-android终端&十五寸屏(4:3)
     private int appType = 1;
     //表示是否在长开锁状态
     private boolean longOpen = false;
@@ -864,6 +864,7 @@ public class DeviceImpl implements DeviceManager {
                     protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                         super.progress(task, soFarBytes, totalBytes);
                         String a = String.format("%.0f", (double) soFarBytes / (double) totalBytes * 100);
+                        LogUtil.w(TAG,"apk downloading " + a + "%");
 //                        showMsg("apk downloading " + a + "%");
                     }
 
@@ -898,6 +899,8 @@ public class DeviceImpl implements DeviceManager {
                     @Override
                     protected void completed(BaseDownloadTask task) {
                         super.completed(task);
+                        LogUtil.w(TAG,"apk downloading 100%");
+                        LogUtil.w(TAG,"apk saved in " + Constant.DOWNLOAD_PATH);
 //                        showMsg("apk downloading 100%");
 //                        showMsg("apk saved in " + SmartACApplication.DOWNLOAD_PATH);
                         if (md5.equals(FileHelper.getMd5ByFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")))) {
