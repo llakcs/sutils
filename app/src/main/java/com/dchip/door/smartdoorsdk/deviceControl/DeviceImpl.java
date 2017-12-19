@@ -784,7 +784,7 @@ public class DeviceImpl implements DeviceManager {
                     controlhandler.post(getDeviceConfigRunnable);
                     checkCrashLogAndUpload();
                     uploadLock();
-
+                    s.device().getLed().openLed(2);
 //                    ACLockHandler.instance.disableLongOpen(lockIdAddress, 0xFF);
                     break;
                 }
@@ -839,6 +839,7 @@ public class DeviceImpl implements DeviceManager {
             } else {
                 offlineCount++;
             }
+            s.device().getLed().closeLed(2);
 //            if (longOpen) mServiceInfo.setText("离线  长开锁状态");
 //            else mServiceInfo.setText("离线  正常开锁状态");
 
