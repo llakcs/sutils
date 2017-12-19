@@ -523,6 +523,7 @@ public class DeviceImpl implements DeviceManager {
                         //延迟下载
                         Random r = new Random();
                         long startTime = (long) (r.nextFloat() * 1000 * 60 * 1); //y延迟时间。
+                        LogUtil.w(TAG, "延迟下载(1分钟内):" + startTime+"毫秒");
 //                        showMsg("与当前版本不一致，" + (startTime / 1000) + "秒后开始下载..");
 //                        createTask(url).start();
                         //// TODO: 2017/8/31 10分钟随机时间开始下载
@@ -906,6 +907,7 @@ public class DeviceImpl implements DeviceManager {
                         if (md5.equals(FileHelper.getMd5ByFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")))) {
 //                            showMsg("check md5 ok");
                             if (updateType == 1) {
+                                LogUtil.w(TAG,"即时更新");
 //                                showMsg("即时更新");
 //                                new File(Constant.DOWNLOAD_PATH + "temp.apk").renameTo(new File(Constant.DOWNLOAD_PATH + "aa.apk"));
                                 //安装app
@@ -916,6 +918,7 @@ public class DeviceImpl implements DeviceManager {
                                 mAcitvity.getApplicationContext().startActivity(intent);
                             } else {
                                 //凌晨安装
+                                LogUtil.w(TAG,"凌晨2时20分更新");
 //                                showMsg("凌晨2时20分更新");
                                 String local = "GMT+8";
                                 Calendar c = new GregorianCalendar(TimeZone.getTimeZone(local));
@@ -942,6 +945,7 @@ public class DeviceImpl implements DeviceManager {
 //                                showMsg("update after " + delay + "ms");
                             }
                         } else {
+                            LogUtil.w(TAG,"check md5 fail");
 //                            showMsg("check md5 fail");
                             new File(Constant.DOWNLOAD_PATH + "temp.apk").delete();
                             controlhandler.post(checkVersionRunnable);
