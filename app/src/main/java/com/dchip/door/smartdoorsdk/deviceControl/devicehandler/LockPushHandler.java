@@ -1,6 +1,5 @@
-package com.dchip.door.smartdoorsdk.deviceControl;
+package com.dchip.door.smartdoorsdk.deviceControl.devicehandler;
 
-import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.LockBreak;
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.LockSwitch;
 import com.dchip.door.smartdoorsdk.event.DeviceCheckEvent;
 

@@ -7,7 +7,6 @@ import android.content.Intent;
 
 
 import com.dchip.door.smartdoorsdk.service.ACWebSocketService;
-import com.dchip.door.smartdoorsdk.service.DeviceService;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
 
 import java.util.List;

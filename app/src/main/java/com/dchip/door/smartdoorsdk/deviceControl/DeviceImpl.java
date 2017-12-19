@@ -20,8 +20,15 @@ import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServerstatusListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServiceOpenLockListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.UpdateOwenerListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.onTickListener;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.BoltLockHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.CardHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.HumanCheckHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.LedHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.LockBreakHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.LockPushHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.MagneticLockHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.MotorLockHandler;
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
-import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.LockBreak;
 import com.dchip.door.smartdoorsdk.event.BroadcastEvent;
 import com.dchip.door.smartdoorsdk.event.FaultEvent;
 import com.dchip.door.smartdoorsdk.event.DeviceCheckEvent;
@@ -32,7 +39,6 @@ import com.dchip.door.smartdoorsdk.http.ApiCallBack;
 import com.dchip.door.smartdoorsdk.receiver.ACBroadcastReceiver;
 import com.dchip.door.smartdoorsdk.s;
 import com.dchip.door.smartdoorsdk.service.ACWebSocketService;
-import com.dchip.door.smartdoorsdk.service.DeviceService;
 import com.dchip.door.smartdoorsdk.utils.Constant;
 import com.dchip.door.smartdoorsdk.utils.DPDB;
 import com.dchip.door.smartdoorsdk.utils.DeviceTimer;
@@ -50,7 +56,6 @@ import com.liulishuo.filedownloader.FileDownloader;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -102,7 +107,7 @@ public class DeviceImpl implements DeviceManager {
     private UpdateOwenerListner mUpdateOwner;
     private ServiceOpenLockListner serviceOpenLockListner;
     private ServerstatusListner mServerstatusListner;
-
+    private boolean enableled = false;
     private DeviceImpl() {
 
     }
@@ -125,7 +130,7 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public void init(Activity activity) {
+    public DeviceImpl init(Activity activity) {
         controlhandler = new Handler();
         this.mAcitvity = activity;
         EventBus.getDefault().register(this);
@@ -145,16 +150,43 @@ public class DeviceImpl implements DeviceManager {
         DPDB.setmac(mac);
         DPDB.setUid(uid);
         LogUtil.e(TAG, "###mac =" + mac);
-        //deviceService
-        activity.startService(new Intent(activity, DeviceService.class));
+        if(enableled){
+            //取消更新led
+            s.device().getLed().closeLed(3);
+        }
+        cardList = FileHelper.readByBufferedReader(Constant.CARDS_FILE_PATH);
         //启动长链接服务
         activity.startService(new Intent(activity, ACWebSocketService.class));
+        return  instance;
+    }
+
+
+    @Override
+    public DeviceImpl EnableCardReader() {
+        //初始化读卡模块
+        CardHandler.getInstance();
+
+        return instance;
+    }
+
+    @Override
+    public DeviceImpl EnableLock() {
         //初始化锁配置
         setLock(FileHelper.readFileToString(Constant.LOCK_CONFIG_FILE_PATH));
         FileDownloadMonitor.setGlobalMonitor(GlobalMonitor.getImpl());
-        cardList = FileHelper.readByBufferedReader(Constant.CARDS_FILE_PATH);
-        //取消更新led
-        s.device().getLed().closeLed(3);
+
+        return instance;
+    }
+
+
+    @Override
+    public DeviceImpl EnableLed() {
+         enableled = true;
+        return instance;
+    }
+
+    @Override
+    public DeviceImpl EnableDtimer() {
         dTimer = new DeviceTimer(new onTickListener() {
             @Override
             public void onOneWeek() {
@@ -209,28 +241,18 @@ public class DeviceImpl implements DeviceManager {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-//                        showMsg("test ----- 每小时打印");
+
                     }
                 }).start();
             }
 
             @Override
             public void onOneMinute() {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        showMsg("test ----- 每分钟打印");
-//                    }
-//                });
+
             }
         });
-//
-//        if (!s.Ext.debug) {
-//            //检查版本号
-//            checkVer(1);
-//        }
+        return instance;
     }
-
 
     @Override
     public void release() {
@@ -278,8 +300,11 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public void setHumanCheckListner(HumanCheckListner humanCheckListner) {
+    public DeviceImpl setHumanCheckListner(HumanCheckListner humanCheckListner) {
         this.mHumanChcekListner = humanCheckListner;
+        //初始化人体检测设备
+        HumanCheckHandler.getInstance();
+        return  instance;
     }
 
 
@@ -291,9 +316,10 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public void setLockPushListener(LockPushListener lockPushListener) {
+    public DeviceImpl setLockPushListener(LockPushListener lockPushListener) {
         this.mLockPushListener = lockPushListener;
         LockPushHandler.getInstance();
+        return  instance;
     }
 
 
@@ -306,9 +332,10 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public void setLockBreakListener(LockBreakListener lockBreakListener) {
+    public DeviceImpl setLockBreakListener(LockBreakListener lockBreakListener) {
         this.mLockBreakListener = lockBreakListener;
         LockBreakHandler.getInstance();
+        return  instance;
     }
 
 
@@ -366,7 +393,10 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public LedHandler getLed() {
-        return LedHandler.getInstance();
+        if (enableled) {
+            return LedHandler.getInstance();
+        }
+        return null;
     }
 
     /**
@@ -785,7 +815,9 @@ public class DeviceImpl implements DeviceManager {
                     controlhandler.post(getDeviceConfigRunnable);
                     checkCrashLogAndUpload();
                     uploadLock();
-                    s.device().getLed().openLed(2);
+                    if(enableled){
+                        s.device().getLed().openLed(2);
+                    }
 //                    ACLockHandler.instance.disableLongOpen(lockIdAddress, 0xFF);
                     break;
                 }
@@ -840,7 +872,9 @@ public class DeviceImpl implements DeviceManager {
             } else {
                 offlineCount++;
             }
-            s.device().getLed().closeLed(2);
+            if(enableled) {
+                s.device().getLed().closeLed(2);
+            }
 //            if (longOpen) mServiceInfo.setText("离线  长开锁状态");
 //            else mServiceInfo.setText("离线  正常开锁状态");
 
@@ -914,7 +948,9 @@ public class DeviceImpl implements DeviceManager {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                s.device().getLed().openLed(3);
+                                if(enableled) {
+                                    s.device().getLed().openLed(3);
+                                }
                                 mAcitvity.getApplicationContext().startActivity(intent);
                             } else {
                                 //凌晨安装
@@ -938,7 +974,9 @@ public class DeviceImpl implements DeviceManager {
                                         Intent intent = new Intent(Intent.ACTION_VIEW);
                                         intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        s.device().getLed().openLed(3);
+                                        if(enableled) {
+                                            s.device().getLed().openLed(3);
+                                        }
                                         mAcitvity.getApplicationContext().startActivity(intent);
                                     }
                                 }, delay);
@@ -959,5 +997,7 @@ public class DeviceImpl implements DeviceManager {
                     }
                 });
     }
+
+
 
 }

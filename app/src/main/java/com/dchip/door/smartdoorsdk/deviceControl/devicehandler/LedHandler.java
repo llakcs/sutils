@@ -1,7 +1,6 @@
-package com.dchip.door.smartdoorsdk.deviceControl;
+package com.dchip.door.smartdoorsdk.deviceControl.devicehandler;
 
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Led;
-import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Pn512Card;
 
 /**
  * Created by jelly on 2017/12/18.

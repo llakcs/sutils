@@ -78,7 +78,6 @@
         </service>
 
         <!-- 设置deviceService-->
-        <service android:name=".service.DeviceService"/>
         <service android:name=".service.ACWebSocketService">
             <intent-filter>
                 <action android:name="com.dchip.action.AC_WEBSOCKET" />

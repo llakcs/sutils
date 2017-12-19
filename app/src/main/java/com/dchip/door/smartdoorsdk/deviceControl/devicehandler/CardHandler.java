@@ -1,13 +1,10 @@
-package com.dchip.door.smartdoorsdk.deviceControl;
+package com.dchip.door.smartdoorsdk.deviceControl.devicehandler;
 
 import android.util.Log;
 
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Pn512Card;
 import com.dchip.door.smartdoorsdk.s;
-import com.dchip.door.smartdoorsdk.service.DeviceService;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 
 /**

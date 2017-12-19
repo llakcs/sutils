@@ -8,6 +8,7 @@ import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockPushListener;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServerstatusListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServiceOpenLockListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.UpdateOwenerListner;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.LedHandler;
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
 
 /**
@@ -23,7 +24,7 @@ public interface DeviceManager {
     void upLoadMac();
     void uploadAppVer(String ver);
     void checkVer(int type);
-    void setHumanCheckListner(HumanCheckListner humanCheckListner);
+    DeviceImpl setHumanCheckListner(HumanCheckListner humanCheckListner);
     void unRegHumanCheckListner();
     void setUpdateOwenerListner(UpdateOwenerListner updateOwenerListner);
     void unRegUpdateOwnerListner();
@@ -31,14 +32,17 @@ public interface DeviceManager {
     void unRegServiceOpenLockListner();
     void setServerstatusListner(ServerstatusListner serverstatusListner);
     void unRegServerstatusListner();
-    void setLockPushListener(LockPushListener lockPushListener);
+    DeviceImpl setLockPushListener(LockPushListener lockPushListener);
     void unRegLockPushListenerListner();
-    void setLockBreakListener(LockBreakListener lockBreakListener);
+    DeviceImpl setLockBreakListener(LockBreakListener lockBreakListener);
     void unRegLockBreakListener();
     void uploadLock();
     void checkCrashLogAndUpload();
-    void init(Activity activity);
+    DeviceImpl init(Activity activity);
     void release();
     void updateOnwerStatus();
-
+    DeviceImpl EnableCardReader();
+    DeviceImpl EnableLock();
+    DeviceImpl EnableLed();
+    DeviceImpl EnableDtimer();
 }

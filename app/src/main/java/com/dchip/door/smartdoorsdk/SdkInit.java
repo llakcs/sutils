@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Vibrator;
 
-import com.dchip.door.smartdoorsdk.deviceControl.DeviceApi;
+import com.dchip.door.smartdoorsdk.http.DeviceApi;
 import com.dchip.door.smartdoorsdk.http.RequestHeaderInterceptor;
 import com.dchip.door.smartdoorsdk.receiver.ACBroadcastReceiver;
 import com.dchip.door.smartdoorsdk.service.LocationService;

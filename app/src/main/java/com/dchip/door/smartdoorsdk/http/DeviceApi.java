@@ -1,4 +1,4 @@
-package com.dchip.door.smartdoorsdk.deviceControl;
+package com.dchip.door.smartdoorsdk.http;
 
 
 
