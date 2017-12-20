@@ -14,7 +14,7 @@ public class LockPushHandler {
     private static LockPushHandler instance;
     private static LockSwitch mPush;
     private boolean stop = false;
-    private static int defOpen = 1;
+    private static int defOpen = 0;
 
     public static LockPushHandler getInstance(){
         if (instance == null){
