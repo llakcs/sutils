@@ -23,7 +23,7 @@ public interface DeviceManager {
     LedHandler getLed();
     void upLoadMac();
     void uploadAppVer(String ver);
-    void checkVer(int type);
+    void checkVer();
     DeviceImpl setHumanCheckListner(HumanCheckListner humanCheckListner);
     void unRegHumanCheckListner();
     void setUpdateOwenerListner(UpdateOwenerListner updateOwenerListner);
@@ -38,7 +38,7 @@ public interface DeviceManager {
     void unRegLockBreakListener();
     void uploadLock();
     void checkCrashLogAndUpload();
-    DeviceImpl init(Activity activity);
+    DeviceImpl init(Activity activity,int appTypeNum);
     void release();
     void updateOnwerStatus();
     DeviceImpl EnableCardReader();

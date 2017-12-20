@@ -37,7 +37,7 @@ public interface DeviceApi {
      */
     @FormUrlEncoded
     @POST("maincontrol/uploadVersionInfo")
-    Call<JsonResult<Object>> uploadAppVersion(@Field("mac") String mac, @Field("versionName") String versionName);
+    Call<JsonResult<Object>> uploadAppVersion(@Field("mac") String mac, @Field("versionName") String versionName, @Field("type") int type);
 
     /**
      * 上传主控板的MAC码

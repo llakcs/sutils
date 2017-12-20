@@ -133,9 +133,10 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public DeviceImpl init(Activity activity) {
+    public DeviceImpl init(Activity activity,int appTypeNum) {
         controlhandler = new Handler();
         this.mAcitvity = activity;
+        appType = appTypeNum;
         EventBus.getDefault().register(this);
         //获取mac
         if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
@@ -419,8 +420,7 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public void checkVer(int type) {
-        appType = type;
+    public void checkVer() {
         controlhandler.postDelayed(checkVersionRunnable, 3000);
     }
 
@@ -482,7 +482,7 @@ public class DeviceImpl implements DeviceManager {
     private Runnable uploadAppVersionRunnable = new Runnable() {
         @Override
         public void run() {
-            deviceApi.uploadAppVersion(mac, getVersionName()).enqueue(new ApiCallBack<Object>() {
+            deviceApi.uploadAppVersion(mac, getVersionName(),appType).enqueue(new ApiCallBack<Object>() {
                 @Override
                 public void success(Object o) {
 
