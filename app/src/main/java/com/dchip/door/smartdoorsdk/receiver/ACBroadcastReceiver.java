@@ -45,11 +45,6 @@ public class ACBroadcastReceiver extends BroadcastReceiver {
                LogUtil.e(TAG,"长链接服务崩溃重启");
                 context.startService(new Intent(context,ACWebSocketService.class));
             }
-            if (!isServiceRunning(context, DeviceService.class.getName())) {
-               //启动锁设备交互的服务
-
-                context.startService(new Intent(context,DeviceService.class));
-            }
 //            if (!isServiceRunning(context, BluetoothBandService.class.getName())) {
 //                //启动蓝牙的服务
 //                // TODO: 2017/8/17 调试蓝牙时开启
