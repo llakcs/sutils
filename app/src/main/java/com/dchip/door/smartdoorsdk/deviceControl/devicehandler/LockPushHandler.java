@@ -14,7 +14,7 @@ public class LockPushHandler {
     private static LockPushHandler instance;
     private static LockSwitch mPush;
     private boolean stop = false;
-    private static int defOpen = 0;
+    private static int defOpen = 1;
 
     public static LockPushHandler getInstance(){
         if (instance == null){
@@ -38,7 +38,7 @@ public class LockPushHandler {
             int statuslod = inv(defOpen);
             while (!stop) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
