@@ -52,7 +52,7 @@ public class CardHandler {
                     if (mcard.cardChecked()) {
                         String id = mcard.operation("FFCA000000");
                         LogUtil.d(TAG,"读卡成功：" + id);
-                        EventBus.getDefault().post(new ReadCardEven(id.replace(" ","")));
+                        EventBus.getDefault().post(new ReadCardEven(id.replace("9000","").replace(" ","")));
                     }
 //                    Log.w(TAG,"验证B密码:"+mcard.operation("FF82000006CDCDCDCDCDCD"));
 //                    Log.w(TAG,"验证:"+mcard.operation("FF8800076000"));

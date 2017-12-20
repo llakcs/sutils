@@ -160,6 +160,7 @@ public class DeviceImpl implements DeviceManager {
         cardList = FileHelper.readByBufferedReader(Constant.CARDS_FILE_PATH);
         //启动长链接服务
         activity.startService(new Intent(activity, ACWebSocketService.class));
+        FileDownloadMonitor.setGlobalMonitor(GlobalMonitor.getImpl());
         return instance;
     }
 
@@ -175,9 +176,8 @@ public class DeviceImpl implements DeviceManager {
     @Override
     public DeviceImpl EnableLock() {
         //初始化锁配置
+        enableLock = true;
         setLock(FileHelper.readFileToString(Constant.LOCK_CONFIG_FILE_PATH));
-        FileDownloadMonitor.setGlobalMonitor(GlobalMonitor.getImpl());
-
         return instance;
     }
 
