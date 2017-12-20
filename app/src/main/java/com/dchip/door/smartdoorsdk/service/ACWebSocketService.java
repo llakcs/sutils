@@ -170,14 +170,17 @@ public class ACWebSocketService extends Service {
                 switch(operationModel.getType()) {
                     case 1: {
                         //1为开锁信息
-                        int ret = s.device().getLock().openLock();
-                        LogUtil.e(TAG,"###ACWEBSOKCET.ret ="+ret+" // MainActivity.uid ="+DPDB.getUid());
-                        if(ret == 1){
-                            EventBus.getDefault().post(new OpenLockStatusEvent(DPDB.getUid(),true));
-                            EventBus.getDefault().post(new OpenLockRecallEvent());
-                        }else{
-                            LogUtil.d(TAG,"开锁出错 err:" + ret);
-                        }
+                        if (s.device().getLock()!=null) {
+                            int ret = s.device().getLock().openLock();
+                            LogUtil.e(TAG, "###ACWEBSOKCET.ret =" + ret + " // MainActivity.uid =" + DPDB.getUid());
+                            if (ret == 1) {
+                                EventBus.getDefault().post(new OpenLockStatusEvent(DPDB.getUid(), true));
+                                EventBus.getDefault().post(new OpenLockRecallEvent());
+                            } else {
+                                LogUtil.d(TAG, "开锁出错 err:" + ret);
+                            }
+                        }else
+                            LogUtil.e(TAG, "getLock() == null");
                         break;
                     }
                     case 99: {

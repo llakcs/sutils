@@ -56,6 +56,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -107,7 +108,9 @@ public class DeviceImpl implements DeviceManager {
     private UpdateOwenerListner mUpdateOwner;
     private ServiceOpenLockListner serviceOpenLockListner;
     private ServerstatusListner mServerstatusListner;
-    private boolean enableled = false;
+    private boolean enableLed = false;
+    private boolean enableLock = false;
+
     private DeviceImpl() {
 
     }
@@ -150,14 +153,14 @@ public class DeviceImpl implements DeviceManager {
         DPDB.setmac(mac);
         DPDB.setUid(uid);
         LogUtil.e(TAG, "###mac =" + mac);
-        if(enableled){
+        if (enableLed) {
             //取消更新led
             s.device().getLed().closeLed(3);
         }
         cardList = FileHelper.readByBufferedReader(Constant.CARDS_FILE_PATH);
         //启动长链接服务
         activity.startService(new Intent(activity, ACWebSocketService.class));
-        return  instance;
+        return instance;
     }
 
 
@@ -181,7 +184,7 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public DeviceImpl EnableLed() {
-         enableled = true;
+        enableLed = true;
         return instance;
     }
 
@@ -304,7 +307,7 @@ public class DeviceImpl implements DeviceManager {
         this.mHumanChcekListner = humanCheckListner;
         //初始化人体检测设备
         HumanCheckHandler.getInstance();
-        return  instance;
+        return instance;
     }
 
 
@@ -319,7 +322,7 @@ public class DeviceImpl implements DeviceManager {
     public DeviceImpl setLockPushListener(LockPushListener lockPushListener) {
         this.mLockPushListener = lockPushListener;
         LockPushHandler.getInstance();
-        return  instance;
+        return instance;
     }
 
 
@@ -335,7 +338,7 @@ public class DeviceImpl implements DeviceManager {
     public DeviceImpl setLockBreakListener(LockBreakListener lockBreakListener) {
         this.mLockBreakListener = lockBreakListener;
         LockBreakHandler.getInstance();
-        return  instance;
+        return instance;
     }
 
 
@@ -388,12 +391,15 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public LockHandler getLock() {
-        return mLockHandler;
+        if (enableLock) {
+            return mLockHandler;
+        }
+        return null;
     }
 
     @Override
     public LedHandler getLed() {
-        if (enableled) {
+        if (enableLed) {
             return LedHandler.getInstance();
         }
         return null;
@@ -429,6 +435,7 @@ public class DeviceImpl implements DeviceManager {
                         public void success(Object o) {
 //                            showMsg("上传锁板MAC信息成功");
                         }
+
                         @Override
                         public void fail(int i, String s) {
 //                            showMsg("上传锁板信息失败" + s);
@@ -553,7 +560,7 @@ public class DeviceImpl implements DeviceManager {
                         //延迟下载
                         Random r = new Random();
                         long startTime = (long) (r.nextFloat() * 1000 * 60 * 1); //y延迟时间。
-                        LogUtil.w(TAG, "延迟下载(1分钟内):" + startTime+"毫秒");
+                        LogUtil.w(TAG, "延迟下载(1分钟内):" + startTime + "毫秒");
 //                        showMsg("与当前版本不一致，" + (startTime / 1000) + "秒后开始下载..");
 //                        createTask(url).start();
                         //// TODO: 2017/8/31 10分钟随机时间开始下载
@@ -608,55 +615,56 @@ public class DeviceImpl implements DeviceManager {
             deviceApi.getDeviceConfig(mac).enqueue(new ApiCallBack<ApiGetDeviceConfigModel>() {
                 @Override
                 public void success(ApiGetDeviceConfigModel model) {
+                    if (enableLock) {
+                        LogUtil.e(TAG, "成功获取锁配置：锁:" + model.getLock_access() + " 门:" + model.getDoor_access() + " 原锁:" + model.getOrignal_lock_access() +
+                                " 单锁:" + (model.getLock_num() == 1) + " 锁类型:" + model.getLock_type());
 
-                    LogUtil.e(TAG, "成功获取锁配置：锁:" + model.getLock_access() + " 门:" + model.getDoor_access() + " 原锁:" + model.getOrignal_lock_access() +
-                            " 单锁:" + (model.getLock_num() == 1) + " 锁类型:" + model.getLock_type());
+                        switch (model.getLock_type()) {
+                            case 1:
+                                if (s.device().getLock() == null) {
+                                    s.device().setLock(new BoltLockHandler());
+                                } else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
+                                    s.device().getLock().finish();
+                                    s.device().setLock(new BoltLockHandler());
+                                }
+                                break;
 
-                    switch (model.getLock_type()) {
-                        case 1:
-                            if (s.device().getLock() == null) {
-                                s.device().setLock(new BoltLockHandler());
-                            } else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
-                                s.device().getLock().finish();
-                                s.device().setLock(new BoltLockHandler());
-                            }
-                            break;
+                            case 2:
+                                if (s.device().getLock() == null) {
+                                    s.device().setLock(new MagneticLockHandler());
+                                } else if (!s.device().getLock().TAG.equals("MagneticLockHandler")) {
+                                    s.device().getLock().finish();
+                                    s.device().setLock(new MagneticLockHandler());
+                                }
+                                break;
 
-                        case 2:
-                            if (s.device().getLock() == null) {
-                                s.device().setLock(new MagneticLockHandler());
-                            } else if (!s.device().getLock().TAG.equals("MagneticLockHandler")) {
-                                s.device().getLock().finish();
-                                s.device().setLock(new MagneticLockHandler());
-                            }
-                            break;
+                            case 3:
+                                if (s.device().getLock() == null) {
+                                    s.device().setLock(new MotorLockHandler());
+                                } else if (!s.device().getLock().TAG.equals("MotorLockHandler")) {
+                                    s.device().getLock().finish();
+                                    s.device().setLock(new MotorLockHandler());
+                                }
+                                break;
 
-                        case 3:
-                            if (s.device().getLock() == null) {
-                                s.device().setLock(new MotorLockHandler());
-                            } else if (!s.device().getLock().TAG.equals("MotorLockHandler")) {
-                                s.device().getLock().finish();
-                                s.device().setLock(new MotorLockHandler());
-                            }
-                            break;
+                            default:
+                                if (s.device().getLock() == null) {
+                                    s.device().setLock(new BoltLockHandler());
+                                } else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
+                                    s.device().getLock().finish();
+                                    s.device().setLock(new BoltLockHandler());
+                                }
+                                break;
 
-                        default:
-                            if (s.device().getLock() == null) {
-                                s.device().setLock(new BoltLockHandler());
-                            } else if (!s.device().getLock().TAG.equals("BoltLockHandler")) {
-                                s.device().getLock().finish();
-                                s.device().setLock(new BoltLockHandler());
-                            }
-                            break;
+                        }
+                        s.device().getLock().setDefaultStatus(model.getLock_access(), model.getDoor_access()
+                                , model.getOrignal_lock_access(), model.getLock_num() == 1);
+
+                        FileHelper.writeByFileOutputStream(Constant.LOCK_CONFIG_FILE_PATH, model.getLock_access()
+                                + "/" + model.getDoor_access() + "/" + model.getOrignal_lock_access() + "/" + (model.getLock_num() == 1) + "/" + model.getLock_type());
 
                     }
-                    s.device().getLock().setDefaultStatus(model.getLock_access(), model.getDoor_access()
-                            , model.getOrignal_lock_access(), model.getLock_num() == 1);
-
-                    FileHelper.writeByFileOutputStream(Constant.LOCK_CONFIG_FILE_PATH, model.getLock_access()
-                            + "/" + model.getDoor_access() + "/" + model.getOrignal_lock_access() + "/" + (model.getLock_num() == 1) + "/" + model.getLock_type());
                 }
-
                 @Override
                 public void fail(int i, String s) {
                     LogUtil.e(TAG, "getDeviceConfigRunnable 失败 " + s);
@@ -675,18 +683,18 @@ public class DeviceImpl implements DeviceManager {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDeviceCheckEvent(DeviceCheckEvent event) {
-        switch(event.eventName){
-            case "human":{
+        switch (event.eventName) {
+            case "human": {
                 if (mHumanChcekListner != null)
-                mHumanChcekListner.humanCheck();
+                    mHumanChcekListner.humanCheck();
                 break;
             }
-            case "lockBreak":{
+            case "lockBreak": {
                 if (mLockBreakListener != null)
                     mLockBreakListener.onLockBreak();
                 break;
             }
-            case "lockPush":{
+            case "lockPush": {
                 if (mLockPushListener != null)
                     mLockPushListener.onPush();
                 break;
@@ -697,12 +705,13 @@ public class DeviceImpl implements DeviceManager {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadCardEvent(ReadCardEven event) {
-//        showMsg(event.getCardId());
+        LogUtil.w(TAG,"onReadCardEvent:" + event.getCardId());
         String checkedId = null;
         for (String info : cardList) {
             String[] infos = info.split("/");
             if (infos[0].equals(event.getCardId())) {
-                s.device().getLock().openLock();
+                if (enableLock)
+                    s.device().getLock().openLock();
                 LogUtil.d(TAG, event.getCardId() + " 与本地卡库匹配成功");
                 checkedId = event.getCardId();
                 deviceApi.uploadCardId(uid, event.getCardId(), infos[1]).enqueue(new ApiCallBack<Object>() {
@@ -815,7 +824,7 @@ public class DeviceImpl implements DeviceManager {
                     controlhandler.post(getDeviceConfigRunnable);
                     checkCrashLogAndUpload();
                     uploadLock();
-                    if(enableled){
+                    if (enableLed) {
                         s.device().getLed().openLed(2);
                     }
 //                    ACLockHandler.instance.disableLongOpen(lockIdAddress, 0xFF);
@@ -864,15 +873,15 @@ public class DeviceImpl implements DeviceManager {
             offlineCount = 0;
         } else {
             if (event.getType() == ServiceEvent.DISCONNECTED)
-            if (mServerstatusListner != null) {
-                mServerstatusListner.disconn();
-            }
+                if (mServerstatusListner != null) {
+                    mServerstatusListner.disconn();
+                }
             if (offlineCount > 3) {
                 deviceOnline = false;
             } else {
                 offlineCount++;
             }
-            if(enableled) {
+            if (enableLed) {
                 s.device().getLed().closeLed(2);
             }
 //            if (longOpen) mServiceInfo.setText("离线  长开锁状态");
@@ -899,7 +908,7 @@ public class DeviceImpl implements DeviceManager {
                     protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                         super.progress(task, soFarBytes, totalBytes);
                         String a = String.format("%.0f", (double) soFarBytes / (double) totalBytes * 100);
-                        LogUtil.w(TAG,"apk downloading " + a + "%");
+                        LogUtil.w(TAG, "apk downloading " + a + "%");
 //                        showMsg("apk downloading " + a + "%");
                     }
 
@@ -934,27 +943,27 @@ public class DeviceImpl implements DeviceManager {
                     @Override
                     protected void completed(BaseDownloadTask task) {
                         super.completed(task);
-                        LogUtil.w(TAG,"apk downloading 100%");
-                        LogUtil.w(TAG,"apk saved in " + Constant.DOWNLOAD_PATH);
+                        LogUtil.w(TAG, "apk downloading 100%");
+                        LogUtil.w(TAG, "apk saved in " + Constant.DOWNLOAD_PATH);
 //                        showMsg("apk downloading 100%");
 //                        showMsg("apk saved in " + SmartACApplication.DOWNLOAD_PATH);
                         if (md5.equals(FileHelper.getMd5ByFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")))) {
 //                            showMsg("check md5 ok");
                             if (updateType == 1) {
-                                LogUtil.w(TAG,"即时更新");
+                                LogUtil.w(TAG, "即时更新");
 //                                showMsg("即时更新");
 //                                new File(Constant.DOWNLOAD_PATH + "temp.apk").renameTo(new File(Constant.DOWNLOAD_PATH + "aa.apk"));
                                 //安装app
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                if(enableled) {
+                                if (enableLed) {
                                     s.device().getLed().openLed(3);
                                 }
                                 mAcitvity.getApplicationContext().startActivity(intent);
                             } else {
                                 //凌晨安装
-                                LogUtil.w(TAG,"凌晨2时20分更新");
+                                LogUtil.w(TAG, "凌晨2时20分更新");
 //                                showMsg("凌晨2时20分更新");
                                 String local = "GMT+8";
                                 Calendar c = new GregorianCalendar(TimeZone.getTimeZone(local));
@@ -974,7 +983,7 @@ public class DeviceImpl implements DeviceManager {
                                         Intent intent = new Intent(Intent.ACTION_VIEW);
                                         intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        if(enableled) {
+                                        if (enableLed) {
                                             s.device().getLed().openLed(3);
                                         }
                                         mAcitvity.getApplicationContext().startActivity(intent);
@@ -983,7 +992,7 @@ public class DeviceImpl implements DeviceManager {
 //                                showMsg("update after " + delay + "ms");
                             }
                         } else {
-                            LogUtil.w(TAG,"check md5 fail");
+                            LogUtil.w(TAG, "check md5 fail");
 //                            showMsg("check md5 fail");
                             new File(Constant.DOWNLOAD_PATH + "temp.apk").delete();
                             controlhandler.post(checkVersionRunnable);
@@ -997,7 +1006,6 @@ public class DeviceImpl implements DeviceManager {
                     }
                 });
     }
-
 
 
 }

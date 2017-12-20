@@ -3,8 +3,11 @@ package com.dchip.door.smartdoorsdk.deviceControl.devicehandler;
 import android.util.Log;
 
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Pn512Card;
+import com.dchip.door.smartdoorsdk.event.ReadCardEven;
 import com.dchip.door.smartdoorsdk.s;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -49,7 +52,7 @@ public class CardHandler {
                     if (mcard.cardChecked()) {
                         String id = mcard.operation("FFCA000000");
                         LogUtil.d(TAG,"读卡成功：" + id);
-                        s.device().getLock().openLock();
+                        EventBus.getDefault().post(new ReadCardEven(id.replace(" ","")));
                     }
 //                    Log.w(TAG,"验证B密码:"+mcard.operation("FF82000006CDCDCDCDCDCD"));
 //                    Log.w(TAG,"验证:"+mcard.operation("FF8800076000"));
