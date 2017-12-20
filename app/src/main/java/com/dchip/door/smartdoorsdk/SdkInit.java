@@ -51,10 +51,8 @@ public class SdkInit {
                 //初始化百度定位sdk
                 locationService = new LocationService(app.getApplicationContext());
                 mVibrator = (Vibrator) app.getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-                LogUtil.e(TAG, "##init.locationservice");
                 //初始化DPDB
                 DPDB.InitDPDbRW(app);
-                LogUtil.e(TAG, "##init.video");
                 //初始化百度语音合成
                 TTSHandler.getInstance(app);
                 DPDB.setwsUrl(wsUrl);
