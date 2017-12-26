@@ -209,40 +209,46 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
 
                     // Load native library after(!) OpenCV initialization
                     System.loadLibrary("detection_based_tracker");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                // load cascade file from application resources
+                                InputStream is = mContext.getResources().openRawResource(R.raw.lbpcascade_frontalface);
+                                File cascadeDir = mContext.getDir("cascade", Context.MODE_PRIVATE);
+                                mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
+                                FileOutputStream os = new FileOutputStream(mCascadeFile);
 
-                    try {
-                        // load cascade file from application resources
-                        InputStream is = mContext.getResources().openRawResource(R.raw.lbpcascade_frontalface);
-                        File cascadeDir = mContext.getDir("cascade", Context.MODE_PRIVATE);
-                        mCascadeFile = new File(cascadeDir, "lbpcascade_frontalface.xml");
-                        FileOutputStream os = new FileOutputStream(mCascadeFile);
+                                byte[] buffer = new byte[4096];
+                                int bytesRead;
+                                while ((bytesRead = is.read(buffer)) != -1) {
+                                    os.write(buffer, 0, bytesRead);
+                                }
+                                is.close();
+                                os.close();
 
-                        byte[] buffer = new byte[4096];
-                        int bytesRead;
-                        while ((bytesRead = is.read(buffer)) != -1) {
-                            os.write(buffer, 0, bytesRead);
+                                mJavaDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
+                                if (mJavaDetector.empty()) {
+                                    LogUtil.e(TAG, "Failed to load cascade classifier");
+                                    mJavaDetector = null;
+                                } else {
+                                    LogUtil.i(TAG, "Loaded cascade classifier from " + mCascadeFile.getAbsolutePath());
+
+                                    mNativeDetector = new DetectionBasedTracker(mCascadeFile.getAbsolutePath(), 0);
+                                }
+
+                                cascadeDir.delete();
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                LogUtil.e(TAG, "Failed to load cascade. Exception thrown: " + e);
+                            }
+                            mOpenCvCameraView.enableView();
                         }
-                        is.close();
-                        os.close();
+                    }).start();
 
-                        mJavaDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
-                        if (mJavaDetector.empty()) {
-                            LogUtil.e(TAG, "Failed to load cascade classifier");
-                            mJavaDetector = null;
-                        } else {
-                            LogUtil.i(TAG, "Loaded cascade classifier from " + mCascadeFile.getAbsolutePath());
 
-                            mNativeDetector = new DetectionBasedTracker(mCascadeFile.getAbsolutePath(), 0);
-                        }
 
-                        cascadeDir.delete();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        LogUtil.e(TAG, "Failed to load cascade. Exception thrown: " + e);
-                    }
-
-                    mOpenCvCameraView.enableView();
 
                 }
                 break;
