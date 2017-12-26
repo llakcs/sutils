@@ -13,15 +13,28 @@ import android.os.Handler;
 public interface BDVoiceManager {
 
     void start();
+
     void stop();
+
     void initRecog();
+
     void onDestroy();
+
     void enableOffline(boolean enable);
+
     void speak(String text);
+
     void init(Application app, Activity activity, Handler handler);
+
     void recogn();
+
     void MediaVolumeUp();
+
     void MediaVolumeDown();
+
     int getSystemMaxVolume();
+
     int getStreamVolume();
+
+    void setStreamVolume(int progess);
 }

@@ -174,4 +174,9 @@ public class BDVoiceImpl implements BDVoiceManager {
     public int  getStreamVolume() {
         return  mgr.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
     }
+
+    @Override
+    public void setStreamVolume(int progess) {
+        mgr.setStreamVolume(AudioManager.STREAM_MUSIC, progess, 0);
+    }
 }
