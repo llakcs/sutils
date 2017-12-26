@@ -20,5 +20,7 @@ public interface BDVoiceManager {
     void speak(String text);
     void init(Application app, Activity activity, Handler handler);
     void recogn();
+    void MediaVolumeUp();
+    void MediaVolumeDown();
 
 }

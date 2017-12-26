@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -36,6 +37,8 @@ public class BDVoiceImpl implements BDVoiceManager {
 
     private static final Object lock = new Object();
     private static volatile BDVoiceImpl instance;
+    //定义AudioManager
+    private AudioManager mgr;
 
     public static void registerInstance() {
         if (instance == null) {
@@ -83,6 +86,7 @@ public class BDVoiceImpl implements BDVoiceManager {
         this.app = app;
         this.mHandler = handler;
         this.activity = activity;
+        mgr = (AudioManager) app.getSystemService(Context.AUDIO_SERVICE);
     }
 
     @Override
@@ -106,7 +110,7 @@ public class BDVoiceImpl implements BDVoiceManager {
 
     @Override
     public void onDestroy() {
-        if(myRecognizer != null && myWakeup != null) {
+        if (myRecognizer != null && myWakeup != null) {
             myRecognizer.release();
             myWakeup.release();
         }
@@ -145,5 +149,19 @@ public class BDVoiceImpl implements BDVoiceManager {
     @Override
     public void speak(String text) {
         TTSHandler.getInstance().speak(text);
+    }
+
+    @Override
+    public void MediaVolumeUp() {
+        // 调高音量
+        if (mgr != null)
+            mgr.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+    }
+
+    @Override
+    public void MediaVolumeDown() {
+        // 调低音量
+        if (mgr != null)
+            mgr.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
     }
 }
