@@ -208,7 +208,6 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         player.reset();
         try {
             player.setDataSource(url);
-            player.setDisplay(mSurfaceView.getHolder());
             player.prepareAsync();
 //            log("异步准备视频");
         } catch (IOException e) {
@@ -315,6 +314,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         isMediaPrepared=true;
         playStart();
         if(mPlayListener!=null){
+            player.setDisplay(mSurfaceView.getHolder());
             mPlayListener.onPrepared();
         }
     }
