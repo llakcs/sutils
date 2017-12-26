@@ -164,4 +164,14 @@ public class BDVoiceImpl implements BDVoiceManager {
         if (mgr != null)
             mgr.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
     }
+
+    @Override
+    public int getSystemMaxVolume() {
+        return mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);  //获取系统最大音量
+    }
+
+    @Override
+    public int  getStreamVolume() {
+        return  mgr.getStreamVolume(AudioManager.STREAM_MUSIC);  //获取当前值
+    }
 }

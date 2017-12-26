@@ -22,5 +22,6 @@ public interface BDVoiceManager {
     void recogn();
     void MediaVolumeUp();
     void MediaVolumeDown();
-
+    int getSystemMaxVolume();
+    int getStreamVolume();
 }
