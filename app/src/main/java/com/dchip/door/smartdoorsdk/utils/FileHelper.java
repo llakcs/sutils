@@ -2,6 +2,8 @@ package com.dchip.door.smartdoorsdk.utils;
 
 
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,28 +30,35 @@ public class FileHelper {
      * 计算文件md5 用于下载判断时候安装完成
      */
     public static String getMd5ByFile(File file) {
-        String value = null;
-        FileInputStream in = null;
         try {
-            in = new FileInputStream(file);
-            MappedByteBuffer byteBuffer = in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            md5.update(byteBuffer);
-            BigInteger bi = new BigInteger(1, md5.digest());
-            value = bi.toString(16);
-        } catch (Exception e) {
+            return DigestUtils.md5Hex(new FileInputStream(file));
+        } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (null != in) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-        return value;
     }
+//    public static String getMd5ByFile(File file) {
+//        String value = null;
+//        FileInputStream in = null;
+//        try {
+//            in = new FileInputStream(file);
+//            MappedByteBuffer byteBuffer = in.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+//            MessageDigest md5 = MessageDigest.getInstance("MD5");
+//            md5.update(byteBuffer);
+//            BigInteger bi = new BigInteger(1, md5.digest());
+//            value = bi.toString(16);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (null != in) {
+//                try {
+//                    in.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return value;
+//    }
 
     /**
      * 读文件函数，读取每一行的数据，返回列表
