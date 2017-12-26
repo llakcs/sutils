@@ -1,8 +1,5 @@
 package com.dchip.door.smartdoorsdk.utils;
 
-
-import org.apache.commons.codec.digest.DigestUtils;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
