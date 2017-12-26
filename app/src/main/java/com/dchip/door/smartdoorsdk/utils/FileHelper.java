@@ -30,11 +30,13 @@ public class FileHelper {
      * 计算文件md5 用于下载判断时候安装完成
      */
     public static String getMd5ByFile(File file) {
+        String s = "";
         try {
-            return DigestUtils.md5Hex(new FileInputStream(file));
+             s = DigestUtils.md5Hex(new FileInputStream(file));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return s;
     }
 //    public static String getMd5ByFile(File file) {
 //        String value = null;
