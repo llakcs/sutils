@@ -1,7 +1,6 @@
 package com.dchip.door.smartdoorsdk.utils;
 
 
-
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.BufferedReader;
@@ -17,6 +16,7 @@ import java.math.BigInteger;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 /**
@@ -30,13 +30,24 @@ public class FileHelper {
      * 计算文件md5 用于下载判断时候安装完成
      */
     public static String getMd5ByFile(File file) {
-        String s = "";
+        BigInteger bi = null;
         try {
-             s = DigestUtils.md5Hex(new FileInputStream(file));
+            byte[] buffer = new byte[3072];
+            int len = 0;
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            FileInputStream fis = new FileInputStream(file);
+            while ((len = fis.read(buffer)) != -1) {
+                md.update(buffer, 0, len);
+            }
+            fis.close();
+            byte[] b = md.digest();
+            bi = new BigInteger(1, b);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return s;
+        return bi.toString(16);
     }
 //    public static String getMd5ByFile(File file) {
 //        String value = null;
