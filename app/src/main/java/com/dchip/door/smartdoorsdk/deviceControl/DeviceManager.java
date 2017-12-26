@@ -45,4 +45,5 @@ public interface DeviceManager {
     DeviceImpl EnableLock();
     DeviceImpl EnableLed();
     DeviceImpl EnableDtimer();
+
 }

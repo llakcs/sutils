@@ -38,7 +38,7 @@ public class LockPushHandler {
             int statuslod = inv(defOpen);
             while (!stop) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

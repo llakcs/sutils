@@ -33,6 +33,7 @@ import com.dchip.door.smartdoorsdk.event.BroadcastEvent;
 import com.dchip.door.smartdoorsdk.event.FaultEvent;
 import com.dchip.door.smartdoorsdk.event.DeviceCheckEvent;
 import com.dchip.door.smartdoorsdk.event.OpenLockRecallEvent;
+import com.dchip.door.smartdoorsdk.event.OpenLockStatusEvent;
 import com.dchip.door.smartdoorsdk.event.ReadCardEven;
 import com.dchip.door.smartdoorsdk.event.ServiceEvent;
 import com.dchip.door.smartdoorsdk.http.ApiCallBack;
@@ -697,6 +698,9 @@ public class DeviceImpl implements DeviceManager {
             case "lockPush": {
                 if (mLockPushListener != null)
                     mLockPushListener.onPush();
+                    int i =getLock().openLock();
+                    LogUtil.e(TAG,"###result lockcode ="+i);
+                EventBus.getDefault().post(new OpenLockStatusEvent(DPDB.getUid(), true));
                 break;
             }
         }
