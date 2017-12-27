@@ -155,10 +155,6 @@ public class DeviceImpl implements DeviceManager {
         DPDB.setmac(mac);
         DPDB.setUid(uid);
         LogUtil.e(TAG, "###mac =" + mac);
-        if (enableLed) {
-            //取消更新led
-            s.device().getLed().closeLed(3);
-        }
         cardList = FileHelper.readByBufferedReader(Constant.CARDS_FILE_PATH);
         //启动长链接服务
         activity.startService(new Intent(activity, ACWebSocketService.class));
@@ -187,6 +183,8 @@ public class DeviceImpl implements DeviceManager {
     @Override
     public DeviceImpl EnableLed() {
         enableLed = true;
+        //取消更新led
+        s.device().getLed().closeLed(3);
         return instance;
     }
 

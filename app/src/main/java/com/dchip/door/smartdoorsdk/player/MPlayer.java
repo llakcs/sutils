@@ -193,7 +193,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
                    }
                }
            });
-           playNext(mIndex);
+          // playNext(mIndex);
 
        }
     }
@@ -208,6 +208,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         player.reset();
         try {
             player.setDataSource(url);
+            player.setDisplay(mSurfaceView.getHolder());
             player.prepareAsync();
 //            log("异步准备视频");
         } catch (IOException e) {
@@ -297,12 +298,12 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if(mUrlsize > 1){
+        //if(mUrlsize > 1){
             if(mIndex == mUrlsize){
                 mIndex = 0;
             }
             playNext(mIndex);
-        }
+       // }
         if(mPlayListener!=null){
             mPlayListener.onComplete(this);
         }
@@ -314,7 +315,6 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         isMediaPrepared=true;
         playStart();
         if(mPlayListener!=null){
-            player.setDisplay(mSurfaceView.getHolder());
             mPlayListener.onPrepared();
         }
     }
@@ -351,12 +351,13 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
             //此举保证以下操作下，不会黑屏。（或许还是会有手机黑屏）
             //暂停，然后切入后台，再切到前台，保持暂停状态
             if(player!=null){
-                player.setDisplay(holder);
+               // player.setDisplay(holder);
                 //不加此句360f4不会黑屏、小米note1会黑屏，其他机型未测
                 player.seekTo(player.getCurrentPosition());
             }
             log("surface被创建");
-            playStart();
+            playNext(mIndex);
+//            playStart();
         }
     }
 
