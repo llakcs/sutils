@@ -298,12 +298,12 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if(mUrlsize > 1){
+        //if(mUrlsize > 1){
             if(mIndex == mUrlsize){
                 mIndex = 0;
             }
             playNext(mIndex);
-        }
+       // }
         if(mPlayListener!=null){
             mPlayListener.onComplete(this);
         }
