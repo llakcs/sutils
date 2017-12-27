@@ -3,6 +3,7 @@ package com.dchip.door.smartdoorsdk.deviceControl.devicehandler;
 
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.HumanCheck;
 import com.dchip.door.smartdoorsdk.event.DeviceCheckEvent;
+import com.dchip.door.smartdoorsdk.utils.LogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -48,6 +49,7 @@ public class HumanCheckHandler {
                     int statusnew = hc.checkHuman();
                     if (statuslod != statusnew){
                         if (statusnew == 1)
+                            LogUtil.e(TAG,"###DeviceCheckEvent.HumanCheckHandler");
                             EventBus.getDefault().post(new DeviceCheckEvent("human"));
                     }
                    // LogUtil.e(TAG,"人体检测:" + statusnew);

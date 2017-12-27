@@ -2,6 +2,7 @@ package com.dchip.door.smartdoorsdk.deviceControl.devicehandler;
 
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.LockSwitch;
 import com.dchip.door.smartdoorsdk.event.DeviceCheckEvent;
+import com.dchip.door.smartdoorsdk.utils.LogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -45,6 +46,7 @@ public class LockPushHandler {
                 int statusnew = mPush.checkDevice();
                 if (statuslod != statusnew){
                     if (statusnew == defOpen)
+                        LogUtil.e(TAG,"###DeviceCheckEvent.LockPushHandler");
                         EventBus.getDefault().post(new DeviceCheckEvent("lockPush"));
                 }
                 statuslod = statusnew;
