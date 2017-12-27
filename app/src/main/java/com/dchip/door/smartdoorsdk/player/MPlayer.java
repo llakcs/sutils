@@ -357,7 +357,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
             }
             log("surface被创建");
             playNext(mIndex);
-            playStart();
+//            playStart();
         }
     }
 
