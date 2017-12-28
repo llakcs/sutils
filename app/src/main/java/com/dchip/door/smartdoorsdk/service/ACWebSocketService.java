@@ -103,17 +103,18 @@ public class ACWebSocketService extends Service {
      */
     private void connectAC() {
         String mac = "";
-        if(android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            ShellUtil.CommandResult cr = ShellUtil.execCommand("cat /proc/cpuinfo", false);
-            int i = cr.successMsg.indexOf("Serial");
-            if (i != -1) {
-                String cpuId = cr.successMsg.substring(i);
-                cpuId = cpuId.substring(cpuId.indexOf(":") + 1).trim();
-                mac = cpuId.substring(0, 16);
-            }
-        }else {
-            mac = android.os.Build.SERIAL;
-        }
+        mac = s.device().getMac();
+//        if(android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+//            ShellUtil.CommandResult cr = ShellUtil.execCommand("cat /proc/cpuinfo", false);
+//            int i = cr.successMsg.indexOf("Serial");
+//            if (i != -1) {
+//                String cpuId = cr.successMsg.substring(i);
+//                cpuId = cpuId.substring(cpuId.indexOf(":") + 1).trim();
+//                mac = cpuId.substring(0, 16);
+//            }
+//        }else {
+//            mac = android.os.Build.SERIAL;
+//        }
         wsStatus = WS_STATUS_CONNECTING;
         String wsUri = String.format(Constant.WS_URI, DPDB.getwsUrl() + mac );//+ "000000"
         // LogUtil.e(TAG, "Status: Connecting to " + wsUri);
@@ -186,6 +187,7 @@ public class ACWebSocketService extends Service {
                     case 99: {
                         //99为心跳返回信息
                         networkChekTime = System.currentTimeMillis();
+                        LogUtil.v(TAG,"收到服务器的心跳回复：" + operationModel.getTime());
 //                        EventBus.getDefault().post(new InfoEvent("收到服务器的心跳回复：" + operationModel.getTime()));
                         EventBus.getDefault().post(new ServiceEvent(HEART_BEAT,operationModel.isUnTerminal(),operationModel.isOwnerInfoUnTerminal()));
                         if (operationModel.isOffline()) {

@@ -22,6 +22,7 @@ public interface DeviceManager {
     void setLock(String config);
     LockHandler getLock();
     LedHandler getLed();
+    String getMac();
     void upLoadMac();
     void uploadAppVer(String ver);
     void checkVer();
