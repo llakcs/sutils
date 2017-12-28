@@ -146,7 +146,7 @@ public class DeviceImpl implements DeviceManager {
         if(appType == 9){
             WifiManager wifiManager=(WifiManager)activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo=wifiManager.getConnectionInfo();
-            mac=wifiInfo.getMacAddress();
+            mac=wifiInfo.getMacAddress().replace(":","");
         }else if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             ShellUtil.CommandResult cr = ShellUtil.execCommand("cat /proc/cpuinfo", false);
             int i = cr.successMsg.indexOf("Serial");
