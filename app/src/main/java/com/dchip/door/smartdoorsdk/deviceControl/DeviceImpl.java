@@ -13,6 +13,7 @@ import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
 import com.dchip.door.smartdoorsdk.Bean.AppUpdateModel;
 import com.dchip.door.smartdoorsdk.Bean.CardsModel;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.EaseAccountListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.HumanCheckListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockBreakListener;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockPushListener;
@@ -109,6 +110,7 @@ public class DeviceImpl implements DeviceManager {
     private UpdateOwenerListner mUpdateOwner;
     private ServiceOpenLockListner serviceOpenLockListner;
     private ServerstatusListner mServerstatusListner;
+    private EaseAccountListner easeAccountListner;
     private boolean enableLed = false;
     private boolean enableLock = false;
 
@@ -376,6 +378,17 @@ public class DeviceImpl implements DeviceManager {
         }
     }
 
+    @Override
+    public void setEaseAcountListner(EaseAccountListner acountListner) {
+        this.easeAccountListner = acountListner;
+    }
+
+    @Override
+    public void unRegEaseAcountListner() {
+        if(this.easeAccountListner != null){
+            this.easeAccountListner = null;
+        }
+    }
 
     @Override
     public void setServerstatusListner(ServerstatusListner serverstatusListner) {
@@ -616,8 +629,13 @@ public class DeviceImpl implements DeviceManager {
                 public void success(ApiGetDeviceConfigModel model) {
                     if (enableLock) {
                         LogUtil.e(TAG, "成功获取锁配置：锁:" + model.getLock_access() + " 门:" + model.getDoor_access() + " 原锁:" + model.getOrignal_lock_access() +
-                                " 单锁:" + (model.getLock_num() == 1) + " 锁类型:" + model.getLock_type());
+                                " 单锁:" + (model.getLock_num() == 1) + " 锁类型:" + model.getLock_type()+" 环信账号:"+model.getEaseAccount());
 
+                        if(model.getEaseAccount() != null){
+                            if(easeAccountListner != null){
+                                easeAccountListner.ResultAcount(model.getEaseAccount().toString());
+                            }
+                        }
                         switch (model.getLock_type()) {
                             case 1:
                                 if (s.device().getLock() == null) {

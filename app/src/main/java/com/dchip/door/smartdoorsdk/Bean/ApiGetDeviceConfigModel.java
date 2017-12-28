@@ -17,6 +17,8 @@ public class ApiGetDeviceConfigModel {
     String function = "1-3-4";
     //锁类型  1-电插锁 2-电磁锁  3-电机锁
     int lock_type = 1;
+    //门口机本身环信账号
+    String easeAccount;
     int id = 25;
 
     public int getLock_num() {
@@ -73,5 +75,13 @@ public class ApiGetDeviceConfigModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getEaseAccount() {
+        return easeAccount;
+    }
+
+    public void setEaseAccount(String easeAccount) {
+        this.easeAccount = easeAccount;
     }
 }
