@@ -412,6 +412,11 @@ public class DeviceImpl implements DeviceManager {
         return null;
     }
 
+    @Override
+    public String getMac() {
+        return mac;
+    }
+
     /**
      * 上传mac
      */
