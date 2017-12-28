@@ -1,10 +1,13 @@
 package com.dchip.door.smartdoorsdk.deviceControl;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -140,7 +143,11 @@ public class DeviceImpl implements DeviceManager {
         appType = appTypeNum;
         EventBus.getDefault().register(this);
         //获取mac
-        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if(appType == 9){
+            WifiManager wifiManager=(WifiManager)activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInfo=wifiManager.getConnectionInfo();
+            mac=wifiInfo.getMacAddress();
+        }else if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             ShellUtil.CommandResult cr = ShellUtil.execCommand("cat /proc/cpuinfo", false);
             int i = cr.successMsg.indexOf("Serial");
             if (i != -1) {
