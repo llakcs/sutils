@@ -2,6 +2,7 @@ package com.dchip.door.smartdoorsdk.deviceControl;
 
 import android.app.Activity;
 
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.EaseAccountListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.HumanCheckListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockBreakListener;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockPushListener;
@@ -42,6 +43,8 @@ public interface DeviceManager {
     DeviceImpl init(Activity activity,int appTypeNum);
     void release();
     void updateOnwerStatus();
+    void setEaseAcountListner(EaseAccountListner acountListner);
+    void unRegEaseAcountListner();
     DeviceImpl EnableCardReader();
     DeviceImpl EnableLock();
     DeviceImpl EnableLed();
