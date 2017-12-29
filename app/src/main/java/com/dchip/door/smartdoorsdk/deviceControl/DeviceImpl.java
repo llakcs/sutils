@@ -61,7 +61,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -144,9 +146,7 @@ public class DeviceImpl implements DeviceManager {
         EventBus.getDefault().register(this);
         //获取mac
         if(appType == 9){
-            WifiManager wifiManager=(WifiManager)activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-            WifiInfo wifiInfo=wifiManager.getConnectionInfo();
-            mac=wifiInfo.getMacAddress().replace(":","");
+            mac=getLocalMacAddressFromNetcfg().replace(":","");
         }else if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             ShellUtil.CommandResult cr = ShellUtil.execCommand("cat /proc/cpuinfo", false);
             int i = cr.successMsg.indexOf("Serial");
@@ -1022,5 +1022,44 @@ public class DeviceImpl implements DeviceManager {
                 });
     }
 
+
+    //根据busybox获取本地Mac
+    public static String getLocalMacAddressFromNetcfg(){
+        String result = "";
+        String Mac = "";
+        result = callCmd("netcfg","wlan0");
+        if(result==null){
+            return "网络出错，请检查网络";
+        }
+        if(result.length()>0 && result.contains("wlan0")==true){
+            Mac = result.substring(result.length()-17, result.length());
+            Log.e(TAG,"Mac:"+Mac+" Mac.length: "+Mac.length());
+            result = Mac;
+        }
+        return result;
+    }
+
+    private static String callCmd(String cmd,String filter) {
+        String result = "";
+        String line = "";
+        try {
+            Process proc = Runtime.getRuntime().exec(cmd);
+            InputStreamReader is = new InputStreamReader(proc.getInputStream());
+            BufferedReader br = new BufferedReader (is);
+
+            //执行命令cmd，只取结果中含有filter的这一行
+            while ((line = br.readLine ()) != null && line.contains(filter)== false) {
+                //result += line;
+                Log.i("test","line: "+line);
+            }
+
+            result = line;
+            Log.i("test","result: "+result);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 }
