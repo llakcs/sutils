@@ -65,9 +65,9 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     private DetectionListner mDetection;
     @Override
     public void onResume() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
                 if (!OpenCVLoader.initDebug()) {
                     LogUtil.e(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
                     OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext, mLoaderCallback);
@@ -75,8 +75,8 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
                     LogUtil.e(TAG, "OpenCV library found inside package. Using it!");
                     mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
                 }
-            }
-        }).start();
+//            }
+//        }).start();
     }
 
     @Override
