@@ -20,6 +20,7 @@ public class Constant {
     public static final String CRASH_LOG_PATH = BASE_PATh + "crashLog" + File.separator;
     public static final String CRASH_LOG_UPLOAD_FAIL_PATH = BASE_PATh + "crashLog" + File.separator + "uploadFail" + File.separator;
     public static final String CARDS_FILE_PATH = BASE_PATh + "cards.txt";
+    public static final String MANAGEMENT_FILE_PATH = BASE_PATh + "propManagement.txt";
 
     public static final String WS_URI = "ws://%s";
     public static final String LOCK_CONFIG_FILE_PATH = BASE_PATh + "lockConfig.txt";

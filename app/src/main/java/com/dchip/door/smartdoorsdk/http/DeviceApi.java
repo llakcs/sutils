@@ -4,6 +4,7 @@ package com.dchip.door.smartdoorsdk.http;
 
 import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
+import com.dchip.door.smartdoorsdk.Bean.ApiGetPropManagement;
 import com.dchip.door.smartdoorsdk.Bean.AppUpdateModel;
 import com.dchip.door.smartdoorsdk.Bean.JsonResult;
 
@@ -139,8 +140,17 @@ public interface DeviceApi {
      *
      */
     @FormUrlEncoded
-    @POST("maincontrol/updateOnwerInfoTerminalRecord ")
+    @POST("maincontrol/updateOnwerInfoTerminalRecord")
     Call<JsonResult<Object>> updateOnwerStatus(@Field("mac") String mac,@Field("status") int status);
+
+
+    /**
+     * 物业管理
+     *
+     */
+    @FormUrlEncoded
+    @POST("areaconcat/pageDeviceList")
+    Call<JsonResult<ApiGetPropManagement>> propertyManagement(@Field("mac") String mac);
 
 
 //    /**

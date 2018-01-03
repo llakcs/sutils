@@ -14,8 +14,10 @@ import android.util.Log;
 
 import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
+import com.dchip.door.smartdoorsdk.Bean.ApiGetPropManagement;
 import com.dchip.door.smartdoorsdk.Bean.AppUpdateModel;
 import com.dchip.door.smartdoorsdk.Bean.CardsModel;
+import com.dchip.door.smartdoorsdk.Bean.ManagementMemberModel;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.EaseAccountListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.HumanCheckListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockBreakListener;
@@ -630,6 +632,30 @@ public class DeviceImpl implements DeviceManager {
 
     }
 
+    /**
+     * 获取物管联系
+     */
+    public void getCallCenterInfo() {
+        deviceApi.propertyManagement(mac).enqueue(new ApiCallBack<ApiGetPropManagement>() {
+            @Override
+            public void success(ApiGetPropManagement o) {
+                Log.w(TAG, "propertyManagement success");
+                StringBuffer sb = new StringBuffer();
+                for (ManagementMemberModel mem:o.getList()) {
+                    sb.append(mem.getRemark()+":\r\n"+mem.getPhone()+"\r\n \r\n");
+                    Log.w(TAG, mem.getRemark()+":"+mem.getPhone());
+                }
+                FileHelper.writeByFileOutputStream(Constant.MANAGEMENT_FILE_PATH,sb.toString());
+            }
+
+            @Override
+            public void fail(int i, String s) {
+                Log.e(TAG, "propertyManagement fail :" + s);
+            }
+        });
+
+    }
+
 
     /**
      * 获取锁设置。
@@ -856,6 +882,7 @@ public class DeviceImpl implements DeviceManager {
                     controlhandler.post(uploadAppVersionRunnable);
                     controlhandler.post(getDeviceConfigRunnable);
                     checkCrashLogAndUpload();
+                    getCallCenterInfo();
                     uploadLock();
                     if (enableLed) {
                         s.device().getLed().openLed(2);
