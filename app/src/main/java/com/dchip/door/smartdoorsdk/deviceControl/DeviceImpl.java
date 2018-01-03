@@ -1045,11 +1045,11 @@ public class DeviceImpl implements DeviceManager {
     public static String getLocalMacAddressFromNetcfg(){
         String result = "";
         String Mac = "";
-        result = callCmd("netcfg","wlan0");
+        result = callCmd("netcfg","eth0");
         if(result==null){
             return "网络出错，请检查网络";
         }
-        if(result.length()>0 && result.contains("wlan0")==true){
+        if(result.length()>0 && result.contains("eth0")==true){
             Mac = result.substring(result.length()-17, result.length());
             Log.e(TAG,"Mac:"+Mac+" Mac.length: "+Mac.length());
             result = Mac;
