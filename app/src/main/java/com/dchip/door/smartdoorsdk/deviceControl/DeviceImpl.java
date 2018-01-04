@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
+import com.dchip.door.smartdoorsdk.Bean.ApiGetAdvertisement;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetPropManagement;
@@ -594,7 +595,7 @@ public class DeviceImpl implements DeviceManager {
                         controlhandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                createTask(url).start();
+                                createTask(url,Constant.DOWNLOAD_PATH + "temp.apk").start();
                             }
                         }, startTime);
 
@@ -621,6 +622,24 @@ public class DeviceImpl implements DeviceManager {
         deviceApi.updateOnwerStatus(mac, 1).enqueue(new ApiCallBack<Object>() {
             @Override
             public void success(Object o) {
+                Log.w(TAG, "updateOnwerStatus success");
+            }
+
+            @Override
+            public void fail(int i, String s) {
+                Log.e(TAG, "updateOnwerStatus fail :" + s);
+            }
+        });
+
+    }
+
+    /**
+     * 上传锁信息
+     */
+    public void getAd() {
+        deviceApi.getAd(mac, appType).enqueue(new ApiCallBack<ApiGetAdvertisement>() {
+            @Override
+            public void success(ApiGetAdvertisement o) {
                 Log.w(TAG, "updateOnwerStatus success");
             }
 
@@ -884,6 +903,7 @@ public class DeviceImpl implements DeviceManager {
                     checkCrashLogAndUpload();
                     getCallCenterInfo();
                     uploadLock();
+                    getAd();
                     if (enableLed) {
                         s.device().getLed().openLed(2);
                     }
@@ -951,8 +971,8 @@ public class DeviceImpl implements DeviceManager {
     }
 
 
-    public BaseDownloadTask createTask(final String url) {
-        File file = new File(Constant.DOWNLOAD_PATH + "temp.apk");
+    public BaseDownloadTask createTask(final String url,final String path) {
+        File file = new File(path);
         return FileDownloader.getImpl().create(url)
                 .setPath(file.getAbsolutePath(), false)
                 .setCallbackProgressTimes(300)
@@ -983,7 +1003,7 @@ public class DeviceImpl implements DeviceManager {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    createTask(url);
+                                    createTask(url,path);
                                 }
                             }, 1000 * 15);
                         }

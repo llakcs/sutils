@@ -2,6 +2,7 @@ package com.dchip.door.smartdoorsdk.http;
 
 
 
+import com.dchip.door.smartdoorsdk.Bean.ApiGetAdvertisement;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetPropManagement;
@@ -151,6 +152,14 @@ public interface DeviceApi {
     @FormUrlEncoded
     @POST("areaconcat/pageDeviceList")
     Call<JsonResult<ApiGetPropManagement>> propertyManagement(@Field("mac") String mac);
+
+    /**
+     * 获取广告
+     *
+     */
+    @FormUrlEncoded
+    @POST("access/getDchipDeviceBanner ")
+    Call<JsonResult<ApiGetAdvertisement>> getAd(@Field("mac") String mac,@Field("type") int type);
 
 
 //    /**
