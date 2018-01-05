@@ -603,11 +603,7 @@ public class DeviceImpl implements DeviceManager {
                         controlhandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (updateType==1 && new File(Constant.DOWNLOAD_APK_PATH+"temp.apk").exists()){
-                                    installApp(Constant.DOWNLOAD_APK_PATH+"temp.apk");
-                                }else {
-                                    createTask(url, Constant.DOWNLOAD_APK_PATH, "temp.apk", md5).start();
-                                }
+                                createTask(url, Constant.DOWNLOAD_APK_PATH, getNameFromUrl(url), md5).start();
                             }
                         }, startTime);
 
@@ -648,14 +644,15 @@ public class DeviceImpl implements DeviceManager {
      * 上传锁信息
      */
     public void getAd() {
-        deviceApi.getAd(mac, appType).enqueue(new ApiCallBack<ApiGetAdvertisement>() {
+        deviceApi.getAd(appType).enqueue(new ApiCallBack<ApiGetAdvertisement>() {
             @Override
             public void success(ApiGetAdvertisement o) {
+                Log.w(TAG, "getAd success");
                 //查寻是否有多余视频广告
                 File[] vFiles = new File(Constant.VIDEOPATH).listFiles();
                 for (File f:vFiles) {
                     for (AdvertisementModel ad:o.getBannerVideoList()) {
-                        if (ad.getVideo().indexOf(f.getName()) >= 0){
+                        if (ad.getContent().indexOf(f.getName()) >= 0){
                             LogUtil.d(TAG,"本地已存在视频广告:"+f.getName());
                         }else{
                             LogUtil.d(TAG,"本地多余视频广告:"+f.getName());
@@ -667,9 +664,9 @@ public class DeviceImpl implements DeviceManager {
                 //轮询是否有新加视频广告
                 for (AdvertisementModel ad:o.getBannerVideoList()) {
                     for (File f:vFiles) {
-                        if (ad.getVideo().indexOf(f.getName()) < 0){
-                            LogUtil.d(TAG,"新加视频广告需要下载:"+ad.getVideo());
-                            createTask(ad.getVideo(),Constant.VIDEOPATH,getNameFromUrl(ad.getVideo()),ad.getMd5());
+                        if (ad.getContent().indexOf(f.getName()) < 0){
+                            LogUtil.d(TAG,"新加视频广告需要下载:"+ad.getContent());
+                            createTask(ad.getContent(),Constant.VIDEOPATH,getNameFromUrl(ad.getContent()),ad.getMd5());
                         }
                     }
 
@@ -678,7 +675,7 @@ public class DeviceImpl implements DeviceManager {
                 File[] PFiles = new File(Constant.ADIMGPATH).listFiles();
                 for (File f:PFiles) {
                     for (AdvertisementModel ad:o.getBannerPicList()) {
-                        if (ad.getVideo().indexOf(f.getName()) >= 0){
+                        if (ad.getPhoto().indexOf(f.getName()) >= 0){
                             LogUtil.d(TAG,"本地已存在图片广告:"+f.getName());
                         }else{
                             LogUtil.d(TAG,"本地多余图片广告:"+f.getName());
@@ -690,8 +687,8 @@ public class DeviceImpl implements DeviceManager {
                 //轮询是否有新加图片广告
                 for (AdvertisementModel ad:o.getBannerPicList()) {
                     for (File f:PFiles) {
-                        if (ad.getVideo().indexOf(f.getName()) < 0){
-                            LogUtil.d(TAG,"新加图片广告需要下载:"+ad.getVideo());
+                        if (ad.getPhoto().indexOf(f.getName()) < 0){
+                            LogUtil.d(TAG,"新加图片广告需要下载:"+ad.getPhoto());
                             createTask(ad.getPhoto(),Constant.VIDEOPATH,getNameFromUrl(ad.getPhoto()),ad.getMd5());
                         }
                     }
@@ -1031,8 +1028,7 @@ public class DeviceImpl implements DeviceManager {
 
 
     public BaseDownloadTask createTask(final String url,final String path,final String name,final String md5) {
-        final String tempFM =path+System.currentTimeMillis()+"";
-        final File file = new File(tempFM);
+        final File file = new File(path+name);
         return FileDownloader.getImpl().create(url)
                 .setPath(file.getAbsolutePath(), false)
                 .setCallbackProgressTimes(300)
@@ -1048,14 +1044,14 @@ public class DeviceImpl implements DeviceManager {
                     protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                         super.progress(task, soFarBytes, totalBytes);
                         String a = String.format("%.0f", (double) soFarBytes / (double) totalBytes * 100);
-                        LogUtil.w(TAG, "apk downloading " + a + "%");
+                        LogUtil.w(TAG, name + " downloading " + a + "%");
 //                        showMsg("apk downloading " + a + "%");
                     }
 
                     @Override
                     protected void error(BaseDownloadTask task, Throwable e) {
                         super.error(task, e);
-                        new File(tempFM).delete();
+                        new File(path+name).delete();
                         if (!deviceOnline) {
                             //                            showMsg("apk 下载失败,设备已掉线，停止下载。");
                         } else {
@@ -1083,7 +1079,7 @@ public class DeviceImpl implements DeviceManager {
                     @Override
                     protected void completed(BaseDownloadTask task) {
                         super.completed(task);
-                        LogUtil.w(TAG, "downloading 100%");
+                        LogUtil.w(TAG, name + "downloading 100%");
                         file.renameTo(new File(path+name));
                         LogUtil.w(TAG, "saved in " + path+name);
                         if (md5.equals(FileHelper.getMd5ByFile(new File(path+name)))) {

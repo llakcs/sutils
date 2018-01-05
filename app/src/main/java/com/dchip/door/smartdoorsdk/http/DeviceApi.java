@@ -159,7 +159,7 @@ public interface DeviceApi {
      */
     @FormUrlEncoded
     @POST("access/getDchipDeviceBanner ")
-    Call<JsonResult<ApiGetAdvertisement>> getAd(@Field("mac") String mac,@Field("type") int type);
+    Call<JsonResult<ApiGetAdvertisement>> getAd(@Field("style") int type);
 
 
 //    /**
