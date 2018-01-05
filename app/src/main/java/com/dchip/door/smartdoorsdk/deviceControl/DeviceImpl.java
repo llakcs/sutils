@@ -651,48 +651,57 @@ public class DeviceImpl implements DeviceManager {
                 //查寻是否有多余视频广告
                 File[] vFiles = new File(Constant.VIDEOPATH).listFiles();
                 for (File f:vFiles) {
+                    boolean isFind = false;
                     for (AdvertisementModel ad:o.getBannerVideoList()) {
-                        if (ad.getContent().indexOf(f.getName()) >= 0){
-                            LogUtil.d(TAG,"本地已存在视频广告:"+f.getName());
-                        }else{
-                            LogUtil.d(TAG,"本地多余视频广告:"+f.getName());
-                            f.delete();
-                        }
+                        if (ad.getContent().indexOf(f.getName()) >= 0)
+                            isFind = true;
                     }
-
+                    if (isFind){
+                        LogUtil.d(TAG,"本地已存在视频广告:"+f.getName());
+                    }else{
+                        LogUtil.d(TAG,"本地多余视频广告:"+f.getName());
+                        f.delete();
+                    }
                 }
                 //轮询是否有新加视频广告
                 for (AdvertisementModel ad:o.getBannerVideoList()) {
+                    boolean isFind = false;
                     for (File f:vFiles) {
-                        if (ad.getContent().indexOf(f.getName()) < 0){
-                            LogUtil.d(TAG,"新加视频广告需要下载:"+ad.getContent());
-                            createTask(ad.getContent(),Constant.VIDEOPATH,getNameFromUrl(ad.getContent()),ad.getMd5());
-                        }
+                        if (ad.getContent().indexOf(f.getName()) >= 0)
+                            isFind = true;
                     }
-
+                    if(!isFind){
+                        LogUtil.d(TAG,"新加视频广告需要下载:"+ad.getContent());
+                        createTask(ad.getContent(),Constant.VIDEOPATH,getNameFromUrl(ad.getContent()),ad.getMd5());
+                    }
                 }
                 //查寻是否有多余图片广告
                 File[] PFiles = new File(Constant.ADIMGPATH).listFiles();
                 for (File f:PFiles) {
-                    for (AdvertisementModel ad:o.getBannerPicList()) {
-                        if (ad.getPhoto().indexOf(f.getName()) >= 0){
-                            LogUtil.d(TAG,"本地已存在图片广告:"+f.getName());
-                        }else{
-                            LogUtil.d(TAG,"本地多余图片广告:"+f.getName());
+                    boolean isFind = false;
+                    for (AdvertisementModel ad : o.getBannerPicList()) {
+                        if (ad.getPhoto().indexOf(f.getName()) >= 0) {
+                            isFind = true;
+                        }
+                        if (isFind) {
+                            LogUtil.d(TAG, "本地已存在图片广告:" + f.getName());
+                        } else {
+                            LogUtil.d(TAG, "本地多余图片广告:" + f.getName());
                             f.delete();
                         }
                     }
-
                 }
                 //轮询是否有新加图片广告
                 for (AdvertisementModel ad:o.getBannerPicList()) {
+                    boolean isFind = false;
                     for (File f:PFiles) {
-                        if (ad.getPhoto().indexOf(f.getName()) < 0){
-                            LogUtil.d(TAG,"新加图片广告需要下载:"+ad.getPhoto());
-                            createTask(ad.getPhoto(),Constant.VIDEOPATH,getNameFromUrl(ad.getPhoto()),ad.getMd5());
-                        }
+                        if (ad.getPhoto().indexOf(f.getName()) < 0)
+                            isFind = true;
                     }
-
+                    if (!isFind){
+                        LogUtil.d(TAG,"新加图片广告需要下载:"+ad.getPhoto());
+                        createTask(ad.getPhoto(),Constant.VIDEOPATH,getNameFromUrl(ad.getPhoto()),ad.getMd5());
+                    }
                 }
             }
 
