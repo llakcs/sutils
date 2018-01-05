@@ -1,6 +1,8 @@
 package com.dchip.door.smartdoorsdk.opencv;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.dchip.door.smartdoorsdk.R;
 import com.dchip.door.smartdoorsdk.s;
@@ -12,8 +14,14 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfFloat;
+import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfRect;
+import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -23,6 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 /**
  * Created by llakcs on 2017/11/30.
@@ -60,7 +69,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     public static final int JAVA_DETECTOR = 0;
     public static final int NATIVE_DETECTOR = 1;
     private int mDetectorType = JAVA_DETECTOR;
-    private int FACECOUNT = 3;
+    private int FACECOUNT = 2;
     private Context mContext;
     private DetectionListner mDetection;
     @Override
@@ -189,15 +198,40 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            mDetection.complete(Constant.VISTPATH+ facepName);
+            Mat mat1 = new Mat();
+            Mat mat2 = new Mat();
+            Mat mat11 = new Mat();
+            Mat mat22 = new Mat();
+            Bitmap mBitmap1 = BitmapFactory.decodeFile(Constant.VISTPATH+ facepName);
+            Bitmap mBitmap2 = BitmapFactory.decodeFile(Constant.ADIMGPATH+"IMG_20180105_161437.jpg");
+            Utils.bitmapToMat(mBitmap1, mat1);
+            Utils.bitmapToMat(mBitmap2, mat2);
+            Imgproc.cvtColor(mat1, mat11, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.cvtColor(mat2, mat22, Imgproc.COLOR_BGR2GRAY);
+            comPareHist(mat11, mat22);
+//            mDetection.complete(Constant.VISTPATH+ facepName);
             faceSerialCount = -5000;
         }
 
         for (int i = 0; i < facesArray.length; i++)
             Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
-
         return mRgba;
     }
+
+    /**
+     * 比较来个矩阵的相似度
+     * @param srcMat
+     * @param desMat
+     */
+    public void comPareHist(Mat srcMat,Mat desMat){
+
+        srcMat.convertTo(srcMat, CvType.CV_32F);
+        desMat.convertTo(desMat, CvType.CV_32F);
+        double target = Imgproc.compareHist(srcMat, desMat, Imgproc.CV_COMP_CORREL);
+        LogUtil.e(TAG, "####相似度 ：   ==" + target);
+
+    }
+
 
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(mContext) {
