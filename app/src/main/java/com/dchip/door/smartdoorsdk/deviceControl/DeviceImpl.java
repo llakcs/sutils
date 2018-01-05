@@ -672,7 +672,7 @@ public class DeviceImpl implements DeviceManager {
                     }
                     if(!isFind){
                         LogUtil.d(TAG,"新加视频广告需要下载:"+ad.getContent());
-                        createTask(ad.getContent(),Constant.VIDEOPATH,getNameFromUrl(ad.getContent()),ad.getMd5());
+                        createTask(ad.getContent(),Constant.VIDEOPATH,getNameFromUrl(ad.getContent()),ad.getMd5()).start();
                     }
                 }
                 //查寻是否有多余图片广告
@@ -700,7 +700,7 @@ public class DeviceImpl implements DeviceManager {
                     }
                     if (!isFind){
                         LogUtil.d(TAG,"新加图片广告需要下载:"+ad.getPhoto());
-                        createTask(ad.getPhoto(),Constant.VIDEOPATH,getNameFromUrl(ad.getPhoto()),ad.getMd5());
+                        createTask(ad.getPhoto(),Constant.VIDEOPATH,getNameFromUrl(ad.getPhoto()),ad.getMd5()).start();
                     }
                 }
             }
