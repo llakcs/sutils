@@ -591,7 +591,13 @@ public class DeviceImpl implements DeviceManager {
                     if (!o.getVersion().equals(getVersionName())) {//检查版本号不一致时更新
                         LogUtil.w(TAG, "checkVersionRunnable  " + o.getVersion());
                         LogUtil.w(TAG, "url:" + url);
-
+                        //删除旧apk
+                        File[] fs = new File(Constant.DOWNLOAD_APK_PATH).listFiles();
+                        for(File f:fs){
+                            if (url.indexOf(f.getName()) < 0){
+                                f.delete();
+                            }
+                        }
                         //延迟下载
                         Random r = new Random();
                         long startTime = (long) (r.nextFloat() * 1000 * 60 * 1); //y延迟时间。
