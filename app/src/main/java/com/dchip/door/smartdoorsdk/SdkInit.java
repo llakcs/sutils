@@ -59,27 +59,32 @@ public class SdkInit {
                 DPDB.InitDPDbRW(app);
                 //初始化百度语音合成
                 TTSHandler.getInstance(app);
-                DPDB.setwsUrl(wsUrl);
-                DPDB.setserverUrl(serverUrl);
-                //初始化http模块
-                HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                    @Override
-                    public void log(String message) {
-                        //打印retrofit日志
-                        LogUtil.i(TAG, "api_msg:" + message);
-                    }
-                });
-                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-                OkHttpClient client = new OkHttpClient.Builder()
-                        .addInterceptor(loggingInterceptor)//添加Log拦截器
-                        .addInterceptor(new RequestHeaderInterceptor())//注入header
-                        .build();
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(DPDB.getserverUrl())
-                        .client(client)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                deviceApi = retrofit.create(DeviceApi.class);
+                //服务器地址和websocket地址不为空
+                if(wsUrl != null && serverUrl != null){
+                    DPDB.setwsUrl(wsUrl);
+                    DPDB.setserverUrl(serverUrl);
+                    //初始化http模块
+                    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                        @Override
+                        public void log(String message) {
+                            //打印retrofit日志
+                            LogUtil.i(TAG, "api_msg:" + message);
+                        }
+                    });
+                    loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+                    OkHttpClient client = new OkHttpClient.Builder()
+                            .addInterceptor(loggingInterceptor)//添加Log拦截器
+                            .addInterceptor(new RequestHeaderInterceptor())//注入header
+                            .build();
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(DPDB.getserverUrl())
+                            .client(client)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    deviceApi = retrofit.create(DeviceApi.class);
+                }
+
+
                 //初始化bugly
                 CrashHandler.getInstance().init(app.getApplicationContext());
                 CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(app.getApplicationContext());
