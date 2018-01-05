@@ -17,4 +17,12 @@ public class ApiGetAdvertisement {
     public void setBannerVideoList(List<AdvertisementModel> bannerVideoList) {
         this.bannerVideoList = bannerVideoList;
     }
+
+    public List<AdvertisementModel> getBannerPicList() {
+        return bannerPicList;
+    }
+
+    public void setBannerPicList(List<AdvertisementModel> bannerPicList) {
+        this.bannerPicList = bannerPicList;
+    }
 }

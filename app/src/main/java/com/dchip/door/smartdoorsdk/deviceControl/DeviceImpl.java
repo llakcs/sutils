@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
+import com.dchip.door.smartdoorsdk.Bean.AdvertisementModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetAdvertisement;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
@@ -602,7 +603,11 @@ public class DeviceImpl implements DeviceManager {
                         controlhandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                createTask(url,Constant.DOWNLOAD_APK_PATH,"temp.apk",md5).start();
+                                if (updateType==1 && new File(Constant.DOWNLOAD_APK_PATH+"temp.apk").exists()){
+                                    installApp(Constant.DOWNLOAD_APK_PATH+"temp.apk");
+                                }else {
+                                    createTask(url, Constant.DOWNLOAD_APK_PATH, "temp.apk", md5).start();
+                                }
                             }
                         }, startTime);
 
@@ -646,7 +651,52 @@ public class DeviceImpl implements DeviceManager {
         deviceApi.getAd(mac, appType).enqueue(new ApiCallBack<ApiGetAdvertisement>() {
             @Override
             public void success(ApiGetAdvertisement o) {
-                Log.w(TAG, "updateOnwerStatus success");
+                //查寻是否有多余视频广告
+                File[] vFiles = new File(Constant.VIDEOPATH).listFiles();
+                for (File f:vFiles) {
+                    for (AdvertisementModel ad:o.getBannerVideoList()) {
+                        if (ad.getVideo().indexOf(f.getName()) >= 0){
+                            LogUtil.d(TAG,"本地已存在视频广告:"+f.getName());
+                        }else{
+                            LogUtil.d(TAG,"本地多余视频广告:"+f.getName());
+                            f.delete();
+                        }
+                    }
+
+                }
+                //轮询是否有新加视频广告
+                for (AdvertisementModel ad:o.getBannerVideoList()) {
+                    for (File f:vFiles) {
+                        if (ad.getVideo().indexOf(f.getName()) < 0){
+                            LogUtil.d(TAG,"新加视频广告需要下载:"+ad.getVideo());
+                            createTask(ad.getVideo(),Constant.VIDEOPATH,getNameFromUrl(ad.getVideo()),ad.getMd5());
+                        }
+                    }
+
+                }
+                //查寻是否有多余图片广告
+                File[] PFiles = new File(Constant.ADIMGPATH).listFiles();
+                for (File f:PFiles) {
+                    for (AdvertisementModel ad:o.getBannerPicList()) {
+                        if (ad.getVideo().indexOf(f.getName()) >= 0){
+                            LogUtil.d(TAG,"本地已存在图片广告:"+f.getName());
+                        }else{
+                            LogUtil.d(TAG,"本地多余图片广告:"+f.getName());
+                            f.delete();
+                        }
+                    }
+
+                }
+                //轮询是否有新加图片广告
+                for (AdvertisementModel ad:o.getBannerPicList()) {
+                    for (File f:PFiles) {
+                        if (ad.getVideo().indexOf(f.getName()) < 0){
+                            LogUtil.d(TAG,"新加图片广告需要下载:"+ad.getVideo());
+                            createTask(ad.getPhoto(),Constant.VIDEOPATH,getNameFromUrl(ad.getPhoto()),ad.getMd5());
+                        }
+                    }
+
+                }
             }
 
             @Override
@@ -1140,5 +1190,13 @@ public class DeviceImpl implements DeviceManager {
         }
         return result;
     }
+
+    protected String getNameFromUrl(String url){
+        String ss[] = url.split("/");
+        if (ss.length>0) {
+            return ss[ss.length - 1];
+        }else return null;
+    }
+
 
 }
