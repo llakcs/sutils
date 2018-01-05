@@ -8,6 +8,7 @@ public class AdvertisementModel {
     String photo="";
     int type = 0;
     String video = "";
+    String md5 = "";
 
     public String getPhoto() {
         return photo;
@@ -31,5 +32,13 @@ public class AdvertisementModel {
 
     public void setVideo(String video) {
         this.video = video;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
     }
 }

@@ -48,6 +48,8 @@ public class SdkInit {
 
                 //创建opencv拍照文件夹
                 new File(Constant.VISTPATH).mkdirs();
+                new File(Constant.VIDEOPATH).mkdirs();
+                new File(Constant.ADIMGPATH).mkdirs();
                 //初始化百度定位sdk
                 locationService = new LocationService(app.getApplicationContext());
                 mVibrator = (Vibrator) app.getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);

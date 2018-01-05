@@ -1,13 +1,10 @@
 package com.dchip.door.smartdoorsdk.deviceControl;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -101,8 +98,6 @@ public class DeviceImpl implements DeviceManager {
     private ArrayList<String> cardList;
     //表示设备是否在线
     private boolean deviceOnline = false;
-    //下载包的md5验证信息
-    private String md5;
     //app更新类型 1.立即更新 2.延时更新
     private int updateType = 2;
     //app类型 0-手机 1-android终端&普通版本 2-qt 5-android终端&十寸屏(人脸，视频对讲) 6-android终端&十寸屏(视频对讲) 7-android终端&十五寸屏(16:9) 8-android终端&十五寸屏(4:3)
@@ -230,25 +225,14 @@ public class DeviceImpl implements DeviceManager {
 
             @Override
             public void onOneDay() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        showMsg("test ----- 每天打印");
-                        deviceApi.uploadFlow(mac, (NetworkStats.getIns().getMobileRxBytes() + NetworkStats.getIns().getMobileTxBytes()) / 1000 + "").enqueue(new ApiCallBack<Object>() {
-
-                            @Override
-                            public void success(Object o) {
-//                                showMsg("上传流量成功");
-                            }
-
-                            @Override
-                            public void fail(int i, String s) {
-//                                showMsg("上传流量失败:" + s);
-
-                            }
-                        });
-                    }
-                }).start();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        showMsg("test ----- 每天打印");
+//
+//                    }
+//                }).start();
+                new Handler().postDelayed(upload4GFlow,500);
             }
 
             @Override
@@ -256,9 +240,11 @@ public class DeviceImpl implements DeviceManager {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-
+                        getAd();
                     }
                 }).start();
+
+
             }
 
             @Override
@@ -267,6 +253,11 @@ public class DeviceImpl implements DeviceManager {
             }
         });
         return instance;
+    }
+
+    @Override
+    public boolean checkNetwork() {
+        return deviceOnline;
     }
 
     @Override
@@ -526,6 +517,26 @@ public class DeviceImpl implements DeviceManager {
     };
 
     /**
+     * 上传app版本号
+     */
+    private Runnable upload4GFlow = new Runnable() {
+        @Override
+        public void run() {
+            deviceApi.uploadFlow(mac, (NetworkStats.getIns().getMobileRxBytes() + NetworkStats.getIns().getMobileTxBytes()) / 1000 + "").enqueue(new ApiCallBack<Object>() {
+                @Override
+                public void success(Object o) {
+//                                showMsg("上传流量成功");
+                }
+                @Override
+                public void fail(int i, String s) {
+//                                showMsg("上传流量失败:" + s);
+
+                }
+            });
+        }
+    };
+
+    /**
      * get App versionName
      *
      * @return
@@ -592,17 +603,17 @@ public class DeviceImpl implements DeviceManager {
 //                        showMsg("与当前版本不一致，" + (startTime / 1000) + "秒后开始下载..");
 //                        createTask(url).start();
                         //// TODO: 2017/8/31 10分钟随机时间开始下载
+                        final String md5 = o.getMd5();
                         controlhandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                createTask(url,Constant.DOWNLOAD_PATH + "temp.apk").start();
+                                createTask(url,Constant.DOWNLOAD_APK_PATH,"temp.apk",md5).start();
                             }
                         }, startTime);
 
                     } else {
 //                        showMsg("与当前版本一致,无须更新");
                     }
-                    md5 = o.getMd5();
                 }
 
                 @Override
@@ -971,8 +982,9 @@ public class DeviceImpl implements DeviceManager {
     }
 
 
-    public BaseDownloadTask createTask(final String url,final String path) {
-        File file = new File(path);
+    public BaseDownloadTask createTask(final String url,final String path,final String name,final String md5) {
+        final String tempFM =path+System.currentTimeMillis()+"";
+        final File file = new File(tempFM);
         return FileDownloader.getImpl().create(url)
                 .setPath(file.getAbsolutePath(), false)
                 .setCallbackProgressTimes(300)
@@ -995,7 +1007,7 @@ public class DeviceImpl implements DeviceManager {
                     @Override
                     protected void error(BaseDownloadTask task, Throwable e) {
                         super.error(task, e);
-                        new File(Constant.DOWNLOAD_PATH + "temp.apk").delete();
+                        new File(tempFM).delete();
                         if (!deviceOnline) {
                             //                            showMsg("apk 下载失败,设备已掉线，停止下载。");
                         } else {
@@ -1003,7 +1015,7 @@ public class DeviceImpl implements DeviceManager {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    createTask(url,path);
+                                    createTask(url,path,name,md5);
                                 }
                             }, 1000 * 15);
                         }
@@ -1023,58 +1035,19 @@ public class DeviceImpl implements DeviceManager {
                     @Override
                     protected void completed(BaseDownloadTask task) {
                         super.completed(task);
-                        LogUtil.w(TAG, "apk downloading 100%");
-                        LogUtil.w(TAG, "apk saved in " + Constant.DOWNLOAD_PATH);
-//                        showMsg("apk downloading 100%");
-//                        showMsg("apk saved in " + SmartACApplication.DOWNLOAD_PATH);
-                        if (md5.equals(FileHelper.getMd5ByFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")))) {
-//                            showMsg("check md5 ok");
-                            if (updateType == 1) {
-                                LogUtil.w(TAG, "即时更新");
-//                                showMsg("即时更新");
-//                                new File(Constant.DOWNLOAD_PATH + "temp.apk").renameTo(new File(Constant.DOWNLOAD_PATH + "aa.apk"));
-                                //安装app
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                if (enableLed) {
-                                    s.device().getLed().openLed(3);
-                                }
-                                mAcitvity.getApplicationContext().startActivity(intent);
-                            } else {
-                                //凌晨安装
-                                LogUtil.w(TAG, "凌晨2时20分更新");
-//                                showMsg("凌晨2时20分更新");
-                                String local = "GMT+8";
-                                Calendar c = new GregorianCalendar(TimeZone.getTimeZone(local));
-                                c.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
-                                c.set(Calendar.HOUR_OF_DAY, 2);
-                                c.set(Calendar.MINUTE, 20);
-                                c.set(Calendar.SECOND, 0);
-                                long delay = c.getTimeInMillis() - System.currentTimeMillis();
-                                if (c.getTimeInMillis() - System.currentTimeMillis() < 0) {
-                                    delay += 24 * 60 * 60 * 1000;
-                                }
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-//                                        new File(Constant.DOWNLOAD_PATH + "temp.apk").renameTo(new File(Constant.DOWNLOAD_PATH + "aa.apk"));
-                                        //安装app
-                                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setDataAndType(Uri.fromFile(new File(Constant.DOWNLOAD_PATH + "temp.apk")), "application/vnd.android.package-archive");
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        if (enableLed) {
-                                            s.device().getLed().openLed(3);
-                                        }
-                                        mAcitvity.getApplicationContext().startActivity(intent);
-                                    }
-                                }, delay);
-//                                showMsg("update after " + delay + "ms");
+                        LogUtil.w(TAG, "downloading 100%");
+                        file.renameTo(new File(path+name));
+                        LogUtil.w(TAG, "saved in " + path+name);
+                        if (md5.equals(FileHelper.getMd5ByFile(new File(path+name)))) {
+                            if (path.equals(Constant.DOWNLOAD_APK_PATH)) {
+                                installApp(path + name);
+                            }else if(path.equals("")){
+
                             }
+
                         } else {
                             LogUtil.w(TAG, "check md5 fail");
-//                            showMsg("check md5 fail");
-                            new File(Constant.DOWNLOAD_PATH + "temp.apk").delete();
+                            new File(path+name).delete();
                             controlhandler.post(checkVersionRunnable);
                         }
 
@@ -1085,6 +1058,49 @@ public class DeviceImpl implements DeviceManager {
                         super.warn(task);
                     }
                 });
+    }
+
+    private void installApp(final String fullPath){
+        if (updateType == 1) {
+            LogUtil.w(TAG, "即时更新");
+            //安装app
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(new File(fullPath)), "application/vnd.android.package-archive");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (enableLed) {
+                s.device().getLed().openLed(3);
+            }
+            mAcitvity.getApplicationContext().startActivity(intent);
+        } else {
+            //凌晨安装
+            LogUtil.w(TAG, "凌晨2时20分更新");
+//                                showMsg("凌晨2时20分更新");
+            String local = "GMT+8";
+            Calendar c = new GregorianCalendar(TimeZone.getTimeZone(local));
+            c.setTimeInMillis(Calendar.getInstance().getTimeInMillis());
+            c.set(Calendar.HOUR_OF_DAY, 2);
+            c.set(Calendar.MINUTE, 20);
+            c.set(Calendar.SECOND, 0);
+            long delay = c.getTimeInMillis() - System.currentTimeMillis();
+            if (c.getTimeInMillis() - System.currentTimeMillis() < 0) {
+                delay += 24 * 60 * 60 * 1000;
+            }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+//                                        new File(Constant.DOWNLOAD_APK_PATH + "temp.apk").renameTo(new File(Constant.DOWNLOAD_APK_PATH + "aa.apk"));
+                    //安装app
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(new File(fullPath)), "application/vnd.android.package-archive");
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (enableLed) {
+                        s.device().getLed().openLed(3);
+                    }
+                    mAcitvity.getApplicationContext().startActivity(intent);
+                }
+            }, delay);
+//                                showMsg("update after " + delay + "ms");
+        }
     }
 
 
