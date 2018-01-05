@@ -5,6 +5,7 @@ package com.dchip.door.smartdoorsdk.deviceControl.Listener;
  */
 
 public interface ServerstatusListner {
+    void getHeartBeats();
     void disconn();
     void connected();
     void updateAPK();

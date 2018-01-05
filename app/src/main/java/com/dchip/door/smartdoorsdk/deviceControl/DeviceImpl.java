@@ -256,11 +256,6 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public boolean checkNetwork() {
-        return deviceOnline;
-    }
-
-    @Override
     public void release() {
         if (controlhandler != null) {
             controlhandler.removeCallbacksAndMessages(null);
@@ -868,6 +863,9 @@ public class DeviceImpl implements DeviceManager {
         if (event.isConnected()) {
             switch (event.getType()) {
                 case ServiceEvent.HEART_BEAT: {
+                    if (mServerstatusListner != null) {
+                        mServerstatusListner.getHeartBeats();
+                    }
                     if (event.isUpdateOwener()) {
                         if (mUpdateOwner != null) {
                             this.mUpdateOwner.update();
