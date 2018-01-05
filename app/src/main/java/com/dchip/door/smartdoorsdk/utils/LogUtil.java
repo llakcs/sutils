@@ -14,7 +14,7 @@ public class LogUtil {
     public static final int ERROR = 4;
     public static final int NONE = 5;
 
-    private static int level = INFO;
+    private static int level = DEBUG;
 
     public static void setLevel(int level) {
         LogUtil.level = level;
