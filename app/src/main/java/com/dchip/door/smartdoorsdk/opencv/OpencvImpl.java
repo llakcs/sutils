@@ -203,7 +203,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
             Mat mat11 = new Mat();
             Mat mat22 = new Mat();
             Bitmap mBitmap1 = BitmapFactory.decodeFile(Constant.VISTPATH+ facepName);
-            Bitmap mBitmap2 = BitmapFactory.decodeFile(Constant.ADIMGPATH+"IMG_20180105_161437.jpg");
+            Bitmap mBitmap2 = BitmapFactory.decodeFile(Constant.ADIMGPATH+"lee.jpg");
             Utils.bitmapToMat(mBitmap1, mat1);
             Utils.bitmapToMat(mBitmap2, mat2);
             Imgproc.cvtColor(mat1, mat11, Imgproc.COLOR_BGR2GRAY);
