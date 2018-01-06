@@ -706,7 +706,7 @@ public class DeviceImpl implements DeviceManager {
                     }
                     if (!isFind){
                         LogUtil.d(TAG,"新加图片广告需要下载:"+ad.getPhoto());
-                        createTask(ad.getPhoto(),Constant.VIDEOPATH,getNameFromUrl(ad.getPhoto()),ad.getMd5()).start();
+                        createTask(ad.getPhoto(),Constant.ADIMGPATH,getNameFromUrl(ad.getPhoto()),ad.getMd5()).start();
                     }
                 }
             }
