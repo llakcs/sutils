@@ -1205,7 +1205,7 @@ public class DeviceImpl implements DeviceManager {
     protected String getNameFromUrl(String url){
         String ss[] = url.split("/");
         if (ss.length>0) {
-            return ss[ss.length - 1];
+            return ss[ss.length - 1].replace("/","");
         }else return null;
     }
 
