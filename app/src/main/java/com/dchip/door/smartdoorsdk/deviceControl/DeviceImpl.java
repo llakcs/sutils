@@ -710,7 +710,7 @@ public class DeviceImpl implements DeviceManager {
                 for (AdvertisementModel ad:o.getBannerPicList()) {
                     boolean isFind = false;
                     for (File f:PFiles) {
-                        if (ad.getPhoto().indexOf(f.getName()) < 0) {
+                        if (ad.getPhoto().indexOf(f.getName()) >= 0) {
                             isFind = true;
                             break;
                         }
