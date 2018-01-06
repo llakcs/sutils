@@ -677,8 +677,10 @@ public class DeviceImpl implements DeviceManager {
                 for (AdvertisementModel ad:o.getBannerVideoList()) {
                     boolean isFind = false;
                     for (File f:vFiles) {
-                        if (ad.getContent().indexOf(f.getName()) >= 0)
+                        if (ad.getContent().indexOf(f.getName()) >= 0) {
                             isFind = true;
+                            break;
+                        }
                     }
                     if(!isFind){
                         LogUtil.d(TAG,"新加视频广告需要下载:"+ad.getContent());
@@ -692,6 +694,7 @@ public class DeviceImpl implements DeviceManager {
                     for (AdvertisementModel ad : o.getBannerPicList()) {
                         if (ad.getPhoto().indexOf(f.getName()) >= 0) {
                             isFind = true;
+                            break;
                         }
                     }
                     if (isFind) {
