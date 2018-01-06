@@ -156,6 +156,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         mGray = inputFrame.gray();
 
         if (mAbsoluteFaceSize == 0) {
+            LogUtil.e(TAG,"###mAbsoluteFaceSize == 0");
             int height = mGray.rows();
             if (Math.round(height * mRelativeFaceSize) > 0) {
                 mAbsoluteFaceSize = Math.round(height * mRelativeFaceSize);
@@ -169,13 +170,12 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
             if (mJavaDetector != null)
                 mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2, 2, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
                         new Size(mAbsoluteFaceSize, mAbsoluteFaceSize), new Size());
-
+                LogUtil.e(TAG,"###mDetectorType == JAVA_DETECTOR");
 
         } else if (mDetectorType == NATIVE_DETECTOR) {
             if (mNativeDetector != null)
                 mNativeDetector.detect(mGray, faces);
-
-
+            LogUtil.e(TAG,"###mDetectorType == NATIVE_DETECTOR");
         } else {
             LogUtil.e(TAG, "Detection method is not selected!");
         }
@@ -204,8 +204,11 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
             faceSerialCount = -5000;
         }
 
-        for (int i = 0; i < facesArray.length; i++)
+        for (int i = 0; i < facesArray.length; i++){
+            LogUtil.e(TAG,"###Imgproc.rectangle");
             Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
+        }
+
         return mRgba;
     }
 
