@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.http.Url;
+
 /**
  * Description:
  */
@@ -232,6 +234,12 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         List<String> urls = new ArrayList<String>();
         urls.add(Url);
         setUp(urls,view);
+    }
+
+    @Override
+    public void updateUrl(List<String> Urls) {
+        mUrls = Urls;
+        mUrlsize = Urls.size();
     }
 
 

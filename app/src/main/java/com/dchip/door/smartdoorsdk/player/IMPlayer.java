@@ -31,6 +31,7 @@ public interface IMPlayer {
 
     void setUp(List<String> Urls, SurfaceView view);
     void setUp(String Url, SurfaceView view);
+    void updateUrl(List<String> Urls);
     /**
      * 播放视频
      * @throws MPlayerException
