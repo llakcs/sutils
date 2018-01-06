@@ -689,12 +689,12 @@ public class DeviceImpl implements DeviceManager {
                         if (ad.getPhoto().indexOf(f.getName()) >= 0) {
                             isFind = true;
                         }
-                        if (isFind) {
-                            LogUtil.d(TAG, "本地已存在图片广告:" + f.getName());
-                        } else {
-                            LogUtil.d(TAG, "本地多余图片广告:" + f.getName());
-                            f.delete();
-                        }
+                    }
+                    if (isFind) {
+                        LogUtil.d(TAG, "本地已存在图片广告:" + f.getName());
+                    } else {
+                        LogUtil.d(TAG, "本地多余图片广告:" + f.getName());
+                        f.delete();
                     }
                 }
                 //轮询是否有新加图片广告
