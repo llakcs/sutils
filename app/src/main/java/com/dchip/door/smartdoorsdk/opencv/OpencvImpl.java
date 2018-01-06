@@ -25,6 +25,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import java.io.File;
@@ -198,18 +199,8 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Mat mat1 = new Mat();
-            Mat mat2 = new Mat();
-            Mat mat11 = new Mat();
-            Mat mat22 = new Mat();
-            Bitmap mBitmap1 = BitmapFactory.decodeFile(Constant.VISTPATH+ facepName);
-            Bitmap mBitmap2 = BitmapFactory.decodeFile(Constant.ADIMGPATH+"lee.jpg");
-            Utils.bitmapToMat(mBitmap1, mat1);
-            Utils.bitmapToMat(mBitmap2, mat2);
-            Imgproc.cvtColor(mat1, mat11, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.cvtColor(mat2, mat22, Imgproc.COLOR_BGR2GRAY);
-            comPareHist(mat11, mat22);
-//            mDetection.complete(Constant.VISTPATH+ facepName);
+
+            mDetection.complete(Constant.VISTPATH+ facepName);
             faceSerialCount = -5000;
         }
 
@@ -218,19 +209,6 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         return mRgba;
     }
 
-    /**
-     * 比较来个矩阵的相似度
-     * @param srcMat
-     * @param desMat
-     */
-    public void comPareHist(Mat srcMat,Mat desMat){
-
-        srcMat.convertTo(srcMat, CvType.CV_32F);
-        desMat.convertTo(desMat, CvType.CV_32F);
-        double target = Imgproc.compareHist(srcMat, desMat, Imgproc.CV_COMP_CORREL);
-        LogUtil.e(TAG, "####相似度 ：   ==" + target);
-
-    }
 
 
 
