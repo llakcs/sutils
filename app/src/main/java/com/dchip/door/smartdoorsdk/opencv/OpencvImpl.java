@@ -25,6 +25,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import java.io.File;
@@ -126,8 +127,8 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
 
     @Override
     public void onCameraViewStarted(int width, int height) {
-        mGray = new Mat();
-        mRgba = new Mat();
+        mGray = new Mat(height,width,CvType.CV_32F);
+        mRgba = new Mat(height,width,CvType.CV_32F);
     }
 
     @Override
@@ -218,11 +219,11 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         return mRgba;
     }
 
-    /**
-     * 比较来个矩阵的相似度
-     * @param srcMat
-     * @param desMat
-     */
+//    /**
+//     * 比较来个矩阵的相似度
+//     * @param srcMat
+//     * @param desMat
+//     */
     public void comPareHist(Mat srcMat,Mat desMat){
 
         srcMat.convertTo(srcMat, CvType.CV_32F);
