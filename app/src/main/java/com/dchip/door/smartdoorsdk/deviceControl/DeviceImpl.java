@@ -657,7 +657,7 @@ public class DeviceImpl implements DeviceManager {
         deviceApi.getAd(appType).enqueue(new ApiCallBack<ApiGetAdvertisement>() {
             @Override
             public void success(ApiGetAdvertisement o) {
-                Log.w(TAG, "getAd success");
+                Log.w(TAG, "getAd success video:"+o.getBannerVideoList().size()+" photo:"+o.getBannerPicList().size());
                 //查寻是否有多余视频广告
                 File[] vFiles = new File(Constant.VIDEOPATH).listFiles();
                 for (File f:vFiles) {
@@ -1209,7 +1209,7 @@ public class DeviceImpl implements DeviceManager {
     protected String getNameFromUrl(String url){
         String ss[] = url.split("/");
         if (ss.length>0) {
-            return ss[ss.length - 1].replace("/","");
+            return ss[ss.length - 1];
         }else return null;
     }
 
