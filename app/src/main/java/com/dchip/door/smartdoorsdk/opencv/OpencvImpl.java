@@ -185,9 +185,12 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
          * add by lee
          */
         int faceCount = facesArray.length;
+        LogUtil.e(TAG,"###Facecount ="+faceCount);
         if (faceCount > 0) {
+            LogUtil.e(TAG,"###faceCount > 0");
             faceSerialCount++;
         } else {
+            LogUtil.e(TAG,"###faceSerialCount == 0");
             faceSerialCount = 0;
         }
         if (faceSerialCount > FACECOUNT) {
