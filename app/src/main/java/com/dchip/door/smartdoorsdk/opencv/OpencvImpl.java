@@ -71,6 +71,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     public static final int NATIVE_DETECTOR = 1;
     private int mDetectorType = JAVA_DETECTOR;
     private int FACECOUNT = 2;
+    private int RECTCOUNT = 0;
     private Context mContext;
     private DetectionListner mDetection;
     @Override
@@ -193,7 +194,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
             LogUtil.e(TAG,"###faceSerialCount == 0");
             faceSerialCount = 0;
         }
-        if (faceSerialCount > FACECOUNT) {
+        if (faceSerialCount > FACECOUNT || RECTCOUNT >FACECOUNT) {
             LogUtil.e(TAG, "#####识别中");
             String facepName = "vist" + System.currentTimeMillis() + ".jpg";
             mOpenCvCameraView.takephoto(Constant.VISTPATH+ facepName);
@@ -204,11 +205,13 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
             }
 
             mDetection.complete(Constant.VISTPATH+ facepName);
+            RECTCOUNT = 0;
             faceSerialCount = -5000;
         }
 
         for (int i = 0; i < facesArray.length; i++){
             LogUtil.e(TAG,"###Imgproc.rectangle");
+            RECTCOUNT++;
             Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
         }
 
