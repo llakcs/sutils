@@ -45,6 +45,7 @@ public interface DeviceManager {
     void updateOnwerStatus();
     void setEaseAcountListner(EaseAccountListner acountListner);
     void unRegEaseAcountListner();
+    DeviceImpl setGET_AD_TIME(int GET_AD_TIME);
     DeviceImpl EnableCardReader();
     DeviceImpl EnableLock();
     DeviceImpl EnableLed();

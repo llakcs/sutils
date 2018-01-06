@@ -117,6 +117,7 @@ public class DeviceImpl implements DeviceManager {
     private EaseAccountListner easeAccountListner;
     private boolean enableLed = false;
     private boolean enableLock = false;
+    private int GET_AD_TIME = 1;
 
     private DeviceImpl() {
 
@@ -196,6 +197,7 @@ public class DeviceImpl implements DeviceManager {
         return instance;
     }
 
+    int adcount = 0;
     @Override
     public DeviceImpl EnableDtimer() {
         dTimer = new DeviceTimer(new onTickListener() {
@@ -238,18 +240,20 @@ public class DeviceImpl implements DeviceManager {
 
             @Override
             public void onOneHouer() {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        getAd();
-                    }
-                }).start();
-
-
             }
 
             @Override
             public void onOneMinute() {
+                adcount++;
+                if (adcount>GET_AD_TIME){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getAd();
+                        }
+                    }).start();
+                    adcount = 0;
+                }
 
             }
         });
@@ -1209,5 +1213,9 @@ public class DeviceImpl implements DeviceManager {
         }else return null;
     }
 
-
+    //获取广告时间间隔 单位 分钟
+    public DeviceImpl setGET_AD_TIME(int GET_AD_TIME) {
+        this.GET_AD_TIME = GET_AD_TIME;
+        return instance;
+    }
 }
