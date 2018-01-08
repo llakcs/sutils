@@ -70,7 +70,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     public static final int JAVA_DETECTOR = 0;
     public static final int NATIVE_DETECTOR = 1;
     private int mDetectorType = JAVA_DETECTOR;
-    private int FACECOUNT = 2;
+    private int FACECOUNT = 3;
     private int RECTCOUNT = 0;
     private Context mContext;
     private DetectionListner mDetection;
