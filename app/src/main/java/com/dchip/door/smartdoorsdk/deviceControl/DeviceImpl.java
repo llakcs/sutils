@@ -659,7 +659,7 @@ public class DeviceImpl implements DeviceManager {
             public void success(ApiGetAdvertisement o) {
                 Log.w(TAG, "getAd success video:"+o.getBannerVideoList().size()+" photo:"+o.getBannerPicList().size());
                 //查寻是否有多余视频广告
-                File[] vFiles = new File(Constant.VIDEOPATH).listFiles();
+                List<File> vFiles = scanSDcardVideoList(Constant.VIDEOPATH);
                 for (File f:vFiles) {
                     boolean isFind = false;
                     for (AdvertisementModel ad:o.getBannerVideoList()) {
@@ -690,7 +690,7 @@ public class DeviceImpl implements DeviceManager {
                     }
                 }
                 //查寻是否有多余图片广告
-                File[] PFiles = new File(Constant.ADIMGPATH).listFiles();
+                List<File> PFiles = scanSDcardImageFileList(Constant.ADIMGPATH);
                 for (File f:PFiles) {
                     boolean isFind = false;
                     for (AdvertisementModel ad : o.getBannerPicList()) {
@@ -1224,5 +1224,69 @@ public class DeviceImpl implements DeviceManager {
     public DeviceImpl setGET_AD_TIME(int GET_AD_TIME) {
         this.GET_AD_TIME = GET_AD_TIME;
         return instance;
+    }
+
+    private List<File> scanSDcardVideoList(String path) {
+        // File file = new File(sdcardRingPath);
+        File file = new File(path);
+        List<File> files = new ArrayList<File>();
+        if (!file.exists()) {
+            return files;
+        }
+        File[] subFile = file.listFiles();
+        files.clear();
+        if (subFile == null) {
+            return files;
+        }
+
+        for (int iFileLength = 0; iFileLength < subFile.length; iFileLength++) {
+            // 判断是否为文件夹
+            if (!subFile[iFileLength].isDirectory()) {
+                String filename = subFile[iFileLength].getName();
+                // 判断是否为apk结尾
+                if (filename.trim().toLowerCase().endsWith(".mp4")//
+                        || filename.trim().toLowerCase().endsWith(".MP4")//
+                        ) {
+                    if (subFile[iFileLength].length() < 500*1000*1000) {
+                        // 文件大小
+                        files.add(subFile[iFileLength]);
+                    }
+
+                }
+            }
+        }
+        return files;
+    }
+
+    private List<File> scanSDcardImageFileList(String path) {
+        File file = new File(path);
+        List<File> files = new ArrayList<File>();
+        if (!file.exists()) {
+            return files;
+        }
+        File[] subFile = file.listFiles();
+        files.clear();
+        if (subFile == null) {
+            return files;
+        }
+
+        for (int iFileLength = 0; iFileLength < subFile.length; iFileLength++) {
+            // 判断是否为文件夹
+            if (!subFile[iFileLength].isDirectory()) {
+                String filename = subFile[iFileLength].getName();
+                // 判断是否为MP4结尾
+                if (filename.trim().toLowerCase().endsWith(".jpg")//
+                        || filename.trim().toLowerCase().endsWith(".jpeg")//
+                        || filename.trim().toLowerCase().endsWith(".png")//
+                        ) {
+                    if (subFile[iFileLength].length() < 5*1000*1000) {
+                        // 文件大小
+                        files.add(subFile[iFileLength]);
+                    }
+
+                }
+            }
+        }
+        return files;
     }
 }
