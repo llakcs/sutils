@@ -740,7 +740,7 @@ public class DeviceImpl implements DeviceManager {
                 Log.w(TAG, "propertyManagement success");
                 StringBuffer sb = new StringBuffer();
                 for (ManagementMemberModel mem:o.getList()) {
-                    sb.append(mem.getRemark()+":\r\n"+mem.getPhone()+"\r\n \r\n");
+                    sb.append(mem.getRemark()+"/"+mem.getPhone()+"\r\n");
                     Log.w(TAG, mem.getRemark()+":"+mem.getPhone());
                 }
                 FileHelper.writeByFileOutputStream(Constant.MANAGEMENT_FILE_PATH,sb.toString());
