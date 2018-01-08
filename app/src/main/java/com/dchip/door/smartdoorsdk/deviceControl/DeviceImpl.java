@@ -689,7 +689,7 @@ public class DeviceImpl implements DeviceManager {
                         createTask(ad.getContent(),Constant.VIDEOPATH,getNameFromUrl(ad.getContent()),ad.getMd5()).start();
                     }
                 }
-                //查寻是否有多余图片广告
+                //查寻是否有多余图片广告  132
                 List<File> PFiles = scanSDcardImageFileList(Constant.ADIMGPATH);
                 for (File f:PFiles) {
                     boolean isFind = false;
