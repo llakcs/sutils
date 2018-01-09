@@ -1107,14 +1107,15 @@ public class DeviceImpl implements DeviceManager {
                         super.completed(task);
                         LogUtil.w(TAG, name + "downloading 100%");
                         file.renameTo(new File(path+name));
+                        String downMd5 = FileHelper.getMd5ByFile(new File(path+name));
                         LogUtil.w(TAG, "saved in " + path+name);
-                        if (md5.equals(FileHelper.getMd5ByFile(new File(path+name)))) {
+                        LogUtil.w(TAG, "md5 Conpare net:" +md5 +" download:"+downMd5);
+                        if (md5.equals(downMd5)) {
                             if (path.equals(Constant.DOWNLOAD_APK_PATH)) {
                                 installApp(path + name);
                             }else if(path.equals("")){
 
                             }
-
                         } else {
                             LogUtil.w(TAG, "check md5 fail");
                             new File(path+name).delete();
