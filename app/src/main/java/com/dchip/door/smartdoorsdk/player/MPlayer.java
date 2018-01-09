@@ -83,7 +83,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
     }
 
     private void playStart(){
-        if(isVideoSizeMeasured&&isMediaPrepared&&isSurfaceCreated&&isUserWantToPlay&&isResumed){
+        if(player != null&&isVideoSizeMeasured&&isMediaPrepared&&isSurfaceCreated&&isUserWantToPlay&&isResumed){
             player.start();
 //            log("视频开始播放");
 //            display.onStart(this);
@@ -280,6 +280,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
     @Override
     public void onResume() {
         isResumed=true;
+
         playStart();
     }
 
