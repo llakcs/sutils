@@ -81,7 +81,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
             public void run() {
                 if (!OpenCVLoader.initDebug()) {
                     LogUtil.e(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-//                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext, mLoaderCallback);
+                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext, mLoaderCallback);
                 } else {
                     LogUtil.e(TAG, "OpenCV library found inside package. Using it!");
                     mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
@@ -223,7 +223,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
                 case LoaderCallbackInterface.SUCCESS: {
                     LogUtil.e(TAG, "OpenCV loaded successfully");
                     // Load native library after(!) OpenCV initialization
-                    System.loadLibrary("opencv_java3");
+//                    System.loadLibrary("opencv_java3");
                     System.loadLibrary("detection_based_tracker");
                     try {
                         // load cascade file from application resources
