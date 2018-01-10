@@ -1111,7 +1111,7 @@ public class DeviceImpl implements DeviceManager {
                         String downMd5 = FileHelper.getMd5ByFile(new File(path+name));
                         LogUtil.w(TAG, "saved in " + path+name);
                         LogUtil.w(TAG, "md5 Conpare net:" +md5 +" download:"+downMd5);
-                        if (md5.equals(downMd5)) {
+                        if (md5!=null && downMd5.equals(md5)) {
                             if (path.equals(Constant.DOWNLOAD_APK_PATH)) {
                                 installApp(path + name);
                             }else if(path.equals("")){
