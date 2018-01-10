@@ -764,7 +764,7 @@ public class DeviceImpl implements DeviceManager {
             deviceApi.getDeviceConfig(mac).enqueue(new ApiCallBack<ApiGetDeviceConfigModel>() {
                 @Override
                 public void success(ApiGetDeviceConfigModel model) {
-                    if (enableLock) {
+
                         LogUtil.e(TAG, "成功获取锁配置：锁:" + model.getLock_access() + " 门:" + model.getDoor_access() + " 原锁:" + model.getOrignal_lock_access() +
                                 " 单锁:" + (model.getLock_num() == 1) + " 锁类型:" + model.getLock_type()+" 环信账号:"+model.getEaseAccount());
 
@@ -773,6 +773,7 @@ public class DeviceImpl implements DeviceManager {
                                 easeAccountListner.ResultAcount(model.getEaseAccount().toString());
                             }
                         }
+                        if (enableLock) {
                         switch (model.getLock_type()) {
                             case 1:
                                 if (s.device().getLock() == null) {
