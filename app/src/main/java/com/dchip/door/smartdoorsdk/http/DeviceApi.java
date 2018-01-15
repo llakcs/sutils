@@ -42,14 +42,14 @@ public interface DeviceApi {
     Call<JsonResult<Object>> uploadAppVersion(@Field("mac") String mac, @Field("versionName") String versionName, @Field("type") int type);
 
     /**
-     * 上传主控板的MAC码
+     * 上传主控板的MAC码 和 网络类型
      *
      * @param mac
      * @return
      */
     @FormUrlEncoded
     @POST("maincontrol/upload")
-    Call<JsonResult<Object>> uploadMac(@Field("mac") String mac);
+    Call<JsonResult<Object>> uploadMac(@Field("mac") String mac,@Field("networkType") int networkType);
 
     /**
      * 上传锁的数据
@@ -158,8 +158,16 @@ public interface DeviceApi {
      *
      */
     @FormUrlEncoded
-    @POST("access/getDchipDeviceBanner ")
+    @POST("access/getDchipDeviceBanner")
     Call<JsonResult<ApiGetAdvertisement>> getAd(@Field("style") int type);
+
+    /**
+     * 下载进度
+     *
+     */
+    @FormUrlEncoded
+    @POST("maincontrol/downloadRecord")
+    Call<JsonResult<Object>> uploadDownloadProgress(@Field("mac") String mac,@Field("current_progress") int progress,@Field("type") int type);
 
 
 //    /**

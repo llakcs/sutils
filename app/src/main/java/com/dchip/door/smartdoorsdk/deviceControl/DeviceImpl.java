@@ -1,12 +1,16 @@
 package com.dchip.door.smartdoorsdk.deviceControl;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.dchip.door.smartdoorsdk.Bean.AdvertisementModel;
@@ -561,7 +565,7 @@ public class DeviceImpl implements DeviceManager {
     private Runnable uploadMacRunnable = new Runnable() {
         @Override
         public void run() {
-            deviceApi.uploadMac(mac).enqueue(new ApiCallBack<Object>() {
+            deviceApi.uploadMac(mac,GetNetworkType()).enqueue(new ApiCallBack<Object>() {
                 @Override
                 public void success(Object o) {
                     isUploadMaced = true;
@@ -749,6 +753,22 @@ public class DeviceImpl implements DeviceManager {
             @Override
             public void fail(int i, String s) {
                 Log.e(TAG, "propertyManagement fail :" + s);
+            }
+        });
+
+    }
+    /**
+     * 上传下载进度
+     */
+    public void uploadDownloadProgress(int progress) {
+        deviceApi.uploadDownloadProgress(mac,progress,appType).enqueue(new ApiCallBack<Object>() {
+            @Override
+            public void success(Object o) {
+
+            }
+            @Override
+            public void fail(int i, String s) {
+                Log.e(TAG, "uploadDownloadProgress fail :" + s);
             }
         });
 
@@ -1072,6 +1092,9 @@ public class DeviceImpl implements DeviceManager {
                         super.progress(task, soFarBytes, totalBytes);
                         String a = String.format("%.0f", (double) soFarBytes / (double) totalBytes * 100);
                         LogUtil.w(TAG, name + " downloading " + a + "%");
+                        if (path.equals(Constant.DOWNLOAD_APK_PATH)) {
+                            uploadDownloadProgress(Integer.parseInt(a));
+                        }
 //                        showMsg("apk downloading " + a + "%");
                     }
 
@@ -1080,7 +1103,7 @@ public class DeviceImpl implements DeviceManager {
                         super.error(task, e);
                         new File(path+name).delete();
                         if (!deviceOnline) {
-                            //                            showMsg("apk 下载失败,设备已掉线，停止下载。");
+                            //showMsg("apk 下载失败,设备已掉线，停止下载。");
                         } else {
 //                            showMsg("apk 下载失败,15秒后重试。");
                             new Handler().postDelayed(new Runnable() {
@@ -1290,5 +1313,67 @@ public class DeviceImpl implements DeviceManager {
             }
         }
         return files;
+    }
+
+    public int GetNetworkType()
+    {
+        int strNetworkType = -1;
+
+        NetworkInfo networkInfo = ((ConnectivityManager) mAcitvity.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+        {
+            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI)
+            {
+                strNetworkType = 1;
+            }
+            else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
+            {
+                String _strSubTypeName = networkInfo.getSubtypeName();
+
+                Log.e("cocos2d-x", "Network getSubtypeName : " + _strSubTypeName);
+
+                // TD-SCDMA   networkType is 17
+                int networkType = networkInfo.getSubtype();
+                switch (networkType) {
+                    case TelephonyManager.NETWORK_TYPE_GPRS:
+                    case TelephonyManager.NETWORK_TYPE_EDGE:
+                    case TelephonyManager.NETWORK_TYPE_CDMA:
+                    case TelephonyManager.NETWORK_TYPE_1xRTT:
+                    case TelephonyManager.NETWORK_TYPE_IDEN: //api<8 : replace by 11
+                        strNetworkType = 2;
+                        break;
+                    case TelephonyManager.NETWORK_TYPE_UMTS:
+                    case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                    case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                    case TelephonyManager.NETWORK_TYPE_HSDPA:
+                    case TelephonyManager.NETWORK_TYPE_HSUPA:
+                    case TelephonyManager.NETWORK_TYPE_HSPA:
+                    case TelephonyManager.NETWORK_TYPE_EVDO_B: //api<9 : replace by 14
+                    case TelephonyManager.NETWORK_TYPE_EHRPD:  //api<11 : replace by 12
+                    case TelephonyManager.NETWORK_TYPE_HSPAP:  //api<13 : replace by 15
+                        strNetworkType = 3;
+                        break;
+                    case TelephonyManager.NETWORK_TYPE_LTE:    //api<11 : replace by 13
+                        strNetworkType = 4;
+                        break;
+                    default:
+                        // http://baike.baidu.com/item/TD-SCDMA 中国移动 联通 电信 三种3G制式
+                        if (_strSubTypeName.equalsIgnoreCase("TD-SCDMA") || _strSubTypeName.equalsIgnoreCase("WCDMA") || _strSubTypeName.equalsIgnoreCase("CDMA2000"))
+                        {
+                            strNetworkType = 3;
+                        } else {
+                            strNetworkType = 4;
+                        }
+
+                        break;
+                }
+
+                Log.e("cocos2d-x", "Network getSubtype : " + Integer.valueOf(networkType).toString());
+            }
+        }
+
+        Log.e("cocos2d-x", "Network Type : " + strNetworkType);
+
+        return strNetworkType;
     }
 }
