@@ -61,6 +61,7 @@ import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadMonitor;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.tencent.bugly.crashreport.CrashReport;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -164,6 +165,7 @@ public class DeviceImpl implements DeviceManager {
         } else {
             mac = android.os.Build.SERIAL;
         }
+        CrashReport.setUserId(mac);
         uid = mac + "lockId";
         DPDB.setmac(mac);
         DPDB.setUid(uid);
