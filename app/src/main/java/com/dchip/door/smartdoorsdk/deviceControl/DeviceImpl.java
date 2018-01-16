@@ -239,7 +239,7 @@ public class DeviceImpl implements DeviceManager {
 //
 //                    }
 //                }).start();
-                new Handler().postDelayed(upload4GFlow,500);
+                controlhandler.postDelayed(upload4GFlow,500);
             }
 
             @Override
