@@ -49,6 +49,7 @@ public class SdkInit {
                 //创建opencv拍照文件夹
                 new File(Constant.VISTPATH).mkdirs();
                 new File(Constant.VIDEOPATH).mkdirs();
+                new File(Constant.FACEDETEPATH).mkdirs();
                 new File(Constant.ADIMGPATH).mkdirs();
                 new File(Constant.DOWNLOAD_APK_PATH).mkdirs();
                 new File(Constant.CRASH_LOG_PATH).mkdirs();
