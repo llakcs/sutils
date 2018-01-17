@@ -1,1 +1,3 @@
-include ':app', ':BDVoiceLib', ':openCVLibrary330', ':Updatelibrary'
+include ':app', ':BDVoiceLib', ':Updatelibrary'
+
+include ':openCVLibrary340'

@@ -18,6 +18,8 @@ public class Constant {
     public static final String DOWNLOAD_APK_PATH = BASE_PATh + "downloadAPK" + File.separator;
     public static final String VIDEOPATH =BASE_PATh+"video"+File.separator;
     public static final String ADIMGPATH=BASE_PATh+"adimage"+File.separator;
+    //facedete
+    public static final String FACEDETEPATH = BASE_PATh+"FaceDetect"+File.separator;
     //crash
     public static final String CRASH_LOG_PATH = BASE_PATh + "crashLog" + File.separator;
     public static final String CRASH_LOG_UPLOAD_FAIL_PATH = BASE_PATh + "crashLog" + File.separator + "uploadFail" + File.separator;
