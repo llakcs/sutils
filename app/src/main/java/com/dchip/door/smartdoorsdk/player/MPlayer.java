@@ -85,7 +85,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
     private void playStart(){
         if(player != null&&isVideoSizeMeasured&&isMediaPrepared&&isSurfaceCreated&&isUserWantToPlay&&isResumed){
             player.start();
-//            log("视频开始播放");
+            log("视频开始播放");
 //            display.onStart(this);
             if(mPlayListener!=null){
                 mPlayListener.onStart(this);

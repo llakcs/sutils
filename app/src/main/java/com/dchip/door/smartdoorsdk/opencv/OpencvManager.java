@@ -23,6 +23,4 @@ public interface OpencvManager{
      void setDetectionListner(DetectionListner detectionListner);
 
      void unRegDetectionListner();
-
-     double CmpPic(String filePath1, String filePath2);
 }

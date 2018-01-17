@@ -10,3 +10,6 @@
 /captures
 /native
 .externalNativeBuild
+local.properties
+/native
+*/obj

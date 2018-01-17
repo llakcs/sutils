@@ -918,7 +918,7 @@ public class DeviceImpl implements DeviceManager {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFaultEvent(FaultEvent event) {
-        deviceApi.reportFault(event.getUid(), event.getType()).enqueue(new ApiCallBack<Object>() {
+        deviceApi.reportFault(uid, event.getType()).enqueue(new ApiCallBack<Object>() {
             @Override
             public void success(Object o) {
                 LogUtil.d(TAG, "测试打印 " + new Date() + " 锁控板故障上报成功----！");

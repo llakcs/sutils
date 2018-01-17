@@ -14,6 +14,9 @@ public class FaultEvent {
         this.type = type;
         this.uid = uid;
     }
+    public FaultEvent(int type) {
+        this.type = type;
+    }
 
     public int getType() {
         return type;
