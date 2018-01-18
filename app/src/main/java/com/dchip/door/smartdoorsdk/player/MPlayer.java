@@ -243,9 +243,12 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
     }
 
 
-    private void playNext(int index){
+    private void playNext(){
         try{
-            setSource(mUrls.get(index));
+            if(mIndex >= mUrlsize){
+                mIndex = 0;
+            }
+            setSource(mUrls.get(mIndex));
             mIndex++;
         }catch (Exception e){
             e.printStackTrace();
@@ -308,10 +311,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
     @Override
     public void onCompletion(MediaPlayer mp) {
         //if(mUrlsize > 1){
-            if(mIndex == mUrlsize){
-                mIndex = 0;
-            }
-            playNext(mIndex);
+            playNext();
        // }
         if(mPlayListener!=null){
             mPlayListener.onComplete(this);
@@ -365,7 +365,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
                 player.seekTo(player.getCurrentPosition());
             }
             log("surface被创建");
-            playNext(mIndex);
+            playNext();
 //            playStart();
         }
     }
