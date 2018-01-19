@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.dchip.door.smartdoorsdk.s;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -214,6 +215,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
             player.prepareAsync();
 //            log("异步准备视频");
         } catch (IOException e) {
+            CrashReport.postCatchedException(e);
             throw new MPlayerException("set source error",e);
         }
     }
@@ -252,6 +254,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
             mIndex++;
         }catch (Exception e){
             e.printStackTrace();
+            CrashReport.postCatchedException(e);
         }
 
     }
