@@ -370,8 +370,8 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
                 player.seekTo(player.getCurrentPosition());
             }
             log("surface被创建");
-//            playNext();
-            playStart();
+            playNext();
+//            playStart();
         }
     }
 
