@@ -746,23 +746,27 @@ public class DeviceImpl implements DeviceManager {
      * 获取物管联系
      */
     public void getCallCenterInfo() {
-        deviceApi.propertyManagement(mac).enqueue(new ApiCallBack<ApiGetPropManagement>() {
+        controlhandler.postDelayed(new Runnable() {
             @Override
-            public void success(ApiGetPropManagement o) {
-                Log.w(TAG, "propertyManagement success");
-                StringBuffer sb = new StringBuffer();
-                for (ManagementMemberModel mem:o.getList()) {
-                    sb.append(mem.getRemark()+"/"+mem.getPhone()+"\r\n");
-                    Log.w(TAG, mem.getRemark()+":"+mem.getPhone());
-                }
-                FileHelper.writeByFileOutputStream(Constant.MANAGEMENT_FILE_PATH,sb.toString());
-            }
+            public void run() {
+                deviceApi.propertyManagement(mac).enqueue(new ApiCallBack<ApiGetPropManagement>() {
+                    @Override
+                    public void success(ApiGetPropManagement o) {
+                        Log.w(TAG, "propertyManagement success");
+                        StringBuffer sb = new StringBuffer();
+                        for (ManagementMemberModel mem : o.getList()) {
+                            sb.append(mem.getRemark() + "/" + mem.getPhone() + "\r\n");
+                            Log.w(TAG, mem.getRemark() + ":" + mem.getPhone());
+                        }
+                        FileHelper.writeByFileOutputStream(Constant.MANAGEMENT_FILE_PATH, sb.toString());
+                    }
 
-            @Override
-            public void fail(int i, String s) {
-                Log.e(TAG, "propertyManagement fail :" + s);
-            }
-        });
+                    @Override
+                    public void fail(int i, String s) {
+                        Log.e(TAG, "propertyManagement fail :" + s);
+                    }
+                });
+            }},2000);
 
     }
     /**
