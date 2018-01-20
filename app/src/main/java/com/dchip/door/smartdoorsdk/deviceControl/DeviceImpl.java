@@ -1326,7 +1326,11 @@ public class DeviceImpl implements DeviceManager {
         {
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI)
             {
-                strNetworkType = 1;
+                if (networkInfo.getTypeName().equals("WIFI")) {
+                    strNetworkType = 1;
+                }else if(networkInfo.getTypeName().equals("ETHERNET")){
+                    strNetworkType = 5;
+                }
             }
             else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
             {
