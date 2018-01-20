@@ -266,9 +266,11 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         if(!checkPlay()){
             throw new MPlayerException("Please setSource");
         }
-        createPlayerIfNeed();
-        isUserWantToPlay=true;
-        playStart();
+        if (isUserWantToPlay == false) {
+            createPlayerIfNeed();
+            isUserWantToPlay = true;
+            playStart();
+        }
     }
 
     @Override
