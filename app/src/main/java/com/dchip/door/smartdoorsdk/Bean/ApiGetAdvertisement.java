@@ -7,6 +7,7 @@ import java.util.List;
  */
 
 public class ApiGetAdvertisement {
+    int advType;
     List<AdvertisementModel> bannerVideoList;
     List<AdvertisementModel> bannerPicList;
 
@@ -24,5 +25,13 @@ public class ApiGetAdvertisement {
 
     public void setBannerPicList(List<AdvertisementModel> bannerPicList) {
         this.bannerPicList = bannerPicList;
+    }
+
+    public int getAdvType() {
+        return advType;
+    }
+
+    public void setAdvType(int advType) {
+        this.advType = advType;
     }
 }
