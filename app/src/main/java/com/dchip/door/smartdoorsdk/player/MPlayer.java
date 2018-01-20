@@ -208,6 +208,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         isVideoSizeMeasured=false;
         currentVideoWidth=0;
         currentVideoHeight=0;
+        player.setDisplay(null);
         player.reset();
         try {
             player.setDataSource(url);
