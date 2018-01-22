@@ -401,4 +401,43 @@ JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_LockBreak_check
 
 }
 
+int fd_s = 0;
+
+JNIEXPORT jboolean
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Steer_open
+        (JNIEnv * env, jobject obj){
+    fd_s = open("/dev/steer_out", O_RDWR);
+    if (fd_s < 0) {
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/steer_out Error..");
+        return false;
+    } else {
+        __android_log_print(ANDROID_LOG_VERBOSE, "Pn512", "open /dev/steer_out  fd = %d", fd_s);
+        return true;
+    }
+}
+
+JNIEXPORT jint
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Steer_ioctl
+        (JNIEnv * env, jobject obj,jint cmd){
+    __android_log_print(ANDROID_LOG_VERBOSE,"Pn512","in ioctl fd_s=%d cmd=%d",fd_l,cmd);
+    int ret;
+
+    ret = ioctl(fd_s, cmd, 0);
+    if(ret<0)
+        __android_log_print(ANDROID_LOG_VERBOSE,"Pn512","ioctl the gpio fail");
+    else{
+//        if (cmd==3) __android_log_print(ANDROID_LOG_VERBOSE,"Pn512","ioctl the %d gpio get %d",arg,ret);
+//        else __android_log_print(ANDROID_LOG_VERBOSE,"Pn512","ioctl the %d gpio to %d",arg,cmd);
+    }
+    if (ret>0) return 0;
+    else return 1;
+}
+
+JNIEXPORT void
+JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Steer_close
+        (JNIEnv * env, jobject obj){
+    close(fd_s);
+}
+
+
 }

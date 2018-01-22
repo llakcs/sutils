@@ -10,6 +10,7 @@ import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServerstatusListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServiceOpenLockListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.UpdateOwenerListner;
 import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.LedHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.SteerHandler;
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
 
 /**
@@ -22,6 +23,7 @@ public interface DeviceManager {
     void setLock(String config);
     LockHandler getLock();
     LedHandler getLed();
+    SteerHandler getSteer();
     int getAdvType();
     void upLoadMac();
     void uploadAppVer(String ver);
@@ -50,5 +52,6 @@ public interface DeviceManager {
     DeviceImpl EnableLock();
     DeviceImpl EnableLed();
     DeviceImpl EnableDtimer();
+    DeviceImpl EnableSteer();
 
 }

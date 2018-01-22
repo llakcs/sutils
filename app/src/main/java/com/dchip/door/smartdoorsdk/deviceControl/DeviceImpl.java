@@ -37,6 +37,7 @@ import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.LockBreakHandler;
 import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.LockPushHandler;
 import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.MagneticLockHandler;
 import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.MotorLockHandler;
+import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.SteerHandler;
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
 import com.dchip.door.smartdoorsdk.event.BroadcastEvent;
 import com.dchip.door.smartdoorsdk.event.FaultEvent;
@@ -121,6 +122,7 @@ public class DeviceImpl implements DeviceManager {
     private ServerstatusListner mServerstatusListner;
     private EaseAccountListner easeAccountListner;
     private boolean enableLed = false;
+    private boolean enableSteer = false;
     private boolean enableLock = false;
     private int GET_AD_TIME = 1;
     private int AdvType = 1;
@@ -201,6 +203,13 @@ public class DeviceImpl implements DeviceManager {
         enableLed = true;
         //取消更新led
         s.device().getLed().closeLed(3);
+        return instance;
+    }
+
+
+    @Override
+    public DeviceImpl EnableSteer() {
+        enableSteer = true;
         return instance;
     }
 
@@ -422,6 +431,13 @@ public class DeviceImpl implements DeviceManager {
     public LedHandler getLed() {
         if (enableLed) {
             return LedHandler.getInstance();
+        }
+        return null;
+    }
+    @Override
+    public SteerHandler getSteer() {
+        if (enableSteer) {
+            return SteerHandler.getInstance();
         }
         return null;
     }
