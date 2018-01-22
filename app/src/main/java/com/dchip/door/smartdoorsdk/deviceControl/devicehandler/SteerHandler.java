@@ -51,6 +51,7 @@ public class SteerHandler {
     }
     public void close(){
         mSteer.closeDevice();
+        instance = null;
     }
 
 
