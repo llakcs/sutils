@@ -421,10 +421,11 @@ JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Steer_open
 JNIEXPORT jint
 JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Steer_ioctl
         (JNIEnv * env, jobject obj,jint cmd,jint arg){
-    __android_log_print(ANDROID_LOG_VERBOSE,TAG,"in ioctl fd_s=%d cmd=%d arg=%d",fd_l,cmd,arg);
+    __android_log_print(ANDROID_LOG_VERBOSE,TAG,"in ioctl fd_s=%d cmd=%d arg=%d",fd_s,cmd,arg);
     int ret;
 
     ret = ioctl(fd_s, cmd, arg);
+
     if(ret<0)
         __android_log_print(ANDROID_LOG_VERBOSE,TAG,"ioctl the gpio fail");
     else{

@@ -15,10 +15,10 @@ public class SteerHandler {
     private static SteerHandler instance;
     private static Steer mSteer;
 
-    private static final int SHAKE = 0;
-    private static final int NOD = 0;
-    private static final int SHAKE_STOP = 1;
-    private static final int NOD_STOP = 1;
+    private static final int SHAKE = 1;
+    private static final int NOD = 1;
+    private static final int SHAKE_STOP = 0;
+    private static final int NOD_STOP = 0;
 
     public static SteerHandler getInstance(){
         if (instance == null){
