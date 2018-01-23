@@ -2,6 +2,7 @@ package com.dchip.door.smartdoorsdk.deviceControl.devicehandler;
 
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Led;
 import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Steer;
+import com.dchip.door.smartdoorsdk.utils.LogUtil;
 
 import java.util.logging.Handler;
 
@@ -32,20 +33,29 @@ public class SteerHandler {
     }
 
     public void shake(){
+        LogUtil.e(TAG,"check shake b4 start "+mSteer.control(3,0));
         mSteer.control(SHAKE,0);
+        LogUtil.e(TAG,"check shake ft start "+mSteer.control(3,0));
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                LogUtil.e(TAG,"check shake b4 end "+mSteer.control(3,0));
                 mSteer.control(SHAKE_STOP,0);
+                LogUtil.e(TAG,"check shake ft end "+mSteer.control(3,0));
             }
         },500);
     }
+
     public void nod(){
+        LogUtil.e(TAG,"check nod b4 start "+mSteer.control(3,1));
         mSteer.control(NOD,1);
+        LogUtil.e(TAG,"check nod ft start "+mSteer.control(3,1));
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                LogUtil.e(TAG,"check nod b4 end "+mSteer.control(3,1));
                 mSteer.control(NOD_STOP,1);
+                LogUtil.e(TAG,"check nod ft end "+mSteer.control(3,1));
             }
         },500);
     }
