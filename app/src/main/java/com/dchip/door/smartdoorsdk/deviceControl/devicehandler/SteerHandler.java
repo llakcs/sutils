@@ -45,7 +45,7 @@ public class SteerHandler {
         new android.os.Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mSteer.control(NOD_STOP,0);
+                mSteer.control(NOD_STOP,1);
             }
         },500);
     }
