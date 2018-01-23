@@ -677,7 +677,7 @@ public class DeviceImpl implements DeviceManager {
      * 上传锁信息
      */
     public void getAd() {
-        deviceApi.getAd(appType).enqueue(new ApiCallBack<ApiGetAdvertisement>() {
+        deviceApi.getAd(mac,appType).enqueue(new ApiCallBack<ApiGetAdvertisement>() {
             @Override
             public void success(ApiGetAdvertisement o) {
                 AdvType = o.getAdvType();
