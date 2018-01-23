@@ -677,84 +677,88 @@ public class DeviceImpl implements DeviceManager {
      * 上传锁信息
      */
     public void getAd() {
-        deviceApi.getAd(mac,appType).enqueue(new ApiCallBack<ApiGetAdvertisement>() {
+        controlhandler.postDelayed(new Runnable() {
             @Override
-            public void success(ApiGetAdvertisement o) {
-                AdvType = o.getAdvType();
-                Log.w(TAG, "getAd success AdvType="+o.getAdvType()+" video:"+o.getBannerVideoList().size()+" photo:"+o.getBannerPicList().size());
-                if (o.getAdvType() ==1 || o.getAdvType()==3) {
-                    //查寻是否有多余视频广告
-                    List<File> vFiles = scanSDcardVideoList(Constant.VIDEOPATH);
-                    for (File f : vFiles) {
-                        boolean isFind = false;
-                        for (AdvertisementModel ad : o.getBannerVideoList()) {
-                            if (ad.getContent().indexOf(f.getName()) >= 0) {
-                                isFind = true;
-                                break;
+            public void run() {
+                deviceApi.getAd(mac, appType).enqueue(new ApiCallBack<ApiGetAdvertisement>() {
+                    @Override
+                    public void success(ApiGetAdvertisement o) {
+                        AdvType = o.getAdvType();
+                        Log.w(TAG, "getAd success AdvType=" + o.getAdvType() + " video:" + o.getBannerVideoList().size() + " photo:" + o.getBannerPicList().size());
+                        if (o.getAdvType() == 1 || o.getAdvType() == 3) {
+                            //查寻是否有多余视频广告
+                            List<File> vFiles = scanSDcardVideoList(Constant.VIDEOPATH);
+                            for (File f : vFiles) {
+                                boolean isFind = false;
+                                for (AdvertisementModel ad : o.getBannerVideoList()) {
+                                    if (ad.getContent().indexOf(f.getName()) >= 0) {
+                                        isFind = true;
+                                        break;
+                                    }
+                                }
+                                if (isFind) {
+                                    LogUtil.d(TAG, "本地已存在视频广告:" + f.getName());
+                                } else {
+                                    LogUtil.d(TAG, "本地多余视频广告:" + f.getName());
+                                    f.delete();
+                                }
+                            }
+                            //轮询是否有新加视频广告
+                            for (AdvertisementModel ad : o.getBannerVideoList()) {
+                                boolean isFind = false;
+                                for (File f : vFiles) {
+                                    if (ad.getContent().indexOf(f.getName()) >= 0) {
+                                        isFind = true;
+                                        break;
+                                    }
+                                }
+                                if (!isFind) {
+                                    LogUtil.d(TAG, "新加视频广告需要下载:" + ad.getContent());
+                                    createTask(ad.getContent(), Constant.VIDEOPATH, getNameFromUrl(ad.getContent()), ad.getMd5()).start();
+                                }
                             }
                         }
-                        if (isFind) {
-                            LogUtil.d(TAG, "本地已存在视频广告:" + f.getName());
-                        } else {
-                            LogUtil.d(TAG, "本地多余视频广告:" + f.getName());
-                            f.delete();
-                        }
-                    }
-                    //轮询是否有新加视频广告
-                    for (AdvertisementModel ad : o.getBannerVideoList()) {
-                        boolean isFind = false;
-                        for (File f : vFiles) {
-                            if (ad.getContent().indexOf(f.getName()) >= 0) {
-                                isFind = true;
-                                break;
+                        if (o.getAdvType() == 1 || o.getAdvType() == 2) {
+                            //查寻是否有多余图片广告  132
+                            List<File> PFiles = scanSDcardImageFileList(Constant.ADIMGPATH);
+                            for (File f : PFiles) {
+                                boolean isFind = false;
+                                for (AdvertisementModel ad : o.getBannerPicList()) {
+                                    if (ad.getPhoto().indexOf(f.getName()) >= 0) {
+                                        isFind = true;
+                                        break;
+                                    }
+                                }
+                                if (isFind) {
+                                    LogUtil.d(TAG, "本地已存在图片广告:" + f.getName());
+                                } else {
+                                    LogUtil.d(TAG, "本地多余图片广告:" + f.getName());
+                                    f.delete();
+                                }
+                            }
+                            //轮询是否有新加图片广告
+                            for (AdvertisementModel ad : o.getBannerPicList()) {
+                                boolean isFind = false;
+                                for (File f : PFiles) {
+                                    if (ad.getPhoto().indexOf(f.getName()) >= 0) {
+                                        isFind = true;
+                                        break;
+                                    }
+                                }
+                                if (!isFind) {
+                                    LogUtil.d(TAG, "新加图片广告需要下载:" + ad.getPhoto());
+                                    createTask(ad.getPhoto(), Constant.ADIMGPATH, getNameFromUrl(ad.getPhoto()), ad.getMd5()).start();
+                                }
                             }
                         }
-                        if (!isFind) {
-                            LogUtil.d(TAG, "新加视频广告需要下载:" + ad.getContent());
-                            createTask(ad.getContent(), Constant.VIDEOPATH, getNameFromUrl(ad.getContent()), ad.getMd5()).start();
-                        }
                     }
-                }
-                if (o.getAdvType() ==1 || o.getAdvType()==2) {
-                    //查寻是否有多余图片广告  132
-                    List<File> PFiles = scanSDcardImageFileList(Constant.ADIMGPATH);
-                    for (File f : PFiles) {
-                        boolean isFind = false;
-                        for (AdvertisementModel ad : o.getBannerPicList()) {
-                            if (ad.getPhoto().indexOf(f.getName()) >= 0) {
-                                isFind = true;
-                                break;
-                            }
-                        }
-                        if (isFind) {
-                            LogUtil.d(TAG, "本地已存在图片广告:" + f.getName());
-                        } else {
-                            LogUtil.d(TAG, "本地多余图片广告:" + f.getName());
-                            f.delete();
-                        }
-                    }
-                    //轮询是否有新加图片广告
-                    for (AdvertisementModel ad : o.getBannerPicList()) {
-                        boolean isFind = false;
-                        for (File f : PFiles) {
-                            if (ad.getPhoto().indexOf(f.getName()) >= 0) {
-                                isFind = true;
-                                break;
-                            }
-                        }
-                        if (!isFind) {
-                            LogUtil.d(TAG, "新加图片广告需要下载:" + ad.getPhoto());
-                            createTask(ad.getPhoto(), Constant.ADIMGPATH, getNameFromUrl(ad.getPhoto()), ad.getMd5()).start();
-                        }
-                    }
-                }
-            }
 
-            @Override
-            public void fail(int i, String s) {
-                Log.e(TAG, "updateOnwerStatus fail :" + s);
-            }
-        });
+                    @Override
+                    public void fail(int i, String s) {
+                        Log.e(TAG, "updateOnwerStatus fail :" + s);
+                    }
+                });
+            }},2000);
 
     }
 

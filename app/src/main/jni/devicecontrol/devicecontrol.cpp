@@ -419,7 +419,7 @@ JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Steer_open
 JNIEXPORT jint
 JNICALL Java_com_dchip_door_smartdoorsdk_deviceControl_nativeLev_Steer_ioctl
         (JNIEnv * env, jobject obj,jint cmd,jint arg){
-    __android_log_print(ANDROID_LOG_VERBOSE,"Pn512","in ioctl fd_s=%d cmd=%d",fd_l,cmd);
+    __android_log_print(ANDROID_LOG_VERBOSE,"Pn512","in ioctl fd_s=%d cmd=%d arg=%d",fd_l,cmd,arg);
     int ret;
 
     ret = ioctl(fd_s, cmd, arg);
