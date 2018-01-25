@@ -5,13 +5,17 @@ import com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Led;
 /**
  * Created by jelly on 2017/12/18.
  */
-
 public class LedHandler {
     private static final String TAG = "LedHandler";
     private static LedHandler instance;
     private static Led mLed;
     private static int defOpen = 0;
 
+    /**
+     * 获取led单例
+     *
+     * @return the led handler
+     */
     public static LedHandler getInstance(){
         if (instance == null){
             instance = new LedHandler();
@@ -23,7 +27,13 @@ public class LedHandler {
         mLed = new Led();
     }
 
-    //i = 1,2,3
+    /**
+     * 点亮led
+     *
+     * @param  i=1,2,3
+     * @return the int
+     */
+//i
     public int openLed(int i){
         if (i==1 || i == 2 || i == 3) {
             mLed.openDevice();
@@ -33,7 +43,12 @@ public class LedHandler {
         } else return 0;
     }
 
-    //i = 1,2,3
+    /**
+     * 关闭led
+     *
+     * @param i = 1,2,3
+     * @return the int
+     */
     public int closeLed(int i){
         if (i==1 || i == 2 || i == 3) {
             mLed.openDevice();
@@ -44,6 +59,9 @@ public class LedHandler {
 
     }
 
+    /**
+     * 注销设备
+     */
     void finish(){
         mLed.closeDevice();
     }
