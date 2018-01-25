@@ -19,14 +19,14 @@ import static com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Pn512Lock.IO_L
  * Created by jelly on 2017/11/8.
  */
 public abstract class LockHandler {
-    private static final String TAG = "LockHandler";
-    private static boolean isSingleLock = true;
-    private static boolean isDebugable = false;
-    private static boolean isLongOpen = false;
-    private static int OPEN_LOCK = 1;
-    private static int OPEN_DOOR = 1;
-    private static int OPEN_ORIGNAL_LOCK = 1;
-    private static Pn512Lock mLock;
+    protected static final String TAG = "LockHandler";
+    protected static boolean isSingleLock = true;
+    protected static boolean isDebugable = false;
+    protected static boolean isLongOpen = false;
+    protected static int OPEN_LOCK = 1;
+    protected static int OPEN_DOOR = 1;
+    protected static int OPEN_ORIGNAL_LOCK = 1;
+    protected static Pn512Lock mLock;
     /**
      * 超时关门时间（秒）
      */
@@ -70,29 +70,28 @@ public abstract class LockHandler {
     public abstract int closeLock();
 
     /**
-     * On door open.
+     * 检测到开门时回调
      *
      * @param doorNum the door num  0=1号门，1=2号门，2=两个门
      */
     public abstract void onDoorOpen(final int doorNum);
 
     /**
-     * On door close.
+     * 检测到关门时回调
      *
-     * @param doorNum the door num
+     * @param doorNum the door num  0=1号门，1=2号门，2=两个门
      */
-//doorNum：0=1号门，1=2号门，2=两个门
     public abstract void onDoorClose(final int doorNum);
 
 
     /**
-     * Sets default status.
+     * 设置锁的默认状态
      *
-     * @param lockStatus    the lock status
-     * @param doorStatus    the door status
-     * @param oriLockStatus the ori lock status
-     * @param isSingleLock  the is single lock
-     * @return the default status
+     * @param lockStatus    开锁时为 0/1
+     * @param doorStatus    开门时为 0/1
+     * @param oriLockStatus 原锁开锁时为 0/1
+     * @param isSingleLock  原锁开门时为 0/1
+     * @return 返回锁对象
      */
     public LockHandler setDefaultStatus(int lockStatus, int doorStatus, int oriLockStatus, boolean isSingleLock) {
         OPEN_LOCK = lockStatus;
@@ -103,7 +102,7 @@ public abstract class LockHandler {
     }
 
     /**
-     * Check lock int.
+     * 检查锁的状态
      *
      * @return the int
      */
@@ -114,7 +113,7 @@ public abstract class LockHandler {
     }
 
     /**
-     * Check judge int.
+     * 检查本地开锁还是原锁开锁
      *
      * @return the int
      */
@@ -125,9 +124,9 @@ public abstract class LockHandler {
     }
 
     /**
-     * Check door int.
+     * 检查门状态
      *
-     * @param num the num
+     * @param num the num 0=1号门，1=2号门
      * @return the int
      */
     public int checkDoor(int num) {
@@ -142,21 +141,17 @@ public abstract class LockHandler {
     }
 
     /**
-     * Finish.
+     * 注销设备
      */
     public void finish() {
 //        checkDoorStatusThread.stop();
         checkDoorStatusTask.cancel();
     }
 
-    /**
-     * The Door status.
-     */
-    int[] doorStatus = {-1, -1};
-    /**
-     * The Check door status task.
-     */
-    TimerTask checkDoorStatusTask = new TimerTask() {
+
+    protected int[] doorStatus = {-1, -1};
+
+    protected TimerTask checkDoorStatusTask = new TimerTask() {
         @Override
         public void run() {
             int newDoorStatus = mLock.control(CMD_READ, IO_DOOR1_ST);
@@ -184,22 +179,14 @@ public abstract class LockHandler {
         }
     };
 
-    /**
-     * Inv int.
-     *
-     * @param cmd the cmd
-     * @return the int
-     */
-    public int inv(int cmd) {
+
+    protected int inv(int cmd) {
         if (cmd > 0) return 0;
         else return 1;
     }
 
 
-    /**
-     * Read test.
-     */
-    void readTest() {
+    protected void readTest() {
         Log.w(TAG, "control 3,0 =" + mLock.control(CMD_READ, IO_LOCK_CTRL));
 //        Log.w(TAG,"control 3,1 =" + mLock.control(CMD_READ,IO_DOOR1_ST));
 //        Log.w(TAG,"control 3,2 =" + mLock.control(CMD_READ,IO_DOOR2_ST));

@@ -9,7 +9,6 @@ import java.util.logging.Handler;
 /**
  * Created by jelly on 2018/1/22.
  */
-
 public class SteerHandler {
     private static final String TAG = "SteerHandler";
     private static SteerHandler instance;
@@ -20,6 +19,11 @@ public class SteerHandler {
     private static final int SHAKE_STOP = 0;
     private static final int NOD_STOP = 0;
 
+    /**
+     * 获取单例
+     *
+     * @return the steer handler
+     */
     public static SteerHandler getInstance(){
         if (instance == null){
             instance = new SteerHandler();
@@ -32,6 +36,9 @@ public class SteerHandler {
         mSteer.openDevice();
     }
 
+    /**
+     * 调用舵机使机器人摇头
+     */
     public void shake(){
         LogUtil.e(TAG,"check shake b4 start "+mSteer.control(3,0));
         mSteer.control(SHAKE,0);
@@ -46,6 +53,9 @@ public class SteerHandler {
         },500);
     }
 
+    /**
+     * 调用舵机使机器人点头
+     */
     public void nod(){
         LogUtil.e(TAG,"check nod b4 start "+mSteer.control(3,1));
         mSteer.control(NOD,1);
@@ -59,6 +69,10 @@ public class SteerHandler {
             }
         },500);
     }
+
+    /**
+     * 关闭设备
+     */
     public void close(){
         mSteer.closeDevice();
         instance = null;

@@ -27,7 +27,7 @@ public class s {
 
 
     /**
-     * App application.
+     * 返回当前app的Application
      *
      * @return the application
      */
@@ -53,7 +53,7 @@ public class s {
     }
 
     /**
-     * Opencv opencv manager.
+     * 返回 人面识别管理器
      *
      * @return the opencv manager
      */
@@ -65,7 +65,7 @@ public class s {
     }
 
     /**
-     * Voice bd voice manager.
+     * 返回 声音管理器
      *
      * @return the bd voice manager
      */
@@ -77,7 +77,7 @@ public class s {
     }
 
     /**
-     * Location location manager.
+     *返回 定位管理器
      *
      * @return the location manager
      */
@@ -90,7 +90,7 @@ public class s {
 
 
     /**
-     * Device device manager.
+     * 返回 设备管理器
      *
      * @return the device manager
      */
@@ -102,7 +102,7 @@ public class s {
     }
 
     /**
-     * Player im player.
+     * 返回播放器
      *
      * @return the im player
      */
@@ -115,7 +115,7 @@ public class s {
 
 
     /**
-     * The type Ext.
+     * 扩展类
      */
     public static class Ext{
 
@@ -126,7 +126,7 @@ public class s {
         private static DeviceManager deviceManager;
         private static IMPlayer imPlayer;
         /**
-         * The constant debug.
+         *标识是否为调试模式
          */
         public static boolean debug;
         private Ext(){
@@ -149,7 +149,7 @@ public class s {
 
 
         /**
-         * 初始化
+         * 初始化入口
          *
          * @param app       APPLICATION
          * @param wsUrl     websocket地址
@@ -163,7 +163,7 @@ public class s {
         }
 
         /**
-         * Set opencv manager.
+         * 设置人面识别管理器
          *
          * @param opencvManager the opencv manager
          */
@@ -173,7 +173,7 @@ public class s {
 
 
         /**
-         * Set bd voice manager.
+         *  设置声音管理器
          *
          * @param bdVoiceManager the bd voice manager
          */
@@ -182,7 +182,7 @@ public class s {
         }
 
         /**
-         * Set location manager.
+         * 设置地址管理器
          *
          * @param locationManager the location manager
          */
@@ -191,7 +191,7 @@ public class s {
         }
 
         /**
-         * Set device manager.
+         * 设置设备管理器
          *
          * @param deviceManager the device manager
          */
@@ -200,7 +200,7 @@ public class s {
         }
 
         /**
-         * Set im player manager.
+         * 设置播放器
          *
          * @param player the player
          */
