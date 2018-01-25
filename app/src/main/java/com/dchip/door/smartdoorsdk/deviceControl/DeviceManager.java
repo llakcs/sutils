@@ -61,7 +61,7 @@ public interface DeviceManager {
     int getAdvType();
 
     /**
-     * 上传本机mac至服务器
+     * 上传本机主板mac至服务器
      */
     void upLoadMac();
 
@@ -78,7 +78,7 @@ public interface DeviceManager {
     void checkVer();
 
     /**
-     * 设置人体检测的监听器
+     * 注册 人体检测的监听器
      *
      * @param humanCheckListner the human check listner
      * @return the human check listner
@@ -86,48 +86,48 @@ public interface DeviceManager {
     DeviceManager setHumanCheckListner(HumanCheckListner humanCheckListner);
 
     /**
-     * 注销人体检测监听器
+     * 注销 人体检测监听器
      */
     void unRegHumanCheckListner();
 
     /**
-     * Sets update owener listner.
+     * 注册 户主信息更变监听器
      *
      * @param updateOwenerListner the update owener listner
      */
     void setUpdateOwenerListner(UpdateOwenerListner updateOwenerListner);
 
     /**
-     * Un reg update owner listner.
+     * 注消 户主信息更变监听器
      */
     void unRegUpdateOwnerListner();
 
     /**
-     * Sets service open lock listner.
+     * 注册 服务器开锁监听器
      *
      * @param serviceOpenLockListner the service open lock listner
      */
     void setServiceOpenLockListner(ServiceOpenLockListner serviceOpenLockListner);
 
     /**
-     * Un reg service open lock listner.
+     * 注消 服务器开锁监听器
      */
     void unRegServiceOpenLockListner();
 
     /**
-     * Sets serverstatus listner.
+     * 注册 服务器状态检测监听器
      *
      * @param serverstatusListner the serverstatus listner
      */
     void setServerstatusListner(ServerstatusListner serverstatusListner);
 
     /**
-     * Un reg serverstatus listner.
+     * 注消 服务器状态检测监听器
      */
     void unRegServerstatusListner();
 
     /**
-     * Sets lock push listener.
+     * 注册 门内开门按钮监听器
      *
      * @param lockPushListener the lock push listener
      * @return the lock push listener
@@ -135,12 +135,12 @@ public interface DeviceManager {
     DeviceManager setLockPushListener(LockPushListener lockPushListener);
 
     /**
-     * Unreg lock push listener listner.
+     * 注消 门内开门按钮监听器
      */
     void unRegLockPushListenerListner();
 
     /**
-     * Sets lock break listener.
+     * 注册 锁异常监听器
      *
      * @param lockBreakListener the lock break listener
      * @return the lock break listener
@@ -148,89 +148,96 @@ public interface DeviceManager {
     DeviceManager setLockBreakListener(LockBreakListener lockBreakListener);
 
     /**
-     * Un reg lock break listener.
+     * 注消 锁异常监听器
      */
     void unRegLockBreakListener();
 
     /**
-     * Upload lock.
+     * 上传本机主板uid至服务器
      */
     void uploadLock();
 
     /**
-     * Check crash log and upload.
+     * 上传崩溃信息至服务器
      */
     void checkCrashLogAndUpload();
 
     /**
-     * Init device.
+     * 初始化设备管理器
+     *  0-手机
+     *  1-android终端&普通版本
+     *  2-qt
+     *  5-android终端&十寸屏(人脸，视频对讲)
+     *  6-android终端&十寸屏(视频对讲)
+     *  7-android终端&十五寸屏(16:9)
+     *  8-android终端&十五寸屏(4:3)
      *
-     * @param activity   the activity
-     * @param appTypeNum the app type num
+     * @param activity   activity
+     * @param appTypeNum app的类型，参照后台配置.
      * @return the device
      */
     DeviceManager init(Activity activity,int appTypeNum);
 
     /**
-     * Release.
+     * 注销设备管理器
      */
     void release();
 
     /**
-     * Update onwer status.
+     * 返回业主信息写入终端状态至服务器
      */
     void updateOnwerStatus();
 
     /**
-     * Sets ease acount listner.
+     * 注册 获取环信帐号监听器
      *
      * @param acountListner the acount listner
      */
     void setEaseAcountListner(EaseAccountListner acountListner);
 
     /**
-     * Un reg ease acount listner.
+     * 注消 获取环信帐号监听器
      */
     void unRegEaseAcountListner();
 
     /**
-     * Sets get ad time.
+     * 设置检测广告更新的间隔时间
      *
-     * @param GET_AD_TIME the get ad time
+     * @param GET_AD_TIME 分钟
      * @return the get ad time
      */
     DeviceManager setGET_AD_TIME(int GET_AD_TIME);
 
     /**
-     * Enable card reader device.
+     * 设置使能读卡设备
      *
      * @return the device
      */
     DeviceManager EnableCardReader();
 
     /**
-     * Enable lock device.
+     * 设置使能锁设备
      *
      * @return the device
      */
     DeviceManager EnableLock();
 
     /**
-     * Enable led device.
+     * 设置使能提示灯设备
      *
      * @return the device
      */
     DeviceManager EnableLed();
 
     /**
-     * Enable dtimer device.
+     * 设置使能计时器设备
      *
      * @return the device
      */
     DeviceManager EnableDtimer();
 
     /**
-     * Enable steer device.
+     * 设置使能舵机设备
      *
      * @return the device
      */

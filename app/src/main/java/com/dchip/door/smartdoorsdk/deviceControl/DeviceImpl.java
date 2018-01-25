@@ -149,7 +149,7 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public DeviceImpl init(Activity activity, int appTypeNum) {
+    public DeviceManager init(Activity activity, int appTypeNum) {
         controlhandler = new Handler();
         this.mAcitvity = activity;
         appType = appTypeNum;
@@ -182,7 +182,7 @@ public class DeviceImpl implements DeviceManager {
 
 
     @Override
-    public DeviceImpl EnableCardReader() {
+    public DeviceManager EnableCardReader() {
         //初始化读卡模块
         CardHandler.getInstance();
 
@@ -190,7 +190,7 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public DeviceImpl EnableLock() {
+    public DeviceManager EnableLock() {
         //初始化锁配置
         enableLock = true;
         setLock(FileHelper.readFileToString(Constant.LOCK_CONFIG_FILE_PATH));
@@ -199,7 +199,7 @@ public class DeviceImpl implements DeviceManager {
 
 
     @Override
-    public DeviceImpl EnableLed() {
+    public DeviceManager EnableLed() {
         enableLed = true;
         //取消更新led
         s.device().getLed().closeLed(3);
@@ -208,7 +208,7 @@ public class DeviceImpl implements DeviceManager {
 
 
     @Override
-    public DeviceImpl EnableSteer() {
+    public DeviceManager EnableSteer() {
         enableSteer = true;
         return instance;
     }
@@ -216,7 +216,7 @@ public class DeviceImpl implements DeviceManager {
     int adcount = 0;
 
     @Override
-    public DeviceImpl EnableDtimer() {
+    public DeviceManager EnableDtimer() {
         dTimer = new DeviceTimer(new onTickListener() {
             @Override
             public void onOneWeek() {
@@ -323,7 +323,7 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public DeviceImpl setHumanCheckListner(HumanCheckListner humanCheckListner) {
+    public DeviceManager setHumanCheckListner(HumanCheckListner humanCheckListner) {
         this.mHumanChcekListner = humanCheckListner;
         //初始化人体检测设备
         HumanCheckHandler.getInstance();
@@ -339,7 +339,7 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public DeviceImpl setLockPushListener(LockPushListener lockPushListener) {
+    public DeviceManager setLockPushListener(LockPushListener lockPushListener) {
         this.mLockPushListener = lockPushListener;
         LockPushHandler.getInstance();
         return instance;
@@ -355,7 +355,7 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public DeviceImpl setLockBreakListener(LockBreakListener lockBreakListener) {
+    public DeviceManager setLockBreakListener(LockBreakListener lockBreakListener) {
         this.mLockBreakListener = lockBreakListener;
         LockBreakHandler.getInstance();
         return instance;
@@ -1288,7 +1288,7 @@ public class DeviceImpl implements DeviceManager {
     }
 
     //获取广告时间间隔 单位 分钟
-    public DeviceImpl setGET_AD_TIME(int GET_AD_TIME) {
+    public DeviceManager setGET_AD_TIME(int GET_AD_TIME) {
         this.GET_AD_TIME = GET_AD_TIME;
         return instance;
     }

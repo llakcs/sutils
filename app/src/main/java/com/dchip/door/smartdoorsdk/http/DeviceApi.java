@@ -156,7 +156,7 @@ public interface DeviceApi {
     Call<JsonResult<ApiGetDeviceConfigModel>> getDeviceConfig(@Field("mac") String mac);
 
     /**
-     * 返回用户列表状态
+     *业主信息写入终端状态
      *
      * @param mac    the mac
      * @param status the status
