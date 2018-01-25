@@ -19,13 +19,18 @@ import java.lang.reflect.Method;
 /**
  * Created by llakcs on 2017/11/29.
  */
-
 public class s {
 
 
     private s(){
     }
 
+
+    /**
+     * App application.
+     *
+     * @return the application
+     */
     public static Application app() {
         if (s.Ext.app == null) {
             try {
@@ -47,12 +52,23 @@ public class s {
         }
     }
 
+    /**
+     * Opencv opencv manager.
+     *
+     * @return the opencv manager
+     */
     public static OpencvManager opencv(){
         if(Ext.opencvManager == null){
             OpencvImpl.registerInstance();
         }
         return Ext.opencvManager;
     }
+
+    /**
+     * Voice bd voice manager.
+     *
+     * @return the bd voice manager
+     */
     public static BDVoiceManager voice(){
         if(Ext.bdVoiceManager == null){
             BDVoiceImpl.registerInstance();
@@ -60,6 +76,11 @@ public class s {
         return Ext.bdVoiceManager;
     }
 
+    /**
+     * Location location manager.
+     *
+     * @return the location manager
+     */
     public static LocationManager location(){
         if(Ext.locationManager == null){
             locationImpl.registerInstance();
@@ -68,6 +89,11 @@ public class s {
     }
 
 
+    /**
+     * Device device manager.
+     *
+     * @return the device manager
+     */
     public static DeviceManager device(){
         if(Ext.deviceManager == null){
             DeviceImpl.registerInstance();
@@ -75,6 +101,11 @@ public class s {
         return Ext.deviceManager;
     }
 
+    /**
+     * Player im player.
+     *
+     * @return the im player
+     */
     public static IMPlayer player(){
         if(Ext.imPlayer == null){
             MPlayer.registerInstance();
@@ -83,6 +114,9 @@ public class s {
     }
 
 
+    /**
+     * The type Ext.
+     */
     public static class Ext{
 
         private static Application app;
@@ -91,13 +125,17 @@ public class s {
         private static LocationManager locationManager;
         private static DeviceManager deviceManager;
         private static IMPlayer imPlayer;
+        /**
+         * The constant debug.
+         */
         public static boolean debug;
         private Ext(){
         }
 
         /**
          * DEBUG模式下打印日志
-         * @param debug
+         *
+         * @param debug the debug
          */
         public static void setDebug(boolean debug) {
             Ext.debug = debug;
@@ -112,9 +150,10 @@ public class s {
 
         /**
          * 初始化
-         * @param app APPLICATION
-         * @param wsUrl websocket地址
-         * @param serverUrl  http服务器地址
+         *
+         * @param app       APPLICATION
+         * @param wsUrl     websocket地址
+         * @param serverUrl http服务器地址
          */
         public static void init(Application app,String wsUrl,String serverUrl){
             if (Ext.app == null) {
@@ -123,23 +162,48 @@ public class s {
             SdkInit.onCreate(Ext.app,wsUrl,serverUrl);
         }
 
+        /**
+         * Set opencv manager.
+         *
+         * @param opencvManager the opencv manager
+         */
         public static void setOpencvManager(OpencvManager opencvManager){
             Ext.opencvManager = opencvManager;
         }
 
 
+        /**
+         * Set bd voice manager.
+         *
+         * @param bdVoiceManager the bd voice manager
+         */
         public static void setBDVoiceManager(BDVoiceManager bdVoiceManager){
             Ext.bdVoiceManager = bdVoiceManager;
         }
 
+        /**
+         * Set location manager.
+         *
+         * @param locationManager the location manager
+         */
         public static void setLocationManager(LocationManager locationManager){
             Ext.locationManager = locationManager;
         }
 
+        /**
+         * Set device manager.
+         *
+         * @param deviceManager the device manager
+         */
         public static void setDeviceManager(DeviceManager deviceManager){
             Ext.deviceManager = deviceManager;
         }
 
+        /**
+         * Set im player manager.
+         *
+         * @param player the player
+         */
         public static void setImPlayerManager(IMPlayer player){
             Ext.imPlayer = player;
         }

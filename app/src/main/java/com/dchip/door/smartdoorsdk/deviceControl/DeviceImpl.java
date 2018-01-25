@@ -149,15 +149,15 @@ public class DeviceImpl implements DeviceManager {
     }
 
     @Override
-    public DeviceImpl init(Activity activity,int appTypeNum) {
+    public DeviceImpl init(Activity activity, int appTypeNum) {
         controlhandler = new Handler();
         this.mAcitvity = activity;
         appType = appTypeNum;
         EventBus.getDefault().register(this);
         //获取mac
-        if(appType == 9){
-            mac=getLocalMacAddressFromNetcfg().replace(":","");
-        }else if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if (appType == 9) {
+            mac = getLocalMacAddressFromNetcfg().replace(":", "");
+        } else if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             ShellUtil.CommandResult cr = ShellUtil.execCommand("cat /proc/cpuinfo", false);
             int i = cr.successMsg.indexOf("Serial");
             if (i != -1) {
@@ -214,6 +214,7 @@ public class DeviceImpl implements DeviceManager {
     }
 
     int adcount = 0;
+
     @Override
     public DeviceImpl EnableDtimer() {
         dTimer = new DeviceTimer(new onTickListener() {
@@ -251,7 +252,7 @@ public class DeviceImpl implements DeviceManager {
 //
 //                    }
 //                }).start();
-                controlhandler.postDelayed(upload4GFlow,500);
+                controlhandler.postDelayed(upload4GFlow, 500);
             }
 
             @Override
@@ -261,7 +262,7 @@ public class DeviceImpl implements DeviceManager {
             @Override
             public void onOneMinute() {
                 adcount++;
-                if (adcount>GET_AD_TIME){
+                if (adcount > GET_AD_TIME) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -402,7 +403,7 @@ public class DeviceImpl implements DeviceManager {
 
     @Override
     public void unRegEaseAcountListner() {
-        if(this.easeAccountListner != null){
+        if (this.easeAccountListner != null) {
             this.easeAccountListner = null;
         }
     }
@@ -434,6 +435,7 @@ public class DeviceImpl implements DeviceManager {
         }
         return null;
     }
+
     @Override
     public SteerHandler getSteer() {
         if (enableSteer) {
@@ -523,7 +525,7 @@ public class DeviceImpl implements DeviceManager {
     private Runnable uploadAppVersionRunnable = new Runnable() {
         @Override
         public void run() {
-            deviceApi.uploadAppVersion(mac, getVersionName(),appType).enqueue(new ApiCallBack<Object>() {
+            deviceApi.uploadAppVersion(mac, getVersionName(), appType).enqueue(new ApiCallBack<Object>() {
                 @Override
                 public void success(Object o) {
 
@@ -550,6 +552,7 @@ public class DeviceImpl implements DeviceManager {
                 public void success(Object o) {
 //                                showMsg("上传流量成功");
                 }
+
                 @Override
                 public void fail(int i, String s) {
 //                                showMsg("上传流量失败:" + s);
@@ -584,7 +587,7 @@ public class DeviceImpl implements DeviceManager {
     private Runnable uploadMacRunnable = new Runnable() {
         @Override
         public void run() {
-            deviceApi.uploadMac(mac,GetNetworkType()).enqueue(new ApiCallBack<Object>() {
+            deviceApi.uploadMac(mac, GetNetworkType()).enqueue(new ApiCallBack<Object>() {
                 @Override
                 public void success(Object o) {
                     isUploadMaced = true;
@@ -610,7 +613,10 @@ public class DeviceImpl implements DeviceManager {
             deviceApi.checkVersion(appType).enqueue(new ApiCallBack<AppUpdateModel>() {
                 @Override
                 public void success(AppUpdateModel o) {
-                    if (o == null ){LogUtil.e(TAG, "服务器上不存在该版本："+appType); return;}
+                    if (o == null) {
+                        LogUtil.e(TAG, "服务器上不存在该版本：" + appType);
+                        return;
+                    }
                     String serverUrl = DPDB.getserverUrl();
                     final String url = serverUrl.substring(0, serverUrl.length() - 5) + o.getAddress();
 //                    showMsg("检查版本号成功 " + o.getVersion() + " url:" + url);
@@ -620,8 +626,8 @@ public class DeviceImpl implements DeviceManager {
                         LogUtil.w(TAG, "url:" + url);
                         //删除旧apk
                         File[] fs = new File(Constant.DOWNLOAD_APK_PATH).listFiles();
-                        for(File f:fs){
-                            if (url.indexOf(f.getName()) < 0){
+                        for (File f : fs) {
+                            if (url.indexOf(f.getName()) < 0) {
                                 f.delete();
                             }
                         }
@@ -758,7 +764,8 @@ public class DeviceImpl implements DeviceManager {
                         Log.e(TAG, "updateOnwerStatus fail :" + s);
                     }
                 });
-            }},2000);
+            }
+        }, 2000);
 
     }
 
@@ -786,18 +793,21 @@ public class DeviceImpl implements DeviceManager {
                         Log.e(TAG, "propertyManagement fail :" + s);
                     }
                 });
-            }},2000);
+            }
+        }, 2000);
 
     }
+
     /**
      * 上传下载进度
      */
     public void uploadDownloadProgress(int progress) {
-        deviceApi.uploadDownloadProgress(mac,progress,appType).enqueue(new ApiCallBack<Object>() {
+        deviceApi.uploadDownloadProgress(mac, progress, appType).enqueue(new ApiCallBack<Object>() {
             @Override
             public void success(Object o) {
 
             }
+
             @Override
             public void fail(int i, String s) {
                 Log.e(TAG, "uploadDownloadProgress fail :" + s);
@@ -817,15 +827,15 @@ public class DeviceImpl implements DeviceManager {
                 @Override
                 public void success(ApiGetDeviceConfigModel model) {
 
-                        LogUtil.e(TAG, "成功获取锁配置：锁:" + model.getLock_access() + " 门:" + model.getDoor_access() + " 原锁:" + model.getOrignal_lock_access() +
-                                " 单锁:" + (model.getLock_num() == 1) + " 锁类型:" + model.getLock_type()+" 环信账号:"+model.getEaseAccount());
+                    LogUtil.e(TAG, "成功获取锁配置：锁:" + model.getLock_access() + " 门:" + model.getDoor_access() + " 原锁:" + model.getOrignal_lock_access() +
+                            " 单锁:" + (model.getLock_num() == 1) + " 锁类型:" + model.getLock_type() + " 环信账号:" + model.getEaseAccount());
 
-                        if(model.getEaseAccount() != null){
-                            if(easeAccountListner != null){
-                                easeAccountListner.ResultAcount(model.getEaseAccount().toString());
-                            }
+                    if (model.getEaseAccount() != null) {
+                        if (easeAccountListner != null) {
+                            easeAccountListner.ResultAcount(model.getEaseAccount().toString());
                         }
-                        if (enableLock) {
+                    }
+                    if (enableLock) {
                         switch (model.getLock_type()) {
                             case 1:
                                 if (s.device().getLock() == null) {
@@ -872,6 +882,7 @@ public class DeviceImpl implements DeviceManager {
 
                     }
                 }
+
                 @Override
                 public void fail(int i, String s) {
                     LogUtil.e(TAG, "getDeviceConfigRunnable 失败 " + s);
@@ -904,8 +915,8 @@ public class DeviceImpl implements DeviceManager {
             case "lockPush": {
                 if (mLockPushListener != null)
                     mLockPushListener.onPush();
-                    int i =getLock().openLock();
-                    LogUtil.e(TAG,"###result lockcode ="+i);
+                int i = getLock().openLock();
+                LogUtil.e(TAG, "###result lockcode =" + i);
                 EventBus.getDefault().post(new OpenLockStatusEvent(DPDB.getUid(), true));
                 break;
             }
@@ -915,7 +926,7 @@ public class DeviceImpl implements DeviceManager {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReadCardEvent(ReadCardEven event) {
-        LogUtil.w(TAG,"onReadCardEvent:" + event.getCardId());
+        LogUtil.w(TAG, "onReadCardEvent:" + event.getCardId());
         String checkedId = null;
         for (String info : cardList) {
             String[] infos = info.split("/");
@@ -1106,8 +1117,8 @@ public class DeviceImpl implements DeviceManager {
     }
 
 
-    public BaseDownloadTask createTask(final String url,final String path,final String name,final String md5) {
-        final File file = new File(path+name);
+    public BaseDownloadTask createTask(final String url, final String path, final String name, final String md5) {
+        final File file = new File(path + name);
         return FileDownloader.getImpl().create(url)
                 .setPath(file.getAbsolutePath(), false)
                 .setCallbackProgressTimes(300)
@@ -1133,7 +1144,7 @@ public class DeviceImpl implements DeviceManager {
                     @Override
                     protected void error(BaseDownloadTask task, Throwable e) {
                         super.error(task, e);
-                        new File(path+name).delete();
+                        new File(path + name).delete();
                         if (!deviceOnline) {
                             //showMsg("apk 下载失败,设备已掉线，停止下载。");
                         } else {
@@ -1141,7 +1152,7 @@ public class DeviceImpl implements DeviceManager {
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    createTask(url,path,name,md5);
+                                    createTask(url, path, name, md5);
                                 }
                             }, 1000 * 15);
                         }
@@ -1162,19 +1173,19 @@ public class DeviceImpl implements DeviceManager {
                     protected void completed(BaseDownloadTask task) {
                         super.completed(task);
                         LogUtil.w(TAG, name + "downloading 100%");
-                        file.renameTo(new File(path+name));
-                        String downMd5 = FileHelper.getMd5ByFile(new File(path+name));
-                        LogUtil.w(TAG, "saved in " + path+name);
-                        LogUtil.w(TAG, "md5 Conpare net:" +md5 +" download:"+downMd5);
-                        if (md5!=null && downMd5.equals(md5)) {
+                        file.renameTo(new File(path + name));
+                        String downMd5 = FileHelper.getMd5ByFile(new File(path + name));
+                        LogUtil.w(TAG, "saved in " + path + name);
+                        LogUtil.w(TAG, "md5 Conpare net:" + md5 + " download:" + downMd5);
+                        if (md5 != null && downMd5.equals(md5)) {
                             if (path.equals(Constant.DOWNLOAD_APK_PATH)) {
                                 installApp(path + name);
-                            }else if(path.equals("")){
+                            } else if (path.equals("")) {
 
                             }
                         } else {
                             LogUtil.w(TAG, "check md5 fail");
-                            new File(path+name).delete();
+                            new File(path + name).delete();
                             controlhandler.post(checkVersionRunnable);
                         }
 
@@ -1187,7 +1198,7 @@ public class DeviceImpl implements DeviceManager {
                 });
     }
 
-    private void installApp(final String fullPath){
+    private void installApp(final String fullPath) {
         if (updateType == 1) {
             LogUtil.w(TAG, "即时更新");
             //安装app
@@ -1232,49 +1243,48 @@ public class DeviceImpl implements DeviceManager {
 
 
     //根据busybox获取本地Mac
-    public static String getLocalMacAddressFromNetcfg(){
+    public static String getLocalMacAddressFromNetcfg() {
         String result = "";
         String Mac = "";
-        result = callCmd("netcfg","eth0");
-        if(result==null){
+        result = callCmd("netcfg", "eth0");
+        if (result == null) {
             return "网络出错，请检查网络";
         }
-        if(result.length()>0 && result.contains("eth0")==true){
-            Mac = result.substring(result.length()-17, result.length());
-            Log.e(TAG,"Mac:"+Mac+" Mac.length: "+Mac.length());
+        if (result.length() > 0 && result.contains("eth0") == true) {
+            Mac = result.substring(result.length() - 17, result.length());
+            Log.e(TAG, "Mac:" + Mac + " Mac.length: " + Mac.length());
             result = Mac;
         }
         return result;
     }
 
-    private static String callCmd(String cmd,String filter) {
+    private static String callCmd(String cmd, String filter) {
         String result = "";
         String line = "";
         try {
             Process proc = Runtime.getRuntime().exec(cmd);
             InputStreamReader is = new InputStreamReader(proc.getInputStream());
-            BufferedReader br = new BufferedReader (is);
+            BufferedReader br = new BufferedReader(is);
 
             //执行命令cmd，只取结果中含有filter的这一行
-            while ((line = br.readLine ()) != null && line.contains(filter)== false) {
+            while ((line = br.readLine()) != null && line.contains(filter) == false) {
                 //result += line;
-                Log.i("test","line: "+line);
+                Log.i("test", "line: " + line);
             }
 
             result = line;
-            Log.i("test","result: "+result);
-        }
-        catch(Exception e) {
+            Log.i("test", "result: " + result);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    protected String getNameFromUrl(String url){
+    protected String getNameFromUrl(String url) {
         String ss[] = url.split("/");
-        if (ss.length>0) {
+        if (ss.length > 0) {
             return ss[ss.length - 1];
-        }else return null;
+        } else return null;
     }
 
     //获取广告时间间隔 单位 分钟
@@ -1304,7 +1314,7 @@ public class DeviceImpl implements DeviceManager {
                 if (filename.trim().toLowerCase().endsWith(".mp4")//
                         || filename.trim().toLowerCase().endsWith(".MP4")//
                         ) {
-                    if (subFile[iFileLength].length() < 500*1000*1000) {
+                    if (subFile[iFileLength].length() < 500 * 1000 * 1000) {
                         // 文件大小
                         files.add(subFile[iFileLength]);
                     }
@@ -1336,7 +1346,7 @@ public class DeviceImpl implements DeviceManager {
                         || filename.trim().toLowerCase().endsWith(".jpeg")//
                         || filename.trim().toLowerCase().endsWith(".png")//
                         ) {
-                    if (subFile[iFileLength].length() < 5*1000*1000) {
+                    if (subFile[iFileLength].length() < 5 * 1000 * 1000) {
                         // 文件大小
                         files.add(subFile[iFileLength]);
                     }
@@ -1347,23 +1357,18 @@ public class DeviceImpl implements DeviceManager {
         return files;
     }
 
-    public int GetNetworkType()
-    {
+    public int GetNetworkType() {
         int strNetworkType = -1;
 
         NetworkInfo networkInfo = ((ConnectivityManager) mAcitvity.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected())
-        {
-            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-            {
+        if (networkInfo != null && networkInfo.isConnected()) {
+            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                 if (networkInfo.getTypeName().equals("WIFI")) {
                     strNetworkType = 1;
-                }else if(networkInfo.getTypeName().equals("ETHERNET")){
+                } else if (networkInfo.getTypeName().equals("ETHERNET")) {
                     strNetworkType = 5;
                 }
-            }
-            else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
-            {
+            } else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                 String _strSubTypeName = networkInfo.getSubtypeName();
 
                 Log.e("cocos2d-x", "Network getSubtypeName : " + _strSubTypeName);
@@ -1394,8 +1399,7 @@ public class DeviceImpl implements DeviceManager {
                         break;
                     default:
                         // http://baike.baidu.com/item/TD-SCDMA 中国移动 联通 电信 三种3G制式
-                        if (_strSubTypeName.equalsIgnoreCase("TD-SCDMA") || _strSubTypeName.equalsIgnoreCase("WCDMA") || _strSubTypeName.equalsIgnoreCase("CDMA2000"))
-                        {
+                        if (_strSubTypeName.equalsIgnoreCase("TD-SCDMA") || _strSubTypeName.equalsIgnoreCase("WCDMA") || _strSubTypeName.equalsIgnoreCase("CDMA2000")) {
                             strNetworkType = 3;
                         } else {
                             strNetworkType = 4;

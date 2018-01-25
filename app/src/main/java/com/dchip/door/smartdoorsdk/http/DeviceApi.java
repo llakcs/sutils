@@ -15,9 +15,11 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /**
+ * The interface Device api.
+ *
  * @author zhangdeming
- * @date 创建时间 2017/5/11
- * @description 描述类的功能
+ * date 创建时间 2017/5/11
+ * description 描述类的功能
  */
 public interface DeviceApi {
 
@@ -25,7 +27,7 @@ public interface DeviceApi {
      * 查询服务器上最新版本号
      *
      * @param type 默认为1
-     * @return
+     * @return call
      */
     @FormUrlEncoded
     @POST("mine/version")
@@ -34,8 +36,10 @@ public interface DeviceApi {
     /**
      * 上传主控板的MAC码
      *
-     * @param mac
-     * @return
+     * @param mac         the mac
+     * @param versionName the version name
+     * @param type        the type
+     * @return call
      */
     @FormUrlEncoded
     @POST("maincontrol/uploadVersionInfo")
@@ -44,8 +48,9 @@ public interface DeviceApi {
     /**
      * 上传主控板的MAC码 和 网络类型
      *
-     * @param mac
-     * @return
+     * @param mac         the mac
+     * @param networkType the network type
+     * @return call
      */
     @FormUrlEncoded
     @POST("maincontrol/upload")
@@ -54,9 +59,9 @@ public interface DeviceApi {
     /**
      * 上传锁的数据
      *
-     * @param mac
-     * @param uid
-     * @return
+     * @param mac the mac
+     * @param uid the uid
+     * @return call
      */
     @FormUrlEncoded
     @POST("lockcontrol/upload")
@@ -65,9 +70,9 @@ public interface DeviceApi {
     /**
      * 锁板故障上报
      *
-     * @param uid
-     * @param type
-     * @return
+     * @param uid  the uid
+     * @param type the type
+     * @return call
      */
     @FormUrlEncoded
     @POST("lockcontrol/reportFault")
@@ -76,9 +81,9 @@ public interface DeviceApi {
     /**
      * appCrash 上传
      *
-     * @param mac
-     * @param errorContent
-     * @return
+     * @param mac          the mac
+     * @param errorContent the error content
+     * @return call
      */
     @FormUrlEncoded
     @POST("errorlog/uploadError")
@@ -87,9 +92,9 @@ public interface DeviceApi {
     /**
      * 上传是否写卡成功
      *
-     * @param mac
-     * @param status
-     * @return
+     * @param mac    the mac
+     * @param status the status
+     * @return call
      */
     @FormUrlEncoded
     @POST("maincontrol/updateTerminalRecord")
@@ -98,6 +103,10 @@ public interface DeviceApi {
     /**
      * appCrash 上传
      *
+     * @param uid    the uid
+     * @param cardId the card id
+     * @param phone  the phone
+     * @return the call
      */
     @FormUrlEncoded
     @POST("access/setOpenByCardRecord")
@@ -106,6 +115,9 @@ public interface DeviceApi {
     /**
      * appCrash 上传
      *
+     * @param mac   the mac
+     * @param flows the flows
+     * @return the call
      */
     @FormUrlEncoded
     @POST("flow/save")
@@ -114,6 +126,9 @@ public interface DeviceApi {
     /**
      * app更新失败上传
      *
+     * @param mac         the mac
+     * @param failReasion the fail reasion
+     * @return the call
      */
     @FormUrlEncoded
     @POST("maincontrol/uploadInstallFailReasion")
@@ -122,6 +137,8 @@ public interface DeviceApi {
     /**
      * app更新失败上传
      *
+     * @param mac the mac
+     * @return the card list by mac
      */
     @FormUrlEncoded
     @POST("access/getCardListByMac")
@@ -131,6 +148,8 @@ public interface DeviceApi {
     /**
      * 获取锁的设置
      *
+     * @param mac the mac
+     * @return the device config
      */
     @FormUrlEncoded
     @POST("maincontrol/findMainInfo")
@@ -139,6 +158,9 @@ public interface DeviceApi {
     /**
      * 返回用户列表状态
      *
+     * @param mac    the mac
+     * @param status the status
+     * @return the call
      */
     @FormUrlEncoded
     @POST("maincontrol/updateOnwerInfoTerminalRecord")
@@ -148,6 +170,8 @@ public interface DeviceApi {
     /**
      * 物业管理
      *
+     * @param mac the mac
+     * @return the call
      */
     @FormUrlEncoded
     @POST("areaconcat/pageDeviceList")
@@ -156,6 +180,9 @@ public interface DeviceApi {
     /**
      * 获取广告
      *
+     * @param mac  the mac
+     * @param type the type
+     * @return the ad
      */
     @FormUrlEncoded
     @POST("access/getDchipDeviceBanner")
@@ -164,6 +191,10 @@ public interface DeviceApi {
     /**
      * 下载进度
      *
+     * @param mac      the mac
+     * @param progress the progress
+     * @param type     the type
+     * @return the call
      */
     @FormUrlEncoded
     @POST("maincontrol/downloadRecord")
