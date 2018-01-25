@@ -19,7 +19,7 @@ import static com.dchip.door.smartdoorsdk.deviceControl.nativeLev.Pn512Lock.IO_L
  * Created by jelly on 2017/11/8.
  */
 public abstract class LockHandler {
-    protected static final String TAG = "LockHandler";
+    public static final String TAG = "LockHandler";
     protected static boolean isSingleLock = true;
     protected static boolean isDebugable = false;
     protected static boolean isLongOpen = false;
