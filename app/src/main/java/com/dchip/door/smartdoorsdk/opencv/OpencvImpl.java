@@ -207,7 +207,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
 
         for (int i = 0; i < facesArray.length; i++){
             RECTCOUNT++;
-            Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
+//            Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
         }
 
         return mRgba;
