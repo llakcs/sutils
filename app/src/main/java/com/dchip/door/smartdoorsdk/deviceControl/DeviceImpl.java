@@ -692,8 +692,9 @@ public class DeviceImpl implements DeviceManager {
                     @Override
                     public void success(ApiGetAdvertisement o) {
                         AdvType = o.getAdvType();
-                        Log.w(TAG, "getAd success AdvType=" + o.getAdvType() + " video:" + o.getBannerVideoList().size() + " photo:" + o.getBannerPicList().size());
+                        Log.w(TAG, "getAd success AdvType=" + o.getAdvType());
                         if (o.getAdvType() == 1 || o.getAdvType() == 3) {
+                            Log.w(TAG, "video:" + o.getBannerVideoList().size());
                             //查寻是否有多余视频广告
                             List<File> vFiles = scanSDcardVideoList(Constant.VIDEOPATH);
                             for (File f : vFiles) {
@@ -727,6 +728,7 @@ public class DeviceImpl implements DeviceManager {
                             }
                         }
                         if (o.getAdvType() == 1 || o.getAdvType() == 2) {
+                            Log.w(TAG, "photo:" + o.getBannerPicList().size());
                             //查寻是否有多余图片广告  132
                             List<File> PFiles = scanSDcardImageFileList(Constant.ADIMGPATH);
                             for (File f : PFiles) {
