@@ -1,7 +1,5 @@
 package com.dchip.door.smartdoorsdk.http;
 
-
-
 import com.dchip.door.smartdoorsdk.Bean.ApiGetAdvertisement;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetCardListModel;
 import com.dchip.door.smartdoorsdk.Bean.ApiGetDeviceConfigModel;
