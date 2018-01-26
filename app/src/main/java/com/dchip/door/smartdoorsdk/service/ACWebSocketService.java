@@ -296,10 +296,12 @@ public class ACWebSocketService extends Service {
                         disconnectAC();
                         wsStatus = WS_STATUS_RECONNECT;
                     } else {
-                        status = true;
-                        String hmsg = new Gson().toJson(new HeartBeatModel(time));
-                        mConnection.sendTextMessage(hmsg);
+                        if (mConnection != null && mConnection.isConnected()) {
+                            status = true;
+                            String hmsg = new Gson().toJson(new HeartBeatModel(time));
+                            mConnection.sendTextMessage(hmsg);
 //                        Log.e(TAG, "心跳检测：正常链接===发送：" + hmsg);
+                        }
                     }
                     break;
                 default:
