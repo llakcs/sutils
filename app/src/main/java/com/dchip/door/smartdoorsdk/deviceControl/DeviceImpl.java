@@ -919,9 +919,14 @@ public class DeviceImpl implements DeviceManager {
             case "lockPush": {
                 if (mLockPushListener != null)
                     mLockPushListener.onPush();
-                int i = getLock().openLock();
-                LogUtil.e(TAG, "###result lockcode =" + i);
-                EventBus.getDefault().post(new OpenLockStatusEvent(DPDB.getUid(), true));
+                int i=0;
+                if (getLock()!=null) {
+                    i = getLock().openLock();
+                    LogUtil.e(TAG, "###result lockcode =" + i);
+                    EventBus.getDefault().post(new OpenLockStatusEvent(DPDB.getUid(), true));
+                }else{
+                    LogUtil.e(TAG, "###result getLock=null");
+                }
                 break;
             }
         }
