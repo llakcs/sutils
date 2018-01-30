@@ -86,4 +86,14 @@ public interface IMPlayer {
      */
     void onDestroy();
 
+    /**
+     * 关闭播放声音
+     */
+    public void CloseVolume();
+
+    /**
+     * 打开播放声音
+     */
+    public void OpenVolume();
+
 }
