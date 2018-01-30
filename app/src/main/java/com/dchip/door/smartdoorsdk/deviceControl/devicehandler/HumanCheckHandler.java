@@ -52,7 +52,7 @@ public class HumanCheckHandler {
                             LogUtil.e(TAG,"###DeviceCheckEvent.HumanCheckHandler");
                             EventBus.getDefault().post(new DeviceCheckEvent("human"));
                     }
-                   // LogUtil.e(TAG,"人体检测:" + statusnew);
+                   LogUtil.v(TAG,"###DeviceCheckEvent 人体检测:" + statusnew);
                     statuslod = statusnew;
                 }
             }
