@@ -57,4 +57,16 @@ public interface OpencvManager{
       * @param filePath the file path
       */
      public void takePhoto(String filePath);
+
+     /**
+      * Sets take photo listener.
+      *
+      * @param takePhotoListener the take photo listener
+      */
+     public void setTakePhotoListener(TakePhotoListener takePhotoListener);
+
+     /**
+      * Un reg take photo listener.
+      */
+     public void unRegTakePhotoListener();
 }

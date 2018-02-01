@@ -72,8 +72,13 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     private int mDetectorType = JAVA_DETECTOR;
     private int FACECOUNT = 3;
     private int RECTCOUNT = 0;
+    //拍照
+    private boolean justPhoto = false;
+    private String justPhotoPath = "";
+
     private Context mContext;
     private DetectionListner mDetection;
+    private TakePhotoListener mTakePhoto;
     @Override
     public void onResume() {
         new Thread(new Runnable() {
@@ -118,9 +123,8 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
 
     @Override
     public void takePhoto(String filePath) {
-        if (mOpenCvCameraView != null) {
-            mOpenCvCameraView.takephoto(filePath);
-        }
+        justPhoto = true;
+        justPhotoPath = filePath;
     }
 
     /**
@@ -158,7 +162,26 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     }
 
     @Override
+    public void setTakePhotoListener(TakePhotoListener takePhotoListener) {
+        this.mTakePhoto = takePhotoListener;
+    }
+
+    @Override
+    public void unRegTakePhotoListener() {
+        if(mTakePhoto != null){
+            mTakePhoto = null;
+        }
+    }
+
+    @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+        if (justPhoto){
+            mOpenCvCameraView.takephoto(justPhotoPath);
+            mTakePhoto.onTaken(justPhotoPath);
+            justPhotoPath = null;
+            justPhoto = false;
+            return null;
+        }
         mRgba = inputFrame.rgba();
         mGray = inputFrame.gray();
 
