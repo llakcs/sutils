@@ -50,4 +50,11 @@ public interface OpencvManager{
       * Un reg detection listner.
       */
      void unRegDetectionListner();
+
+     /**
+      * Take photo.
+      *
+      * @param filePath the file path
+      */
+     public void takePhoto(String filePath);
 }

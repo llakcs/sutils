@@ -114,7 +114,14 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         this.mContext =context;
         mOpenCvCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
+        mOpenCvCameraView.takephoto();
+    }
 
+    @Override
+    public void takePhoto(String filePath) {
+        if (mOpenCvCameraView != null) {
+            mOpenCvCameraView.takephoto(filePath);
+        }
     }
 
     /**
