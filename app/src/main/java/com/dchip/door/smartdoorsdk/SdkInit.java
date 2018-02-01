@@ -50,6 +50,7 @@ public class SdkInit {
                 new File(Constant.VISTPATH).mkdirs();
                 new File(Constant.VIDEOPATH).mkdirs();
                 new File(Constant.ADIMGPATH).mkdirs();
+                new File(Constant.VIST_PHOTO_PATH).mkdirs();
                 new File(Constant.DOWNLOAD_APK_PATH).mkdirs();
                 new File(Constant.CRASH_LOG_PATH).mkdirs();
                 //初始化百度定位sdk
