@@ -177,6 +177,11 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         if (justPhoto){
             mOpenCvCameraView.takephoto(justPhotoPath);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             mTakePhoto.onTaken(justPhotoPath);
             justPhotoPath = null;
             justPhoto = false;
