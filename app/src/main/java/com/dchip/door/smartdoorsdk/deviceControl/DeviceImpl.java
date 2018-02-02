@@ -1218,6 +1218,7 @@ public class DeviceImpl implements DeviceManager {
                         LogUtil.w(TAG, "md5 Conpare net:" + md5 + " download:" + downMd5);
                         if (md5 != null && downMd5.equals(md5)) {
                             if (path.equals(Constant.DOWNLOAD_APK_PATH)) {
+
                                 installApp(path + name);
                             } else if (path.equals("")) {
 
@@ -1237,6 +1238,7 @@ public class DeviceImpl implements DeviceManager {
                 });
     }
 
+    private static final String INSTALL_REBOOT_ACTION = "com.dchip.install.reboot";
     private void installApp(final String fullPath) {
         if (updateType == 1) {
             LogUtil.w(TAG, "即时更新");
@@ -1248,6 +1250,9 @@ public class DeviceImpl implements DeviceManager {
                 s.device().getLed().openLed(3);
             }
             mAcitvity.getApplicationContext().startActivity(intent);
+            intent = new Intent(INSTALL_REBOOT_ACTION);
+            intent.putExtra("install", true);
+            mAcitvity.getApplicationContext().sendBroadcast(intent);
         } else {
             //凌晨安装
             LogUtil.w(TAG, "凌晨2时20分更新");
@@ -1274,6 +1279,9 @@ public class DeviceImpl implements DeviceManager {
                         s.device().getLed().openLed(3);
                     }
                     mAcitvity.getApplicationContext().startActivity(intent);
+                    intent = new Intent(INSTALL_REBOOT_ACTION);
+                    intent.putExtra("install", true);
+                    mAcitvity.getApplicationContext().sendBroadcast(intent);
                 }
             }, delay);
 //                                showMsg("update after " + delay + "ms");
