@@ -9,6 +9,7 @@ import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockPushListener;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServerstatusListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServiceOpenLockListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.UpdateOwenerListner;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.onPhotoTakenListener;
 import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.LedHandler;
 import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.SteerHandler;
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
@@ -164,13 +165,13 @@ public interface DeviceManager {
 
     /**
      * 初始化设备管理器
-     *  0-手机
-     *  1-android终端&普通版本
-     *  2-qt
-     *  5-android终端&十寸屏(人脸，视频对讲)
-     *  6-android终端&十寸屏(视频对讲)
-     *  7-android终端&十五寸屏(16:9)
-     *  8-android终端&十五寸屏(4:3)
+     * 0-手机
+     * 1-android终端&普通版本
+     * 2-qt
+     * 5-android终端&十寸屏(人脸，视频对讲)
+     * 6-android终端&十寸屏(视频对讲)
+     * 7-android终端&十五寸屏(16:9)
+     * 8-android终端&十五寸屏(4:3)
      *
      * @param activity   activity
      * @param appTypeNum app的类型，参照后台配置.
@@ -199,6 +200,11 @@ public interface DeviceManager {
      * 注消 获取环信帐号监听器
      */
     void unRegEaseAcountListner();
+
+    /**
+     * 开启悬浮框服务拍照
+     */
+    public void takePhoto(onPhotoTakenListener tp);
 
     /**
      * 设置检测广告更新的间隔时间
@@ -242,5 +248,12 @@ public interface DeviceManager {
      * @return the device
      */
     DeviceManager EnableSteer();
+
+    /**
+     * 设置使能开门拍照
+     *
+     * @return the device
+     */
+    DeviceManager EnableTakePhoto();
 
 }

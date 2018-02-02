@@ -22,6 +22,8 @@
     </uses-permission>
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW"/>
 
     <!-- 可选 -->
     <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 获取logcat日志 -->
@@ -44,6 +46,9 @@
                 <action android:name="com.dchip.action.AC_WEBSOCKET" />
             </intent-filter>
         </service>
+        <service android:name=".service.TakePhotoService"
+            android:enabled="true"
+            android:exported="true"></service>
         <receiver android:name=".receiver.ACBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

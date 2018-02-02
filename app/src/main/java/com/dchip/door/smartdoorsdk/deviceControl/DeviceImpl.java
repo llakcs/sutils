@@ -27,6 +27,7 @@ import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockBreakListener;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.LockPushListener;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServerstatusListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.ServiceOpenLockListner;
+import com.dchip.door.smartdoorsdk.deviceControl.Listener.onPhotoTakenListener;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.UpdateOwenerListner;
 import com.dchip.door.smartdoorsdk.deviceControl.Listener.onTickListener;
 import com.dchip.door.smartdoorsdk.deviceControl.devicehandler.BoltLockHandler;
@@ -44,22 +45,22 @@ import com.dchip.door.smartdoorsdk.event.FaultEvent;
 import com.dchip.door.smartdoorsdk.event.DeviceCheckEvent;
 import com.dchip.door.smartdoorsdk.event.OpenLockRecallEvent;
 import com.dchip.door.smartdoorsdk.event.OpenLockStatusEvent;
+import com.dchip.door.smartdoorsdk.event.PhotoTakenEvent;
 import com.dchip.door.smartdoorsdk.event.ReadCardEven;
 import com.dchip.door.smartdoorsdk.event.ServiceEvent;
 import com.dchip.door.smartdoorsdk.http.ApiCallBack;
 import com.dchip.door.smartdoorsdk.receiver.ACBroadcastReceiver;
 import com.dchip.door.smartdoorsdk.s;
 import com.dchip.door.smartdoorsdk.service.ACWebSocketService;
+import com.dchip.door.smartdoorsdk.service.TakePhotoService;
 import com.dchip.door.smartdoorsdk.utils.Constant;
 import com.dchip.door.smartdoorsdk.utils.DPDB;
 import com.dchip.door.smartdoorsdk.utils.DeviceTimer;
 import com.dchip.door.smartdoorsdk.utils.FileHelper;
 import com.dchip.door.smartdoorsdk.utils.GlobalMonitor;
-import com.dchip.door.smartdoorsdk.utils.GsonUtil;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
 import com.dchip.door.smartdoorsdk.utils.NetworkStats;
 import com.dchip.door.smartdoorsdk.utils.ShellUtil;
-import com.google.gson.Gson;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadMonitor;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
@@ -74,6 +75,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -123,9 +125,11 @@ public class DeviceImpl implements DeviceManager {
     private ServiceOpenLockListner serviceOpenLockListner;
     private ServerstatusListner mServerstatusListner;
     private EaseAccountListner easeAccountListner;
+    private onPhotoTakenListener photoTakenListener;
     private boolean enableLed = false;
     private boolean enableSteer = false;
     private boolean enableLock = false;
+    private boolean enableTakePhoto = false;
     private int GET_AD_TIME = 1;
     private int AdvType = 1;
 
@@ -212,6 +216,12 @@ public class DeviceImpl implements DeviceManager {
     @Override
     public DeviceManager EnableSteer() {
         enableSteer = true;
+        return instance;
+    }
+
+    @Override
+    public DeviceManager EnableTakePhoto() {
+        enableTakePhoto = true;
         return instance;
     }
 
@@ -407,6 +417,18 @@ public class DeviceImpl implements DeviceManager {
     public void unRegEaseAcountListner() {
         if (this.easeAccountListner != null) {
             this.easeAccountListner = null;
+        }
+    }
+
+    @Override
+    public void takePhoto(onPhotoTakenListener tp) {
+        if (enableTakePhoto) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS");
+            String fileneme = com.dchip.door.smartdoorsdk.utils.Constant.VIST_PHOTO_PATH + sdf.format(System.currentTimeMillis()) + ".jpg";
+            Intent intent = new Intent().setClass(mAcitvity, TakePhotoService.class);
+            intent.putExtra("path", fileneme);
+            mAcitvity.startService(intent);
+            photoTakenListener = tp;
         }
     }
 
@@ -900,6 +922,14 @@ public class DeviceImpl implements DeviceManager {
     public void onOpenLockRecallEvent(OpenLockRecallEvent openLockRecallEvent) {
         if (serviceOpenLockListner != null) {
             serviceOpenLockListner.lockopen();
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPhotoTakenEvent(PhotoTakenEvent photoTakenEvent) {
+        if (photoTakenListener != null) {
+            LogUtil.w(TAG,"get onPhotoTakenEvent");
+            photoTakenListener.onTaken(photoTakenEvent.getPath());
+            photoTakenListener = null;
         }
     }
 
