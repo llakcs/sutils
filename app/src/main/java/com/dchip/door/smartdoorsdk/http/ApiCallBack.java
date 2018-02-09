@@ -34,7 +34,8 @@ public abstract class ApiCallBack<T> implements Callback<JsonResult<T>> {
                 this.fail(result.code, result.msg);
             }
         } catch (Exception var5) {
-            LogUtil.e("Request CallBack", var5.getMessage(),var5);
+            LogUtil.e(TAG,"onResponse err");
+            var5.printStackTrace();
         }
 
     }

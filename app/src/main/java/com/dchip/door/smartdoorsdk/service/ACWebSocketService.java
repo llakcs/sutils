@@ -103,7 +103,7 @@ public class ACWebSocketService extends Service {
      */
     private void connectAC() {
         String mac = "";
-        mac = s.device().getMac();
+        mac = DPDB.getmac();
 //        if(android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
 //            ShellUtil.CommandResult cr = ShellUtil.execCommand("cat /proc/cpuinfo", false);
 //            int i = cr.successMsg.indexOf("Serial");
@@ -296,10 +296,12 @@ public class ACWebSocketService extends Service {
                         disconnectAC();
                         wsStatus = WS_STATUS_RECONNECT;
                     } else {
-                        status = true;
-                        String hmsg = new Gson().toJson(new HeartBeatModel(time));
-                        mConnection.sendTextMessage(hmsg);
+                        if (mConnection != null && mConnection.isConnected()) {
+                            status = true;
+                            String hmsg = new Gson().toJson(new HeartBeatModel(time));
+                            mConnection.sendTextMessage(hmsg);
 //                        Log.e(TAG, "心跳检测：正常链接===发送：" + hmsg);
+                        }
                     }
                     break;
                 default:

@@ -15,7 +15,7 @@ include $(OPENCV_MK_PATH)
 endif
 LOCAL_MODULE := detection_based_tracker
 
-LOCAL_SRC_FILES :=DetectionBasedTracker_jni.cpp
+LOCAL_SRC_FILES :=DetectionBasedTrackerjni.cpp
 
 LOCAL_LDLIBS +=  -lm -llog
 

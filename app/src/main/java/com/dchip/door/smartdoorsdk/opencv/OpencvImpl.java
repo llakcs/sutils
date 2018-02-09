@@ -3,17 +3,12 @@ package com.dchip.door.smartdoorsdk.opencv;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 
-import com.dchip.door.smartdoorsdk.Bean.FacePojo;
 import com.dchip.door.smartdoorsdk.R;
 import com.dchip.door.smartdoorsdk.s;
 import com.dchip.door.smartdoorsdk.utils.Constant;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
 
-import org.bytedeco.javacpp.opencv_core;
-import org.bytedeco.javacpp.opencv_face;
-import org.bytedeco.javacpp.opencv_imgproc;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
@@ -37,19 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
-import static org.bytedeco.javacpp.opencv_core.CV_32SC1;
-import static org.bytedeco.javacpp.opencv_core.CV_HIST_ARRAY;
-import static org.bytedeco.javacpp.opencv_face.createFisherFaceRecognizer;
-import static org.bytedeco.javacpp.opencv_imgcodecs.cvLoadImage;
-import static org.bytedeco.javacpp.opencv_imgproc.cvCalcHist;
-import static org.bytedeco.javacpp.opencv_imgproc.cvCompareHist;
-import static org.bytedeco.javacpp.opencv_imgproc.cvNormalizeHist;
-import static org.opencv.imgcodecs.Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE;
-import static org.opencv.imgproc.Imgproc.CV_COMP_CORREL;
 
 /**
  * Created by llakcs on 2017/11/30.
@@ -89,22 +72,25 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     private int mDetectorType = JAVA_DETECTOR;
     private int FACECOUNT = 3;
     private int RECTCOUNT = 0;
+    //拍照
+    private boolean justPhoto = false;
+    private String justPhotoPath = "";
+
     private Context mContext;
     private DetectionListner mDetection;
-    private FacePojo fp;
-    private List<FacePojo> faceList = new ArrayList<FacePojo>();
+    private TakePhotoListener mTakePhoto;
     @Override
     public void onResume() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-//                if (!OpenCVLoader.initDebug()) {
-//                    LogUtil.e(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-////                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext, mLoaderCallback);
-//                } else {
-//                    LogUtil.e(TAG, "OpenCV library found inside package. Using it!");
+                if (!OpenCVLoader.initDebug()) {
+                    LogUtil.e(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+                    OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, mContext, mLoaderCallback);
+                } else {
+                    LogUtil.e(TAG, "OpenCV library found inside package. Using it!");
                     mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-//                }
+                }
             }
         }).start();
     }
@@ -133,34 +119,12 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         this.mContext =context;
         mOpenCvCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
-
     }
 
-
     @Override
-    public double CmpPic(String facepath, String localpath) {
-        int l_bins = 20;
-        int hist_size[] = {l_bins};
-
-        float v_ranges[] = {0, 100};
-        float ranges[][] = {v_ranges};
-
-        opencv_core.IplImage Image1 = cvLoadImage(Constant.VISTPATH + facepath, CV_LOAD_IMAGE_GRAYSCALE);
-        opencv_core.IplImage Image2 = cvLoadImage(Constant.FACEDETEPATH + localpath, CV_LOAD_IMAGE_GRAYSCALE);
-
-        opencv_core.IplImage imageArr1[] = {Image1};
-        opencv_core.IplImage imageArr2[] = {Image2};
-
-        opencv_core.CvHistogram Histogram1 = opencv_core.CvHistogram.create(1, hist_size, CV_HIST_ARRAY, ranges, 1);
-        opencv_core.CvHistogram Histogram2 = opencv_core.CvHistogram.create(1, hist_size, CV_HIST_ARRAY, ranges, 1);
-
-        cvCalcHist(imageArr1, Histogram1, 0, null);
-        cvCalcHist(imageArr2, Histogram2, 0, null);
-
-        cvNormalizeHist(Histogram1, 100.0);
-        cvNormalizeHist(Histogram2, 100.0);
-
-        return cvCompareHist(Histogram1, Histogram2, CV_COMP_CORREL);
+    public void takePhoto(String filePath) {
+        justPhoto = true;
+        justPhotoPath = filePath;
     }
 
     /**
@@ -184,6 +148,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
         mRgba.release();
     }
 
+
     @Override
     public void setDetectionListner(DetectionListner detectionListner) {
         this.mDetection = detectionListner;
@@ -197,7 +162,36 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
     }
 
     @Override
+    public void setTakePhotoListener(TakePhotoListener takePhotoListener) {
+        this.mTakePhoto = takePhotoListener;
+    }
+
+    @Override
+    public void unRegTakePhotoListener() {
+        if(mTakePhoto != null){
+            mTakePhoto = null;
+        }
+    }
+
+    @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+        if (justPhoto){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mOpenCvCameraView.takephoto(justPhotoPath);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mTakePhoto.onTaken(justPhotoPath);
+                    justPhotoPath = null;
+                    justPhoto = false;
+                }
+            }).start();
+            return null;
+        }
         mRgba = inputFrame.rgba();
         mGray = inputFrame.gray();
 
@@ -252,7 +246,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
 
         for (int i = 0; i < facesArray.length; i++){
             RECTCOUNT++;
-            Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
+//            Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), FACE_RECT_COLOR, 3);
         }
 
         return mRgba;
@@ -268,7 +262,7 @@ public class OpencvImpl implements OpencvManager,CameraBridgeViewBase.CvCameraVi
                 case LoaderCallbackInterface.SUCCESS: {
                     LogUtil.e(TAG, "OpenCV loaded successfully");
                     // Load native library after(!) OpenCV initialization
-                    System.loadLibrary("opencv_java3");
+//                    System.loadLibrary("opencv_java3");
                     System.loadLibrary("detection_based_tracker");
                     try {
                         // load cascade file from application resources

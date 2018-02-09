@@ -29,21 +29,71 @@ public interface IMPlayer {
 //     */
 //    void setDisplay(IMDisplay display);
 
+    /**
+     * 设置
+     *
+     * @param Urls 播放的视频地址列表
+     * @param view 播放空间
+     */
     void setUp(List<String> Urls, SurfaceView view);
+
+    /**
+     * Sets up.
+     *
+     * @param Url  the url
+     * @param view the view
+     */
     void setUp(String Url, SurfaceView view);
+
+    /**
+     * 更新播放列表
+     *
+     * @param Urls the urls
+     */
     void updateUrl(List<String> Urls);
+
     /**
      * 播放视频
-     * @throws MPlayerException
+     *
+     * @throws MPlayerException the m player exception
      */
     void play() throws MPlayerException;
+
     /**
      * 暂停视频
      */
     void pause();
+
+    /**
+     * Sets play listener.
+     *
+     * @param listener the listener
+     */
     void setPlayListener(IMPlayListener listener);
+
+    /**
+     * On pause.
+     */
     void onPause();
+
+    /**
+     * On resume.
+     */
     void onResume();
+
+    /**
+     * On destroy.
+     */
     void onDestroy();
+
+    /**
+     * 关闭播放声音
+     */
+    public void CloseVolume();
+
+    /**
+     * 打开播放声音
+     */
+    public void OpenVolume();
 
 }

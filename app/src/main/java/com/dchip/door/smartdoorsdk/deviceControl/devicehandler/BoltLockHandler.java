@@ -4,7 +4,10 @@ import android.util.Log;
 
 
 import com.dchip.door.smartdoorsdk.deviceControl.interfaces.LockHandler;
+import com.dchip.door.smartdoorsdk.event.FaultEvent;
 import com.dchip.door.smartdoorsdk.utils.LogUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -83,7 +86,7 @@ public class BoltLockHandler extends LockHandler {
         if (checkLock() == inv(OPEN_LOCK)) {
 //        if (checkLock() == getIntFromCommend(!OPEN_LOCK)) {
             LogUtil.d(TAG,"未开锁，开门异常报警。 门号:" + doorNum + 1);
-            // TODO: 2017/11/9 报异常
+            EventBus.getDefault().post(new FaultEvent(1));
         } else {
             LogUtil.d(TAG,"检测到开门");
             Timer timer = new Timer();
@@ -95,7 +98,7 @@ public class BoltLockHandler extends LockHandler {
                     if (checkDoor(doorNum) == OPEN_DOOR) {
                         if (SecCounter > DOOR_LOGN_OPEN_TIMEOUT) {
                             LogUtil.e(TAG,"已开锁，开长开 异常报警。 门号:" + doorNum + 1);
-                            // TODO: 2017/11/9 报异常
+                            EventBus.getDefault().post(new FaultEvent(4));
                             SecCounter = 0;
                             this.cancel();
                         }

@@ -151,9 +151,13 @@ public class TTSHandler implements SpeechSynthesizerListener {
         this.mSpeechSynthesizer.setApiKey("98gRpkKU8BSh0oxGZhyb20a5",
                 "ctsvtF2jBfKalmfIQKAk2Q5rx1YksH4u"/*这里只是为了让Demo正常运行使用APIKey,请替换成自己的APIKey*/);
         // 发音人（在线引擎），可用参数为0,1,2,3。。。（服务器端会动态增加，各值含义参考文档，以文档说明为准。0--普通女声，1--普通男声，2--特别男声，3--情感男声。。。）
-        this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "0");
+        this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "3");
         // 设置Mix模式的合成策略
         this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_MIX_MODE, SpeechSynthesizer.MIX_MODE_DEFAULT);
+        //音量
+        this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_VOLUME, "9");
+        //语速
+        this.mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, "6");
         // 授权检测接口(只是通过AuthInfo进行检验授权是否成功。)
         // AuthInfo接口用于测试开发者是否成功申请了在线或者离线授权，如果测试授权成功了，可以删除AuthInfo部分的代码（该接口首次验证时比较耗时），不会影响正常使用（合成使用时SDK内部会自动验证授权）
         AuthInfo authInfo = this.mSpeechSynthesizer.auth(TtsMode.MIX);

@@ -7,6 +7,8 @@
  */
 package com.dchip.door.smartdoorsdk.player;
 
+import android.app.Service;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.dchip.door.smartdoorsdk.s;
+import com.dchip.door.smartdoorsdk.utils.LogUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +36,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         MediaPlayer.OnPreparedListener,MediaPlayer.OnSeekCompleteListener,
         MediaPlayer.OnErrorListener,SurfaceHolder.Callback{
 
+    private static final String TAG = "MPlayer";
     private MediaPlayer player;
 
     private String source;
@@ -85,7 +90,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
     private void playStart(){
         if(player != null&&isVideoSizeMeasured&&isMediaPrepared&&isSurfaceCreated&&isUserWantToPlay&&isResumed){
             player.start();
-//            log("视频开始播放");
+            log("视频开始播放");
 //            display.onStart(this);
             if(mPlayListener!=null){
                 mPlayListener.onStart(this);
@@ -207,6 +212,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
         isVideoSizeMeasured=false;
         currentVideoWidth=0;
         currentVideoHeight=0;
+        player.setDisplay(null);
         player.reset();
         try {
             player.setDataSource(url);
@@ -214,6 +220,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
             player.prepareAsync();
 //            log("异步准备视频");
         } catch (IOException e) {
+            CrashReport.postCatchedException(e);
             throw new MPlayerException("set source error",e);
         }
     }
@@ -243,26 +250,50 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
     }
 
 
-    private void playNext(int index){
+    private void playNext(){
         try{
-            setSource(mUrls.get(index));
+            if(mIndex >= mUrlsize){
+                mIndex = 0;
+            }
+            setSource(mUrls.get(mIndex));
             mIndex++;
         }catch (Exception e){
             e.printStackTrace();
+            CrashReport.postCatchedException(e);
         }
 
     }
+    @Override
+    public void CloseVolume(){
+        if (player==null){
+            LogUtil.e(TAG,"CloseVolume player==null");
+            return;
+        }
+        player.setVolume(0, 0);
+    }
 
-
+    @Override
+    public void OpenVolume(){
+        if (player==null){
+            LogUtil.e(TAG,"CloseVolume player==null");
+            return;
+        }
+        AudioManager audioManager=(AudioManager)s.app().getApplicationContext().getSystemService(Service.AUDIO_SERVICE);
+        player.setAudioStreamType(AudioManager.STREAM_SYSTEM);
+        player.setVolume(audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM), audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM));
+        player.start();
+    }
 
     @Override
     public void play() throws MPlayerException {
         if(!checkPlay()){
             throw new MPlayerException("Please setSource");
         }
-        createPlayerIfNeed();
-        isUserWantToPlay=true;
-        playStart();
+        if (isUserWantToPlay == false) {
+            createPlayerIfNeed();
+            isUserWantToPlay = true;
+            playStart();
+        }
     }
 
     @Override
@@ -308,10 +339,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
     @Override
     public void onCompletion(MediaPlayer mp) {
         //if(mUrlsize > 1){
-            if(mIndex == mUrlsize){
-                mIndex = 0;
-            }
-            playNext(mIndex);
+            playNext();
        // }
         if(mPlayListener!=null){
             mPlayListener.onComplete(this);
@@ -365,7 +393,7 @@ public class MPlayer implements IMPlayer,MediaPlayer.OnBufferingUpdateListener,
                 player.seekTo(player.getCurrentPosition());
             }
             log("surface被创建");
-            playNext(mIndex);
+            playNext();
 //            playStart();
         }
     }
