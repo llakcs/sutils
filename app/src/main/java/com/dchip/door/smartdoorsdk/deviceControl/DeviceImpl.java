@@ -641,8 +641,10 @@ public class DeviceImpl implements DeviceManager {
                         LogUtil.e(TAG, "服务器上不存在该版本：" + appType);
                         return;
                     }
-                    String serverUrl = DPDB.getserverUrl();
-                    final String url = serverUrl.substring(0, serverUrl.length() - 5) + o.getAddress();
+//                    String serverUrl = DPDB.getserverUrl();
+//                    final String url = serverUrl.substring(0, serverUrl.length() - 5) + o.getAddress();
+                    final String url =o.getDetailAddress();
+                    LogUtil.e(TAG,"DownloadUrl ="+url);
 //                    showMsg("检查版本号成功 " + o.getVersion() + " url:" + url);
 
                     if (!o.getVersion().equals(getVersionName())) {//检查版本号不一致时更新

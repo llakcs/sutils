@@ -5,18 +5,29 @@ package com.dchip.door.smartdoorsdk.Bean;
  */
 
 public class AppUpdateModel {
-    //记录下载地址
+    //文件名
     String address ;
     //状态暂时无用
     int status;
     //更新信息
     String remark;
+    //下载地址
+    String detailAddress;
     //校验码
     String md5;
     //命令分类 默认为1
     int type;
     //
     String version;
+
+
+    public String getDetailAddress() {
+        return detailAddress;
+    }
+
+    public void setDetailAddress(String detailAddress) {
+        this.detailAddress = detailAddress;
+    }
 
     public String getAddress() {
         return address;
