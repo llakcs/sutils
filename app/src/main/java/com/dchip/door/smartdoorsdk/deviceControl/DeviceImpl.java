@@ -1092,7 +1092,7 @@ public class DeviceImpl implements DeviceManager {
                     if (enableLed) {
                         s.device().getLed().openLed(2);
                     }
-//                    ACLockHandler.instance.disableLongOpen(lockIdAddress, 0xFF);
+                    getLock().openLock();
                     break;
                 }
                 case ServiceEvent.UPDATE_APK: {
@@ -1133,7 +1133,7 @@ public class DeviceImpl implements DeviceManager {
 //            if (longOpen) mServiceInfo.setText("在线  长开锁状态");
 //            else mServiceInfo.setText("在线  正常开锁状态");
             if (!deviceOnline && longOpen)
-//                ACLockHandler.instance.disableLongOpen(lockIdAddress, 0xFF);
+                getLock().openLock();
                 deviceOnline = true;
             offlineCount = 0;
         } else {
@@ -1149,6 +1149,7 @@ public class DeviceImpl implements DeviceManager {
             if (enableLed) {
                 s.device().getLed().closeLed(2);
             }
+            getLock().longOpenLock();
 //            if (longOpen) mServiceInfo.setText("离线  长开锁状态");
 //            else mServiceInfo.setText("离线  正常开锁状态");
 
