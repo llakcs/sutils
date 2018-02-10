@@ -641,37 +641,40 @@ public class DeviceImpl implements DeviceManager {
                         LogUtil.e(TAG, "服务器上不存在该版本：" + appType);
                         return;
                     }
-                    String serverUrl = DPDB.getserverUrl();
-                    final String url = serverUrl.substring(0, serverUrl.length() - 5) + o.getAddress();
+//                    String serverUrl = DPDB.getserverUrl();
+//                    final String url = serverUrl.substring(0, serverUrl.length() - 5) + o.getAddress();
+                    final String url =o.getDetailAddress();
+                    LogUtil.e(TAG,"DownloadUrl ="+url);
 //                    showMsg("检查版本号成功 " + o.getVersion() + " url:" + url);
-
-                    if (!o.getVersion().equals(getVersionName())) {//检查版本号不一致时更新
-                        LogUtil.w(TAG, "checkVersionRunnable  " + o.getVersion());
-                        LogUtil.w(TAG, "url:" + url);
-                        //删除旧apk
-                        File[] fs = new File(Constant.DOWNLOAD_APK_PATH).listFiles();
-                        for (File f : fs) {
-                            if (url.indexOf(f.getName()) < 0) {
-                                f.delete();
+                    if(url != null && !url.equals("")){
+                        if (!o.getVersion().equals(getVersionName())) {//检查版本号不一致时更新
+                            LogUtil.w(TAG, "checkVersionRunnable  " + o.getVersion());
+                            LogUtil.w(TAG, "url:" + url);
+                            //删除旧apk
+                            File[] fs = new File(Constant.DOWNLOAD_APK_PATH).listFiles();
+                            for (File f : fs) {
+                                if (url.indexOf(f.getName()) < 0) {
+                                    f.delete();
+                                }
                             }
-                        }
-                        //延迟下载
-                        Random r = new Random();
-                        long startTime = (long) (r.nextFloat() * 1000 * 60 * 1); //y延迟时间。
-                        LogUtil.w(TAG, "延迟下载(1分钟内):" + startTime + "毫秒");
+                            //延迟下载
+                            Random r = new Random();
+                            long startTime = (long) (r.nextFloat() * 1000 * 60 * 1); //y延迟时间。
+                            LogUtil.w(TAG, "延迟下载(1分钟内):" + startTime + "毫秒");
 //                        showMsg("与当前版本不一致，" + (startTime / 1000) + "秒后开始下载..");
 //                        createTask(url).start();
-                        //// TODO: 2017/8/31 10分钟随机时间开始下载
-                        final String md5 = o.getMd5();
-                        controlhandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                createTask(url, Constant.DOWNLOAD_APK_PATH, getNameFromUrl(url), md5).start();
-                            }
-                        }, startTime);
+                            //// TODO: 2017/8/31 10分钟随机时间开始下载
+                            final String md5 = o.getMd5();
+                            controlhandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    createTask(url, Constant.DOWNLOAD_APK_PATH, getNameFromUrl(url), md5).start();
+                                }
+                            }, startTime);
 
-                    } else {
+                        } else {
 //                        showMsg("与当前版本一致,无须更新");
+                        }
                     }
                 }
 
